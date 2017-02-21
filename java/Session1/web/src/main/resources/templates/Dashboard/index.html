@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org" >
+	
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>City Power &amp; Light</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/main.css"/>
+
+</head>
+
+<body>
+	<div th:include="topnav::topnav"></div> 
+
+    <!-- Body -->
+    <div class="container">
+
+        <h1>Outage Dashboard</h1>
+
+		<div class="row dashboard">
+			<div th:each="incident : ${allIncidents}">
+				<a th:href="@{'/details/'+${incident.Id}}" class="col-sm-4">
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<span th:text="${#strings.defaultString(incident.Title,'&nbsp;')"></span>
+							<i class="glyphicon glyphicon-camera pull-right" th:if="${incident.ImageUri}"></i>
+						</div>
+						<table class="table">
+							<tr>
+								<th>Location</th>
+								<td><span th:text="${incident.Street}"></span></td>
+							</tr>
+							<tr>
+								<th>Contact</th>
+								<td><a th:href="@{'tel:'+${incident.PhoneNumber}}">
+								<span th:text="${incident.FirstName}"></span> 
+								<span th:text="${incident.LastName}"></span>
+								</a></td>
+							</tr>
+							<tr>
+								<th>Reported</th>
+								<td><span th:text="${incident.Created}"></span></td>
+							</tr>
+						</table>
+					</div>
+
+				</a>
+
+			</div>
+		</div>
+		<!-- Pagination controls -->
+		<div class="text-center">
+
+			<a class="btn btn-primary btn-large" th:href="@{'./dashboard?page='+${pageInfo.number-1}}" th:if="${pageInfo.number &gt; 0}">
+				
+					<i class="glyphicon glyphicon-chevron-left">
+					</i>
+					<span>Previous</span>
+			</a>
+
+			<a class="btn btn-primary btn-large" th:href="@{'./dashboard?page='+${pageInfo.number+1}}" th:if="${pageInfo.number &lt; pageInfo.totalPages -1}">
+				<span>Next</span>
+					<i class="glyphicon glyphicon-chevron-right">
+					</i>
+			</a>
+			
+		</div>
+	</div>
+
+    <!-- JavaScript -->
+    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.js"></script>
+
+</body>
+
+</html>

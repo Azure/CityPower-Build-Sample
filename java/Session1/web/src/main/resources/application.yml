@@ -1,0 +1,28 @@
+application:
+  incidentApiUrl: ${INCIDENT_API_URL}
+
+image:
+  storage:
+    storageLocation: ${IMAGE_STORAGE_LOCATION}
+
+logging:
+  level: info
+
+spring:
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 3mb
+      max-request-size: 20mb
+  application:
+    name: DevCamp demo App
+  profiles:
+    active: default
+
+    
+server:
+  port: 8080
+
+
+
+

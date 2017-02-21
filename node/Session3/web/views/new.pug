@@ -1,0 +1,56 @@
+extends layout
+
+block content
+
+    .container
+        h1 Report an Outage
+        p Welcome to the CP&amp;L outage reporting tool. From here you can view all reported outages via the dashboard screen, or report a new outage. Our technicians will address outages as soon as possible.
+        
+        .row
+            
+            form(method='post', action='/new', enctype='multipart/form-data')
+
+                // Left Column
+                .col-sm-6
+                    .form-group
+                        label(for='description') Description
+                        textarea#description.form-control(rows='3', name='description', required)
+                    .form-group
+                        label(for='street') Street
+                        input#addressStreet.form-control(type='text', placeholder='255 W. Elm Street', name='street')
+                    .form-group
+                        label(for='city') City
+                        input#addressCity.form-control(type='text', placeholder='Springfield', name='city')
+                    
+                    .row
+                        .col-xs-6
+                            .form-group
+                                label(for='state') State
+                                input#addressState.form-control(type='text', placeholder='TX', name='state')
+                        .col-xs-6
+                            .form-group
+                                label(for='zip') Zip
+                                input#addressZip.form-control(type='number', placeholder='90210', name='zip')
+                    
+                    .form-group
+                        label(for='firstname') First Name
+                        input#firstName.form-control(type='text', placeholder='Jane', name='firstname')
+                    .form-group
+                        label(for='lastname') Last Name
+                        input#lastName.form-control(type='text', placeholder='Doe', name='lastname')
+                    .form-group
+                        label(for='phonenumber') Phone Number
+                        input#phone.form-control(type='tel', placeholder='+1 (417) 444-4444', name='phonenumber')
+                    .checkbox
+                        label(for='emergency')
+                            input#emergency(type='checkbox', name='emergency')
+                            |  Emergency
+                    .form-group
+                        button.btn.btn-primary(type='submit') Submit
+                        button.btn.btn-danger(type='submit') Cancel
+
+                // Right Column
+                .col-sm-6
+                    .form-group.well.well-lg
+                        label(for='image') Image of the Outage
+                        input#image.form-control(type='file', name='image')

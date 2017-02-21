@@ -1,0 +1,61 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+
+war {
+	baseName = 'ROOT'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	providedRuntime
+}
+
+dependencies {
+compile ('org.apache.httpcomponents:httpclient')
+compile ('org.apache.httpcomponents:httpcore')
+compile ('org.apache.httpcomponents:httpmime')
+compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-actuator')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('org.springframework.boot:spring-boot-devtools')
+	//added in exercise 2 of modern-cloud-apps
+	compile("javax.cache:cache-api")
+    compile('org.springframework.data:spring-data-redis')
+    compile('redis.clients:jedis')
+    compile('org.springframework.boot:spring-boot-starter-cache')
+	//added in exercise 3 of modern-cloud-apps
+	compile('com.microsoft.azure:azure-storage:4.4.0')
+	compile('com.microsoft.azure:azure-svc-mgmt-storage:0.9.5')
+	compile("org.springframework.boot:spring-boot-starter-hateoas")
+	/*
+	
+	compile('com.microsoft.azure:adal4j:1.1.1')
+	compile('com.nimbusds:oauth2-oidc-sdk:4.5')
+    compile('org.json:json:20090211')
+	compile('org.springframework.security:spring-security-core')
+	compile('org.springframework.security:spring-security-web')
+	compile('org.springframework.security:spring-security-config')
+	*/
+	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}

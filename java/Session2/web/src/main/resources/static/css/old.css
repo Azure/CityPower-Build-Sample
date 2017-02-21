@@ -1,0 +1,66 @@
+/*#region Global */
+
+html.home {
+    background: url(../images/street.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+h1 {
+    margin-bottom: 40px;
+}
+
+
+/*#endregion*/
+
+
+/*#region Top Navigation */
+
+.navbar {
+    border-radius: 0;
+}
+
+
+/*#endregion*/
+
+
+/*#region Home */
+
+.home-hero {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffa500;
+    padding: 20px;
+    box-shadow: 0 0 10px 0 #000;
+}
+
+.home-hero h1 {
+    font-size: 60px;
+    text-align: center;
+}
+
+.home-hero p {
+    font-size: 22px;
+}
+
+.home-hero .btn {
+    margin: 20px 20px 0;
+}
+
+
+/* Small devices (768px and below) */
+
+@media (max-width: 768px) {
+    .home-hero {
+        left: auto;
+        top: auto;
+        transform: none;
+    }
+}
+
+
+/*#endregion*/
