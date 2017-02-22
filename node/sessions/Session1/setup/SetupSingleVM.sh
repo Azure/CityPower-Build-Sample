@@ -81,6 +81,7 @@ setup_web()
 
     # Start Web
     PORT=80 API_URL=http://localhost:8080/api pm2 start ./node/app/web/app.js --name="CityPower.Web"
+    pm2 startup
 }
 
 setup_mongo
