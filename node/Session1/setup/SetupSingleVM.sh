@@ -1,8 +1,11 @@
 #!/bin/bash
 
-AZURE_STORAGE_ACCOUNT_URL="https://stage9f4d814b708544ae8a4.blob.core.windows.net"
-API_CONTAINER="nodebuildcitypowerapi"
-WEB_CONTAINER="nodebuildcitypower"
+# Usage Example
+# sudo sh SetupSingleVM.sh "https://stage0f4d414b108104ae8a4.blob.core.windows.net" "nodebuildcitypowerapi" "nodebuildcitypower"
+# sudo sh SetupSingleVM.sh "<URL to an Azure Storage Account>" "<container name for the API archive.zip>" "<container name for the Web archive.zip>"
+AZURE_STORAGE_ACCOUNT_URL=$1
+API_CONTAINER=$2
+WEB_CONTAINER=$3
 
 setup_mongo()
 {
