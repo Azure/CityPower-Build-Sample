@@ -7,6 +7,9 @@ AZURE_STORAGE_ACCOUNT_URL=$1
 API_CONTAINER=$2
 WEB_CONTAINER=$3
 
+echo "Using API Container ${API_CONTAINER}"
+echo "Using Web Container ${WEB_CONTAINER}"
+
 setup_mongo()
 {
     # Configure mongodb.list file with the correct location
@@ -40,18 +43,18 @@ setup_node()
 {
     # Install NodeJS
     curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
-    sudo apt-get install -y nodejs
-    sudo apt-get install -y build-essential
+    apt-get install -y nodejs
+    apt-get install -y build-essential
 
     # Install PM2
     # http://pm2.keymetrics.io/
-    sudo npm install -g pm2
-    sudo pm2 delete all
+    npm install -g pm2
+    pm2 delete all
 
     # Install unzip utility
-    sudo apt-get -y install unzip
-    sudo rm -rf /var/www
-    sudo mkdir /var/www
+    apt-get -y install unzip
+    rm -rf /var/www
+    mkdir /var/www
 }
 
 setup_api()
@@ -60,11 +63,11 @@ setup_api()
     cd /var/www
     rm -rf api
     curl -O ${AZURE_STORAGE_ACCOUNT_URL}/${API_CONTAINER}/archive.zip
-    sudo unzip archive.zip
+    unzip archive.zip
     rm -rf archive.zip
 
     # Start API
-    sudo PORT=81 DB_HOST=127.0.0.1 DB_PORT=27017 pm2 start ./api/app.js --name="CityPower.API"
+    PORT=8080 DB_HOST=127.0.0.1 DB_PORT=27017 pm2 start ./node/app/api/app.js --name="CityPower.API"
 }
 
 setup_web()
@@ -73,11 +76,11 @@ setup_web()
     cd /var/www
     rm -rf frontend
     curl -O ${AZURE_STORAGE_ACCOUNT_URL}/${WEB_CONTAINER}/archive.zip
-    sudo unzip archive.zip
+    unzip archive.zip
     rm -rf archive.zip
 
-    # Start API
-    sudo PORT=80 API_URL=http://localhost:81/api pm2 start ./node/app/web/app.js --name="CityPower.Web"
+    # Start Web
+    PORT=80 API_URL=http://localhost:8080/api pm2 start ./node/app/web/app.js --name="CityPower.Web"
 }
 
 setup_mongo
