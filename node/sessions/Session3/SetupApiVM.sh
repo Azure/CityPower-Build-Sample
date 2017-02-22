@@ -9,23 +9,20 @@
 
 # mongoddbsf.documents.azure.com 10250 citypower mongoddbsf "vTiA7jGoHmMr7eZKenq3T4jlqvG2Msk2sxeUK5w0FUp4LAQieEx5SWnsGtjJBHY33JJNea20GUFwIQyBqXydgg==" true
 
-setup_environment()
-{
-    # Setup Environment Variables
-    if [ $1 ]
-    then
-            echo "Setting up environment variables"
-            grep -q DB_HOST /etc/environment || echo API_URL=$1 >> /etc/environment
-            grep -q DB_PORT /etc/environment || echo DB_PORT=$2 >> /etc/environment
-            grep -q DB_DATABASE /etc/environment || echo DB_DATABASE=$3 >> /etc/environment
-            grep -q DB_USER /etc/environment || echo DB_USER=$4 >> /etc/environment
-            grep -q DB_PASSWORD /etc/environment || echo DB_PASSWORD=$5 >> /etc/environment
-            grep -q DB_SSL /etc/environment || echo DB_SSL=$6 >> /etc/environment
-            echo "Finished setting up environment variables"
-    else
-            echo "No arguments passed to script. Skipping environment variable setup"
-    fi
-}
+# Setup Environment Variables
+if [ $1 ]
+then
+	echo "Setting up environment variables"
+	grep -q DB_HOST /etc/environment || echo DB_HOST=$1 >> /etc/environment
+	grep -q DB_PORT /etc/environment || echo DB_PORT=$2 >> /etc/environment
+	grep -q DB_DATABASE /etc/environment || echo DB_DATABASE=$3 >> /etc/environment
+	grep -q DB_USER /etc/environment || echo DB_USER=$4 >> /etc/environment
+	grep -q DB_PASSWORD /etc/environment || echo DB_PASSWORD=$5 >> /etc/environment
+	grep -q DB_SSL /etc/environment || echo DB_SSL=$6 >> /etc/environment
+	echo "Finished setting up environment variables"
+else
+	echo "No arguments passed to script. Skipping environment variable setup"
+fi
 
 setup_node()
 {
