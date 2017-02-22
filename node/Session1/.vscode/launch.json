@@ -15,14 +15,15 @@
                 "DB_PORT": "",
                 "DB_DATABASE": "",
                 "DB_USER": "",
-                "DB_PASSWORD": ""
+                "DB_PASSWORD": "",
+                "DB_SSL": ""
             }
         },
         {
             "type": "node",
             "request": "launch",
-            "name": "Frontend",
-            "program": "${workspaceRoot}/frontend/app.js",
+            "name": "Web",
+            "program": "${workspaceRoot}/web/app.js",
             "cwd": "${workspaceRoot}",
             "env": {
                 "API_URL": ""
@@ -37,9 +38,9 @@
     ],
     "compounds": [
         {
-            "name": "Compound FE/API",
+            "name": "Compound Web/API",
             "configurations": [
-                "Frontend",
+                "Web",
                 "API"
             ]
         }
