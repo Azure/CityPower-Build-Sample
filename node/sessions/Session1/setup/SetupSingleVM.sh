@@ -77,7 +77,7 @@ setup_web()
     rm -rf archive.zip
 
     # Start API
-    sudo PORT=80 API_URL=http://localhost:81/api pm2 start ./frontend/app.js --name="CityPower.Web"
+    sudo PORT=80 API_URL=http://localhost:81/api pm2 start ./node/app/web/app.js --name="CityPower.Web"
 }
 
 setup_mongo
