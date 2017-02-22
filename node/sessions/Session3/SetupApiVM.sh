@@ -56,7 +56,6 @@ setup_api()
     #pm2 startup
 }
 
-setup_environment
 setup_node
 setup_api
 
