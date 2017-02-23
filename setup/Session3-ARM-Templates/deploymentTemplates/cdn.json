@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "cdnSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for content delivery network"
+      }
+    }
+  },
+  "variables": {  },
+  "resources": [
+    {
+      "name": "[parameters('cdnSettings').name]",
+      "type": "Microsoft.Cdn/profiles",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-04-02",
+      "sku": {
+        "name": "[parameters('cdnSettings').skuName]"
+      }
+      "dependsOn": [],
+      "tags": {
+        "displayName": "cdn"
+      }
+    }
+  ],
+  "outputs": {}
+}
