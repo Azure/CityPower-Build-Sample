@@ -51,7 +51,7 @@ setup_api()
 
     # Start API
     PORT=80 pm2 start ./node/app/api/app.js --name="CityPower.API"
-    #pm2 startup
+    pm2 startup
 }
 
 setup_node
