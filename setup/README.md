@@ -26,7 +26,7 @@ Login-AzureRmAccount
 # Authenticate to Azure Subscription
 Login-AzureRmAccount
 
-# Deploy session 3 ARM template to primary and secondary regions (ie: WestUS and EastUS).  Also deploys an HA resource group that contains the traffic manager profile and endpoint configurations.
-.\Session3-ARM-Templates\Deploy-AzureResourceGroup.ps1 -PrimaryResourceGroupLocation westus -SecondaryResourceGroupLocation eastus -UploadArtifacts
+# Deploy session 3 ARM template to n regions (ie: WestUS and EastUS).  Also deploys an HA resource group that contains the traffic manager profile and endpoint configurations.
+.\Session3-ARM-Templates\Deploy-AzureResourceGroup.ps1 -Locations ("westus", "eastus") -UploadArtifacts
 
 ```
