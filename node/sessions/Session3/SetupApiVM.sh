@@ -46,7 +46,7 @@ setup_node()
 
     # Install unzip utility
     apt-get -y install unzip
-    rm -rf /var/www
+    sudo rm -rf /var/www
     mkdir /var/www
 }
 
