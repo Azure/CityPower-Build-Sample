@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "bizTierSettings": {
+      "value": {
+        "name": "bizTier",
+        "lbPrivateIp": "10.0.2.4",
+        "vmCount": 3,
+        "vmSettings": {
+          "vmName": "bizVM",
+          "virtualNetworkName": "azurex-vnet",
+          "subnetName": "biz",
+          "vmSize": "Standard_A1",
+          "vmUsername": "adminuser",
+          "vmPassword": "Micros0ft@zure",
+          "image": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "16.04-LTS",
+            "version": "latest"
+          }
+        },
+        "lbSettings": {
+          "healthProbeSettings": {
+            "protocol": "Http",
+            "port": 80,
+            "requestPath": "/",
+            "intervalInSeconds": 10,
+            "numberOfProbes": 2
+          }
+        }
+      }
+    }
+  }
+}

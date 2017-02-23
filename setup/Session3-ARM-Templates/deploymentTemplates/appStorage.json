@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for app storage account"
+      }
+    }
+  },
+  "variables": {
+    "appStorageAccountName" : "[concat(toLower(parameters('storageSettings').namePrefix), uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+    {
+      "name": "[variables('appStorageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2015-06-15",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "stg"
+      },
+      "properties": {
+        "accountType": "[parameters('storageSettings').accountType]"
+      }
+    }
+  ],
+  "outputs": {}
+}

@@ -1,0 +1,111 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "jumpboxSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for jumpbox (bastion host)"
+      }
+    }
+  },
+  "variables": {
+    "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('jumpboxSettings').virtualNetworkName)]",
+    "jumpboxSubnetRef": "[concat(variables('vnetId'),'/subnets/',parameters('jumpboxSettings').subnetName)]",
+    "jumpboxPipDnsName": "[concat(parameters('jumpboxSettings').vmName, '-', uniqueString(resourceGroup().id))]",
+    "jumpboxNicName": "[concat(parameters('jumpboxSettings').vmName, 'Nic')]",
+    "jumpboxPipName": "[concat(parameters('jumpboxSettings').vmName, 'Pip')]"
+  },
+  "resources": [
+    {
+      "name": "[variables('jumpboxNicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('jumpboxPipName'))]"
+      ],
+      "tags": {
+        "displayName": "jumpboxNic"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('jumpboxSubnetRef')]"
+              },
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('jumpboxPipName'))]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('jumpboxSettings').vmName]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-04-30-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', variables('jumpboxNicName'))]"
+      ],
+      "tags": {
+        "displayName": "jumpbox"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('jumpboxSettings').vmSize]"
+        },
+        "osProfile": {
+          "computerName": "[parameters('jumpboxSettings').vmName]",
+          "adminUsername": "[parameters('jumpboxSettings').vmUsername]",
+          "adminPassword": "[parameters('jumpboxSettings').vmPassword]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('jumpboxSettings').image.publisher]",
+            "offer": "[parameters('jumpboxSettings').image.offer]",
+            "sku": "[parameters('jumpboxSettings').image.sku]",
+            "version": "[parameters('jumpboxSettings').image.version]"
+          },
+          "osDisk": {
+            "name": "[concat(parameters('jumpboxSettings').vmName, 'OSDisk')]",
+            "managedDisk": {
+              "storageAccountType": "Standard_LRS"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('jumpboxNicName'))]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "[variables('jumpboxPipName')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "jumpboxPip"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('jumpboxPipDnsName')]"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

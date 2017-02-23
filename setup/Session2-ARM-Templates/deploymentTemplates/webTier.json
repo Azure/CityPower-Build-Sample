@@ -1,0 +1,210 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "webTierSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for the web tier"
+      }
+    }
+  },
+  "variables": {
+    "availabilitySetName": "[concat(parameters('webTierSettings').name, 'AvSet')]",
+    "vmNicName": "[concat(parameters('webTierSettings').vmSettings.vmName, 'Nic')]",
+    "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('webTierSettings').vmSettings.virtualNetworkName)]",
+    "vmSubnetRef": "[concat(variables('vnetId'),'/subnets/',parameters('webTierSettings').vmSettings.subnetName)]",
+    "vmNicCopyName": "vmNicCopy",
+    "vmCopyName": "vmCopy",
+    "lbPipName": "[concat(parameters('webTierSettings').name, 'Pip')]",
+    "lbPipDnsName": "[concat(toLower(parameters('webTierSettings').name), '-', uniqueString(resourceGroup().id))]",
+    "lbName": "[concat(parameters('webTierSettings').name, 'Lb')]",
+    "lbBackendPoolName": "[concat(parameters('webTierSettings').name, 'LbBackendPool')]",
+    "lbHealthProbeName": "healthProbe",
+    "lbFrontendIPConfigurationsName": "lbFrontEnd"
+  },
+  "resources": [
+    {
+      "name": "[variables('availabilitySetName')]",
+      "type": "Microsoft.Compute/availabilitySets",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-04-30-preview",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "webAvailabilitySet"
+      },
+      "properties": {
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 2,
+        "managed": "true"
+      }
+    },
+    {
+      "name": "[concat(variables('vmNicName'), '-', copyIndex())]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/loadBalancers', variables('lbName'))]"
+      ],
+      "tags": {
+        "displayName": "[variables('vmNicCopyName')]"
+      },
+      "copy": {
+        "name": "[variables('vmNicCopyName')]",
+        "count": "[parameters('webTierSettings').vmCount]"
+      },
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[variables('vmSubnetRef')]"
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('lbName')), '/backendAddressPools/', variables('lbBackendPoolName'))]"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[concat(parameters('webTierSettings').vmSettings.vmName, '-', copyIndex())]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-04-30-preview",
+      "dependsOn": [
+        "[variables('vmNicCopyName')]",
+        "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+      ],
+      "tags": {
+        "displayName": "[variables('vmCopyName')]"
+      },
+      "copy": {
+        "name": "[variables('vmCopyName')]",
+        "count": "[parameters('webTierSettings').vmCount]"
+      },
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('webTierSettings').vmSettings.vmSize]"
+        },
+        "osProfile": {
+          "computerName": "[concat(parameters('webTierSettings').vmSettings.vmName, '-', copyIndex())]",
+          "adminUsername": "[parameters('webTierSettings').vmSettings.vmUsername]",
+          "adminPassword": "[parameters('webTierSettings').vmSettings.vmPassword]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('webTierSettings').vmSettings.image.publisher]",
+            "offer": "[parameters('webTierSettings').vmSettings.image.offer]",
+            "sku": "[parameters('webTierSettings').vmSettings.image.sku]",
+            "version": "[parameters('webTierSettings').vmSettings.image.version]"
+          },
+          "osDisk": {
+            "name": "[concat(parameters('webTierSettings').vmSettings.vmName, '-', copyIndex(), '-OSDisk')]",
+            "managedDisk": {
+              "storageAccountType": "Standard_LRS"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('vmNicName'), '-', copyIndex()))]"
+            }
+          ]
+        },
+        "availabilitySet": {
+          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+        }
+      }
+    },
+
+    {
+      "name": "[variables('lbPipName')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "webPip"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('lbPipDnsName')]"
+        }
+      }
+    },
+
+    {
+      "name": "[variables('lbName')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', variables('lbPipName'))]"
+      ],
+      "tags": {
+        "displayName": "webLb"
+      },
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "[variables('lbFrontendIPConfigurationsName')]",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('lbPipName'))]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "[variables('lbBackendPoolName')]"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "httpRule",
+            "properties": {
+              "protocol": "Tcp",
+              "frontendPort": 80,
+              "frontendIPConfiguration": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('lbName')),'/frontendIPConfigurations/', variables('lbFrontendIPConfigurationsName'))]"
+              },
+              "backendPort": 80,
+              "backendAddressPool": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('lbName')),'/backendAddressPools/', variables('lbBackendPoolName'))]"
+              },
+              "probe": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('lbName')),'/probes/', variables('lbHealthProbeName'))]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "[variables('lbHealthProbeName')]",
+            "properties": {
+              "protocol": "[parameters('webTierSettings').lbSettings.healthProbeSettings.protocol]",
+              "port": "[parameters('webTierSettings').lbSettings.healthProbeSettings.port]",
+              "requestPath": "[parameters('webTierSettings').lbSettings.healthProbeSettings.requestPath]",
+              "intervalInSeconds": "[parameters('webTierSettings').lbSettings.healthProbeSettings.intervalInSeconds]",
+              "numberOfProbes": "[parameters('webTierSettings').lbSettings.healthProbeSettings.numberOfProbes]"
+            }
+          }
+        ]
+
+      }
+    }
+  ],
+  "outputs": {}
+}

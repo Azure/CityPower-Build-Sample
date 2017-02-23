@@ -1,0 +1,34 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "documentDbSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for Document DB"
+      }
+    }
+  },
+  "variables": {
+    "documentDbAccountName": "[concat(parameters('documentDbSettings').accountNamePrefix, '-docdb-', uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+    {
+      "name": "[variables('documentDbAccountName')]",
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "location": "[resourceGroup().location]",
+      "kind": "MongoDB",
+      "apiVersion": "2015-04-08",
+      "properties": {
+        "name": "[variables('documentDbAccountName')]",
+        "databaseAccountOfferType": "Standard",
+        "consistencyPolicy": {
+          "defaultConsistencyLevel": "[parameters('documentDbSettings').consistencyPolicy.defaultConsistencyLevel]",
+          "maxIntervalInSeconds": "[parameters('documentDbSettings').consistencyPolicy.maxIntervalInSeconds]",
+          "maxStalenessPrefix": "[parameters('documentDbSettings').consistencyPolicy.maxStalenessPrefix]"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
