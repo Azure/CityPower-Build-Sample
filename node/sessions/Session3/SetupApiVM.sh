@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Usage Example
-# sudo sh SetupApiVM.sh https://azurexjenkinsartifacts.blob.core.windows.net/nodebuildcitypowerapi/archive.zip \"mongoddbsf.documents.azure.com\" \"10250\" \"citypower\" \"mongoddbsf\" \"vTiA7jGoHmMr7eZKenq3T4jlqvG2Msk2sxeUK5w0FUp4LAQieEx5SWnsGtjJBHY33JJNea20GUFwIQyBqXydgg==\" \"true\"
+# sudo sh SetupApiVM.sh https://stage9f4d814b708544ae8a4.blob.core.windows.net/nodebuildcitypowerweb/archive.zip "http://sfcitypowerapi.azurewebsites.net/api" "sfcitypower" "mieM4iNn6VYOhuFrRE3x+z4e3lRTYTSVX3Dd+pvf3aNGj5yxOynYmnbOxf9t4ITz7Awmjq97Q3o/u/+7XNerag==" "sfcitypower.redis.cache.windows.net" "Ml4CSqp3emn3fAQu0Y6u7wdYdI1Cahz7EQC6uqYB7mI=" "6380" "b1345a11-c5e2-4c66-8e32-fce396cb489d"
 # sudo sh SetupApiVM.sh "<URL to an Azure Storage Account archive.zip file>" "<URL to an API>" "<Azure Storage Account Name>" "<Azure Storage Account Key>" "<Redis Host Name>" "<Redis Key>" "<Redis SSL Port>" "<App Insights Key>"
 
 BUILD_FILE=$1
@@ -10,7 +10,7 @@ BUILD_FILE=$1
 if [ $1 ]
 then
 	echo "Setting up environment variables"
-    echo "BUILD_ARTIFACT=$1" >> /etc/environment
+	echo "BUILD_ARTIFACT=$1" >> /etc/environment
 	echo "DB_HOST=$2" >> /etc/environment
 	echo "DB_PORT=$3" >> /etc/environment
 	echo "DB_DATABASE=$4" >> /etc/environment
