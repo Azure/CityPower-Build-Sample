@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "redisCacheSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for redis cache (basic or standard)"
+      }
+    }
+  },
+  "variables": {
+    "redisCacheName": "[concat(toLower(parameters('redisCacheSettings').name), '-', uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+    {
+      "name": "[variables('redisCacheName')]",
+      "type": "Microsoft.Cache/Redis",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-04-01",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "redisCache"
+      },
+      "properties": {
+        "sku": {
+          "name": "[parameters('redisCacheSettings').skuName]",
+          "family": "C",
+          "capacity": "[parameters('redisCacheSettings').skuCapacity]"
+        },
+        "redisVersion": "2.8"
+      }
+    }
+  ],
+  "outputs": {}
+}
