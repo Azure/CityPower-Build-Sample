@@ -1,24 +1,22 @@
 #!/bin/bash
 
 # Usage Example
-# sudo sh SetupSingleVM.sh "https://stage0f4d414b108104ae8a4.blob.core.windows.net" "nodebuildcitypowerapi" "nodebuildcitypower"
-# sudo sh SetupSingleVM.sh "<URL to an Azure Storage Account>" "<container name for the API archive.zip>" "<container name for the Web archive.zip>"
-#AZURE_STORAGE_ACCOUNT_URL=$1
-#API_CONTAINER=$2
-#WEB_CONTAINER=$3
+# sudo sh SetupApiVM.sh https://azurexjenkinsartifacts.blob.core.windows.net/nodebuildcitypowerapi/archive.zip \"mongoddbsf.documents.azure.com\" \"10250\" \"citypower\" \"mongoddbsf\" \"vTiA7jGoHmMr7eZKenq3T4jlqvG2Msk2sxeUK5w0FUp4LAQieEx5SWnsGtjJBHY33JJNea20GUFwIQyBqXydgg==\" \"true\"
+# sudo sh SetupApiVM.sh "<URL to an Azure Storage Account archive.zip file>" "<URL to an API>" "<Azure Storage Account Name>" "<Azure Storage Account Key>" "<Redis Host Name>" "<Redis Key>" "<Redis SSL Port>" "<App Insights Key>"
 
-# mongoddbsf.documents.azure.com 10250 citypower mongoddbsf "vTiA7jGoHmMr7eZKenq3T4jlqvG2Msk2sxeUK5w0FUp4LAQieEx5SWnsGtjJBHY33JJNea20GUFwIQyBqXydgg==" true
+BUILD_FILE=$1
 
 # Setup Environment Variables
 if [ $1 ]
 then
 	echo "Setting up environment variables"
-	grep -q DB_HOST /etc/environment || echo DB_HOST=$1 >> /etc/environment
-	grep -q DB_PORT /etc/environment || echo DB_PORT=$2 >> /etc/environment
-	grep -q DB_DATABASE /etc/environment || echo DB_DATABASE=$3 >> /etc/environment
-	grep -q DB_USER /etc/environment || echo DB_USER=$4 >> /etc/environment
-	grep -q DB_PASSWORD /etc/environment || echo DB_PASSWORD=$5 >> /etc/environment
-	grep -q DB_SSL /etc/environment || echo DB_SSL=$6 >> /etc/environment
+    echo "BUILD_ARTIFACT=$1" >> /etc/environment
+	echo "DB_HOST=$2" >> /etc/environment
+	echo "DB_PORT=$3" >> /etc/environment
+	echo "DB_DATABASE=$4" >> /etc/environment
+	echo "DB_USER=$5" >> /etc/environment
+	echo "DB_PASSWORD=$6" >> /etc/environment
+	echo "DB_SSL=$7" >> /etc/environment
 	echo "Finished setting up environment variables"
 else
 	echo "No arguments passed to script. Skipping environment variable setup"

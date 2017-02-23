@@ -1,11 +1,29 @@
 #!/bin/bash
 
 # Usage Example
-# sudo sh SetupSingleVM.sh "https://stage0f4d414b108104ae8a4.blob.core.windows.net" "nodebuildcitypowerapi" "nodebuildcitypower"
-# sudo sh SetupSingleVM.sh "<URL to an Azure Storage Account>" "<container name for the API archive.zip>" "<container name for the Web archive.zip>"
-#AZURE_STORAGE_ACCOUNT_URL=$1
-#API_CONTAINER=$2
-#WEB_CONTAINER=$3
+# sudo sh SetupWebVM.sh https://stage9f4d814b708544ae8a4.blob.core.windows.net/nodebuildcitypowerweb/archive.zip "http://sfcitypowerapi.azurewebsites.net/api" "sfcitypower" "mieM4iNn6VYOhuFrRE3x+z4e3lRTYTSVX3Dd+pvf3aNGj5yxOynYmnbOxf9t4ITz7Awmjq97Q3o/u/+7XNerag==" "sfcitypower.redis.cache.windows.net" "Ml4CSqp3emn3fAQu0Y6u7wdYdI1Cahz7EQC6uqYB7mI=" "6380" "b1345a11-c5e2-4c66-8e32-fce396cb489d"
+# sudo sh SetupWebVM.sh "<URL to an Azure Storage Account archive.zip file>" "<URL to an API>" "<Azure Storage Account Name>" "<Azure Storage Account Key>" "<Redis Host Name>" "<Redis Key>" "<Redis SSL Port>" "<App Insights Key>"
+
+BUILD_FILE=$1
+
+# Setup Environment Variables
+if [ $1 ]
+then
+{
+	echo "Setting up environment variables"
+	echo "BUILD_ARTIFACT=$1" >> /etc/environment
+	echo "API_URL=$2" >> /etc/environment
+	echo "AZURE_STORAGE_ACCOUNT=$3" >> /etc/environment
+	echo "AZURE_STORAGE_ACCESS_KEY=$4" >> /etc/environment
+	echo "REDISCACHE_HOSTNAME=$5" >> /etc/environment
+	echo "REDISCACHE_PRIMARY_KEY=$6" >> /etc/environment
+	echo "REDISCACHE_SSLPORT=$7" >> /etc/environment
+	echo "APPINSIGHTS_INSTRUMENTATIONKEY=$8" >> /etc/environment
+	echo "Finished setting up environment variables"
+}
+else
+    echo "No variables detected. Skipping."
+fi
 
 setup_node()
 {
@@ -29,13 +47,13 @@ setup_web()
 {
     # Get files
     cd /var/www
-    rm -rf frontend
-    curl -O https://stage9f4d814b708544ae8a4.blob.core.windows.net/nodebuildcitypowerweb/archive.zip
+    echo "Retrieving ${BUILD_FILE}"
+    curl -O ${BUILD_FILE}
     unzip archive.zip
     rm -rf archive.zip
 
     # Start Web
-    PORT=80 API_URL=http://sfcitypowerapi.azurewebsites.net/api pm2 start ./node/app/web/app.js --name="CityPower.Web"
+    PORT=80 pm2 start ./node/app/web/app.js --name="CityPower.Web"
     pm2 startup
 }
 
