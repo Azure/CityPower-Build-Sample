@@ -6,6 +6,16 @@
 
 BUILD_FILE=$1
 
+echo "Running setup file"
+echo $1
+echo $2
+echo $3
+echo $4
+echo $5
+echo $6
+echo $7
+echo $8
+
 # Setup Environment Variables
 if [ $1 ]
 then
@@ -53,11 +63,12 @@ setup_web()
     rm -rf archive.zip
 
     # Start Web
-    PORT=80 pm2 start ./node/app/web/app.js --name="CityPower.Web"
-    pm2 startup
+    sudo PORT=80 pm2 start ./node/app/web/app.js --name="CityPower.Web"
+    sudo pm2 startup
 }
 
 setup_node
 setup_web
+echo "Completed setup"
 
 exit 0
