@@ -45,7 +45,7 @@ setup_api()
     # Get files
     cd /var/www
     rm -rf api
-    curl -O https://stage9f4d814b708544ae8a4.blob.core.windows.net/nodebuildcitypowerapi/archive.zip
+    curl -O ${BUILD_FILE}
     unzip archive.zip
     rm -rf archive.zip
 
