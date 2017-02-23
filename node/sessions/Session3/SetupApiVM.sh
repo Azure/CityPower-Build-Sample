@@ -6,6 +6,15 @@
 
 BUILD_FILE=$1
 
+echo "Running setup file"
+echo $1
+echo $2
+echo $3
+echo $4
+echo $5
+echo $6
+echo $7
+
 # Setup Environment Variables
 if [ $1 ]
 then
@@ -25,6 +34,7 @@ fi
 setup_node()
 {
     # Install NodeJS
+    echo "Setting up NodeJS and PM2"
     curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
     apt-get install -y nodejs
     apt-get install -y build-essential
@@ -43,6 +53,7 @@ setup_node()
 setup_api()
 {
     # Get files
+    echo "Setting up API application code"
     cd /var/www
     rm -rf api
     curl -O ${BUILD_FILE}
@@ -50,11 +61,12 @@ setup_api()
     rm -rf archive.zip
 
     # Start API
-    PORT=80 pm2 start ./node/app/api/app.js --name="CityPower.API"
-    pm2 startup
+    sudo PORT=80 pm2 start ./node/app/api/app.js --name="CityPower.API"
+    sudo pm2 startup
 }
 
 setup_node
 setup_api
+echo "Completed setup"
 
 exit 0
