@@ -25,14 +25,8 @@
     "bizTierTemplateFileName": "bizTier.json",
     "bizTierTemplateParametersFileName": "bizTier.parameters.json",
 
-    "documentDBTemplateFileName": "documentDB.json",
-    "documentDBTemplateParametersFileName": "documentDB.parameters.json",
-
     "redisCacheStandardTemplateFileName": "redisCache.Standard.json",
-    "redisCacheStandardTemplateParametersFileName": "redisCache.Standard.parameters.json",
-
-    "appStorageTemplateFileName": "appStorage.json",
-    "appStorageTemplateParametersFileName": "appStorage.parameters.json"
+    "redisCacheStandardTemplateParametersFileName": "redisCache.Standard.parameters.json"
   },
   "resources": [
     {
@@ -110,24 +104,6 @@
       }
     },
     {
-      "name": "documentDB",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-09-01",
-      "dependsOn": [],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('templateFolder'), '/', variables('documentDBTemplateFileName'), parameters('_artifactsLocationSasToken'))]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parametersLink": {
-          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('parametersFolder'), '/', variables('documentDBTemplateParametersFileName'), parameters('_artifactsLocationSasToken'))]",
-          "contentVersion": "1.0.0.0"
-        }
-      }
-    },
-
-    {
       "name": "redisCache",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-09-01",
@@ -140,23 +116,6 @@
         },
         "parametersLink": {
           "uri": "[concat(parameters('_artifactsLocation'), '/', variables('parametersFolder'), '/', variables('redisCacheStandardTemplateParametersFileName'), parameters('_artifactsLocationSasToken'))]",
-          "contentVersion": "1.0.0.0"
-        }
-      }
-    },
-    {
-      "name": "appStorage",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-09-01",
-      "dependsOn": [],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('templateFolder'), '/', variables('appStorageTemplateFileName'), parameters('_artifactsLocationSasToken'))]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parametersLink": {
-          "uri": "[concat(parameters('_artifactsLocation'), '/', variables('parametersFolder'), '/', variables('appStorageTemplateParametersFileName'), parameters('_artifactsLocationSasToken'))]",
           "contentVersion": "1.0.0.0"
         }
       }

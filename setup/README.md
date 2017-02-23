@@ -12,7 +12,7 @@ ARM templates to support AzureX project.
 Login-AzureRmAccount
 
 # Deploy session 2 ARM templates.
-.\Session2-ARM-Templates\Deploy-AzureResourceGroup.ps1 -ResourceGroupLocation westus -UploadArtifacts
+.\Session2-ARM-Templates\Deploy-AzureResourceGroup.ps1 -ResourceGroupLocation westus
 
 ```
 
@@ -27,6 +27,6 @@ Login-AzureRmAccount
 Login-AzureRmAccount
 
 # Deploy session 3 ARM template to n regions (ie: WestUS and EastUS).  Also deploys an HA resource group that contains the traffic manager profile and endpoint configurations.
-.\Session3-ARM-Templates\Deploy-AzureResourceGroup.ps1 -Locations ("westus", "eastus") -UploadArtifacts
+.\Session3-ARM-Templates\Deploy-AzureResourceGroup.ps1 -Locations ("westus", "eastus")
 
 ```
