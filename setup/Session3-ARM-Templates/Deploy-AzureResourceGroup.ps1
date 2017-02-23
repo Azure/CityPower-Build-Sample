@@ -3,8 +3,7 @@
 #Requires -Module Azure.Storage
 
 Param(
-    [string] [Parameter(Mandatory=$true)] $PrimaryResourceGroupLocation,
-    [string] [Parameter(Mandatory=$true)] $SecondaryResourceGroupLocation,
+    [string[]] [Parameter(Mandatory=$true)] $Locations,
     [string] $ResourceGroupNamePrefix = 'AzureX-Session-3',
     [switch] $UploadArtifacts,
     [string] $StorageAccountName,
@@ -31,9 +30,8 @@ function Format-ValidationOutput {
     return @($ValidationOutput | Where-Object { $_ -ne $null } | ForEach-Object { @('  ' * $Depth + ': ' + $_.Message) + @(Format-ValidationOutput @($_.Details) ($Depth + 1)) })
 }
 
-$PrimaryResourceGroupName = $ResourceGroupNamePrefix + '-' + $PrimaryResourceGroupLocation
-$SecondaryResourceGroupName = $ResourceGroupNamePrefix + '-' + $SecondaryResourceGroupLocation
 $HAResourceGroupName = $ResourceGroupNamePrefix + '-HA'
+$PrimaryResourceGroupLocation = $Locations[0]
 
 $OptionalParameters = New-Object -TypeName Hashtable
 
@@ -102,67 +100,50 @@ if ($UploadArtifacts) {
     }
 }
 
-# Deploy Primary Resource Group
-Write-Output ''
-Write-Output '*** Deploying Primary Resource Group ***'
-Write-Output ''
+$RegionObjects = @()
+$Deployments = @()
 
-New-AzureRmResourceGroup -Name $PrimaryResourceGroupName -Location $PrimaryResourceGroupLocation -Verbose -Force
+foreach ($Location in $Locations)
+{
+	$R = New-Object -TypeName object
+	$R | Add-Member -MemberType NoteProperty -Name Location -Value $Location
+	$R | Add-Member -MemberType NoteProperty -Name ResourceGroupName -Value ($ResourceGroupNamePrefix + '-' + $Location)
+	$RegionObjects += $R
+}
 
-if ($ValidateOnly) {
-    $ErrorMessages = Format-ValidationOutput (Test-AzureRmResourceGroupDeployment -ResourceGroupName $PrimaryResourceGroupName `
-                                                                                  -TemplateFile $TemplateFile `
-                                                                                  -TemplateParameterFile $TemplateParametersFile `
-                                                                                  @OptionalParameters)
-    if ($ErrorMessages) {
-        Write-Output '', 'Validation returned the following errors:', @($ErrorMessages), '', 'Template is invalid.'
+foreach ($RegionObject in $RegionObjects)
+{
+    Write-Output ''
+	Write-Output "*** Deploying Resource Group in $($RegionObject.ResourceGroupName) region ***"
+	Write-Output ''
+
+	New-AzureRmResourceGroup -Name $RegionObject.ResourceGroupName -Location $RegionObject.Location -Verbose -Force
+
+    if ($ValidateOnly) {
+        $ErrorMessages = Format-ValidationOutput (Test-AzureRmResourceGroupDeployment -ResourceGroupName $RegionObject.ResourceGroupName `
+                                                                                      -TemplateFile $TemplateFile `
+                                                                                      -TemplateParameterFile $TemplateParametersFile `
+                                                                                      @OptionalParameters)
+        if ($ErrorMessages) {
+            Write-Output '', 'Validation returned the following errors:', @($ErrorMessages), '', 'Template is invalid.'
+        }
+        else {
+            Write-Output '', 'Template is valid.'
+        }
     }
     else {
-        Write-Output '', 'Template is valid.'
-    }
-}
-else {
-    $PrimaryDeployment = New-AzureRmResourceGroupDeployment -Name ((Get-ChildItem $TemplateFile).BaseName + '-' + ((Get-Date).ToUniversalTime()).ToString('MMdd-HHmm')) `
-                                       -ResourceGroupName $PrimaryResourceGroupName `
-                                       -TemplateFile $TemplateFile `
-                                       -TemplateParameterFile $TemplateParametersFile `
-                                       @OptionalParameters `
-                                       -Force -Verbose `
-                                       -ErrorVariable ErrorMessages
-    if ($ErrorMessages) {
-        Write-Output '', 'Template deployment returned the following errors:', @(@($ErrorMessages) | ForEach-Object { $_.Exception.Message.TrimEnd("`r`n") })
-    }
-}
+        $Deployment = New-AzureRmResourceGroupDeployment -Name ((Get-ChildItem $TemplateFile).BaseName + '-' + ((Get-Date).ToUniversalTime()).ToString('MMdd-HHmm')) `
+                                           -ResourceGroupName $RegionObject.ResourceGroupName `
+                                           -TemplateFile $TemplateFile `
+                                           -TemplateParameterFile $TemplateParametersFile `
+                                           @OptionalParameters `
+                                           -Force -Verbose `
+                                           -ErrorVariable ErrorMessages
+		$Deployments += $Deployment
 
-# Deploy Secondary Resource Group
-Write-Output ''
-Write-Output '*** Deploying Secondary Resource Group ***'
-Write-Output ''
-
-New-AzureRmResourceGroup -Name $SecondaryResourceGroupName -Location $SecondaryResourceGroupLocation -Verbose -Force
-
-if ($ValidateOnly) {
-    $ErrorMessages = Format-ValidationOutput (Test-AzureRmResourceGroupDeployment -ResourceGroupName $SecondaryResourceGroupName `
-                                                                                  -TemplateFile $TemplateFile `
-                                                                                  -TemplateParameterFile $TemplateParametersFile `
-                                                                                  @OptionalParameters)
-    if ($ErrorMessages) {
-        Write-Output '', 'Validation returned the following errors:', @($ErrorMessages), '', 'Template is invalid.'
-    }
-    else {
-        Write-Output '', 'Template is valid.'
-    }
-}
-else {
-    $SecondaryDeployment = New-AzureRmResourceGroupDeployment -Name ((Get-ChildItem $TemplateFile).BaseName + '-' + ((Get-Date).ToUniversalTime()).ToString('MMdd-HHmm')) `
-                                       -ResourceGroupName $SecondaryResourceGroupName `
-                                       -TemplateFile $TemplateFile `
-                                       -TemplateParameterFile $TemplateParametersFile `
-                                       @OptionalParameters `
-                                       -Force -Verbose `
-                                       -ErrorVariable ErrorMessages
-    if ($ErrorMessages) {
-        Write-Output '', 'Template deployment returned the following errors:', @(@($ErrorMessages) | ForEach-Object { $_.Exception.Message.TrimEnd("`r`n") })
+        if ($ErrorMessages) {
+            Write-Output '', 'Template deployment returned the following errors:', @(@($ErrorMessages) | ForEach-Object { $_.Exception.Message.TrimEnd("`r`n") })
+        }
     }
 }
 
@@ -198,55 +179,31 @@ else {
     }
 	else
 	{
-		# Add primary endpoint
-		$appEndpoint = Get-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
-							-Name $PrimaryResourceGroupName `
-							-Type AzureEndpoints `
-							-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
-							-ErrorAction SilentlyContinue
+		foreach ($Deployment in $Deployments)
+		{
+			$appEndpoint = Get-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
+								-Name $Deployment.ResourceGroupName `
+								-Type AzureEndpoints `
+								-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
+								-ErrorAction SilentlyContinue
 		
-		if ($appEndpoint -eq $null)
-		{
-			New-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
-							-Name $PrimaryResourceGroupName `
-							-Type AzureEndpoints `
-							-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
-							-EndpointStatus Enabled `
-							-TargetResourceId $PrimaryDeployment.Outputs.result.Value.value.ToString()
-		}
-		else
-		{
-			$appEndpoint.TargetResourceId = $PrimaryDeployment.Outputs.result.Value.value.ToString()
-			$appEndpoint.Type = "AzureEndpoints"
-			$appEndpoint.EndpointStatus = "Enabled"
-
-			Set-AzureRmTrafficManagerEndpoint -TrafficManagerEndpoint $appEndpoint
-		}
-
-
-		# Add secondary endpoint
-		$appEndpoint = Get-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
-							-Name $SecondaryResourceGroupName `
-							-Type AzureEndpoints `
-							-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
-							-ErrorAction SilentlyContinue
-		
-		if ($appEndpoint -eq $null)
-		{
-			New-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
-							-Name $SecondaryResourceGroupName `
-							-Type AzureEndpoints `
-							-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
-							-EndpointStatus Enabled `
-							-TargetResourceId $SecondaryDeployment.Outputs.result.Value.value.ToString()
-		}
-		else
-		{
-			$appEndpoint.TargetResourceId = $SecondaryDeployment.Outputs.result.Value.value.ToString()
-			$appEndpoint.Type = "AzureEndpoints"
-			$appEndpoint.EndpointStatus = "Enabled"
-
-			Set-AzureRmTrafficManagerEndpoint -TrafficManagerEndpoint $appEndpoint
+			if ($appEndpoint -eq $null)
+			{
+				New-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
+								-Name $Deployment.ResourceGroupName `
+								-Type AzureEndpoints `
+								-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
+								-EndpointStatus Enabled `
+								-TargetResourceId $Deployment.Outputs.result.Value.value.ToString()
+			}
+			else
+			{
+				$appEndpoint.TargetResourceId = $Deployment.Outputs.result.Value.value.ToString()
+				$appEndpoint.Type = "AzureEndpoints"
+				$appEndpoint.EndpointStatus = "Enabled"
+	
+				Set-AzureRmTrafficManagerEndpoint -TrafficManagerEndpoint $appEndpoint
+			}
 		}
 	}
 }
