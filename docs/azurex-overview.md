@@ -20,9 +20,9 @@ ms.author: robmcm;shsivada;stfollis;ross
 
 # AzureX - Overview
 
-Application developers have a wealth of features available to them when they are creating cloud-based applications which are hosted on Microsoft Azure. The tasks which are outlined in the sessions listed below will walk developers through the end-to-end story of creating a local application and deploying it to Azure, then leveraging several Azure features like *Azure Portal*, *Azure Command Line Interface (CLI)*, *DocumentDB* and *MongoDB*, *Azure Resource Manager (ARM) Templates*, *Jenkins Continuous Build Automation*, *Azure Redis* and *Azure CDN*, scaling for Geographic Redundancy, *Azure Traffic Manager*, and Azure features for monitoring your application.
+Application developers have a wealth of features available to them when they are creating cloud-based applications which are hosted on Microsoft Azure. The exercises which are outlined in the sessions listed below will walk developers through the end-to-end story of creating a local application and deploying it to Azure, then leveraging several Azure features like *Azure Portal*, *Azure Command Line Interface (CLI)*, *DocumentDB* and *MongoDB*, *Azure Resource Manager (ARM) Templates*, *Jenkins Continuous Build Automation*, *Azure Redis* and *Azure CDN*, scaling for Geographic Redundancy, *Azure Traffic Manager*, and Azure features for monitoring your application.
 
-*Time required to complete all of the tasks in these sessions: 00:00*
+*Time required to complete all of the exercises in these sessions: 00:00*
 
 ### Prerequisites
 
@@ -72,4 +72,3 @@ For more information about using Node.js on Microsoft Azure, see the [Azure Node
 [Session4]: ./azurex-session-4.md
 
 <!-- IMG List -->
-

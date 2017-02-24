@@ -20,41 +20,55 @@ ms.author: robmcm;shsivada;stfollis;ross
 
 # AzureX Session 3 - Geographically-Redundant Scaling
 
+## Session Overview
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+*Time to complete all of the exercises in this session: 00:00*
+
+## Session Objectives
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 * Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 * Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 * Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-*Time to complete all of the tasks in this session: 00:00*
-
 ### Prerequisites
 
-Before you complete the tasks in this session, you should read the information presented in the [Overview] article.
+Before you complete the exercises in this session, you should read the information presented in the [Overview] article.
 
 In order to complete the steps in this session, you must first complete the prerequisites and steps outlined in [Session 1 (for Java Developers)][Session1Java] or [Session 1 (for Node.js Developers)][Session1Node].
 
-## Task 1 - Scaling DocumentDB
+## Excercise 1 - Scaling DocumentDB
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 https://docs.microsoft.com/azure/documentdb/documentdb-partition-data
 
-## Task 2 - Geographic Redundancy
+## Excercise 2 - Geographic Redundancy
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 https://docs.microsoft.com/azure/guidance/guidance-resiliency-checklist
 
-## Task 3 - Working with Azure Traffic Manager
+## Excercise 3 - Working with Azure Traffic Manager
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 https://docs.microsoft.com/azure/traffic-manager/
 
+## Session Summary
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
 ## What's Next
 
-Once you have completed the tasks detailed in the above sections, your next step is to go through the tasks in [Session 4][Session4].
+Once you have completed the exercises detailed in the above sections, your next step is to go through the exercises in [Session 4][Session4].
 
 ## See Also
 
@@ -77,4 +91,3 @@ For more information about using Node.js on Microsoft Azure, see the [Azure Node
 [Session4]: ./azurex-session-4.md
 
 <!-- IMG List -->
-
