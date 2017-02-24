@@ -2,15 +2,16 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "storageSettings": {
+    "appStorageSettings": {
       "type": "object",
       "metadata": {
-        "description": "Settings for app storage account"
+        "description": "Settings for the app's storage account and CDN"
       }
     }
   },
   "variables": {
-    "appStorageAccountName" : "[concat(toLower(parameters('storageSettings').namePrefix), uniqueString(resourceGroup().id))]"
+    "appStorageAccountName": "[concat(toLower(parameters('appStorageSettings').storageSettings.namePrefix), uniqueString(resourceGroup().id))]",
+    "cdnEndpointName": "[concat(toLower(parameters('appStorageSettings').cdnSettings.endpoint.namePrefix), '-', uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
@@ -23,7 +24,42 @@
         "displayName": "stg"
       },
       "properties": {
-        "accountType": "[parameters('storageSettings').accountType]"
+        "accountType": "[parameters('appStorageSettings').storageSettings.accountType]"
+      }
+    },
+    {
+      "name": "[parameters('appStorageSettings').cdnSettings.profileName]",
+      "type": "Microsoft.Cdn/profiles",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-04-02",
+      "sku": {
+        "name": "[parameters('appStorageSettings').cdnSettings.skuName]"
+      },
+      "dependsOn": [],
+      "tags": {
+        "displayName": "cdn"
+      }
+    },
+    {
+      "name": "[concat(parameters('appStorageSettings').cdnSettings.profileName, '/', variables('cdnEndpointName'))]",
+      "type": "Microsoft.Cdn/profiles/endpoints",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-04-02",
+      "dependsOn": [
+        "[resourceId('Microsoft.Cdn/profiles', parameters('appStorageSettings').cdnSettings.profileName)]"
+      ],
+      "tags": {
+        "displayName": "cdnEndpoint"
+      },
+      "properties": {
+        "origins": [
+          {
+            "name": "[variables('appStorageAccountName')]",
+            "properties": {
+              "hostName": "[concat(variables('appStorageAccountName'),'.blob.core.windows.net')]"
+            }
+          }
+        ]
       }
     }
   ],
