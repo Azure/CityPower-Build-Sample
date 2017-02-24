@@ -11,8 +11,11 @@ ARM templates to support AzureX project.
 # Authenticate to Azure Subscription
 Login-AzureRmAccount
 
-# Deploy session 2 ARM templates.
-.\Session2-ARM-Templates\Deploy-AzureResourceGroup.ps1 -ResourceGroupLocation westus
+# Deploy session 2 ARM templates for Java version of app
+.\Session2-ARM-Templates\Deploy-AzureResourceGroup.ps1 -ResourceGroupLocation westus -AppType Java
+
+# Deploy session 2 ARM templates for Node.js version of app
+.\Session2-ARM-Templates\Deploy-AzureResourceGroup.ps1 -ResourceGroupLocation westus -AppType Node
 
 ```
 
@@ -26,7 +29,10 @@ Login-AzureRmAccount
 # Authenticate to Azure Subscription
 Login-AzureRmAccount
 
-# Deploy session 3 ARM template to n regions (ie: WestUS and EastUS).  Also deploys an HA resource group that contains the traffic manager profile and endpoint configurations.
-.\Session3-ARM-Templates\Deploy-AzureResourceGroup.ps1 -Locations ("westus", "eastus")
+# Deploy session 3 ARM template to n regions (ie: WestUS and EastUS) for Java version of app.  Also deploys an HA resource group that contains the traffic manager profile and endpoint configurations.
+.\Session3-ARM-Templates\Deploy-AzureResourceGroup.ps1 -Locations ("westus", "eastus") -AppType Java
+
+# Deploy session 3 ARM template to n regions (ie: WestUS and EastUS) for Node.js version of app.  Also deploys an HA resource group that contains the traffic manager profile and endpoint configurations.
+.\Session3-ARM-Templates\Deploy-AzureResourceGroup.ps1 -Locations ("westus", "eastus") -AppType Node
 
 ```

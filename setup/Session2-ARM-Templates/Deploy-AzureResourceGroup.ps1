@@ -4,7 +4,8 @@
 
 Param(
     [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
-    [string] $ResourceGroupName = 'AzureX-Session-2',
+    [string] $ResourceGroupName = 'AzureX-Session-2-' + $AppType,
+	[string] [Parameter(Mandatory=$true)][ValidateSet("Java", "Node")] $AppType,
     [string] $StorageAccountName,
     [string] $StorageContainerName = $ResourceGroupName.ToLowerInvariant() + '-stageartifacts',
     [string] $TemplateFile = 'azuredeploy.json',
