@@ -143,7 +143,7 @@ function uploadIncidentImageCloud(input) {
 
         // Confirm blob container
         blobService.createContainerIfNotExists(blobContainerName, {
-            publicAccessLevel: 'blob'
+            publicAccessLevel: 'container'
         }, (containerError) => {
 
             // Upload new blob
