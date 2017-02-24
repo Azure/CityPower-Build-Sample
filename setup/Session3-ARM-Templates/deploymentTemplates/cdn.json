@@ -18,7 +18,7 @@
       "apiVersion": "2016-04-02",
       "sku": {
         "name": "[parameters('cdnSettings').skuName]"
-      }
+      },
       "dependsOn": [],
       "tags": {
         "displayName": "cdn"
