@@ -38,7 +38,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Before you complete the exercises in this session, you should read the information presented in the [Overview] article.
 
-In order to complete the steps in this session, you must first complete the prerequisites and steps outlined in [Session 3][Session3].
+In order to complete the exercises in this session, you must first complete the prerequisites and steps outlined in [Session 3][Session3].
 
 ## Excercise 1 - Getting Started
 
