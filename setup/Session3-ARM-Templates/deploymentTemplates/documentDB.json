@@ -10,7 +10,7 @@
     }
   },
   "variables": {
-    "documentDbAccountName": "[concat(parameters('documentDbSettings').accountNamePrefix, '-docdb-', uniqueString(resourceGroup().id))]"
+    "documentDbAccountName": "[concat(parameters('documentDbSettings').accountNamePrefix, '-', uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
