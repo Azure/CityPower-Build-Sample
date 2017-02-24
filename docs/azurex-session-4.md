@@ -44,7 +44,7 @@ In order to complete the steps in this session, you must first complete the prer
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-get-started
+* https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-get-started
 
 ## Excercise 2 - Notifications
 
