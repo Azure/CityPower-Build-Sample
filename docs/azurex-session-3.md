@@ -44,19 +44,19 @@ In order to complete the steps in this session, you must first complete the prer
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://docs.microsoft.com/azure/documentdb/documentdb-partition-data
+* https://docs.microsoft.com/azure/documentdb/documentdb-partition-data
 
 ## Excercise 2 - Geographic Redundancy
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://docs.microsoft.com/azure/guidance/guidance-resiliency-checklist
+* https://docs.microsoft.com/azure/guidance/guidance-resiliency-checklist
 
 ## Excercise 3 - Working with Azure Traffic Manager
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://docs.microsoft.com/azure/traffic-manager/
+* https://docs.microsoft.com/azure/traffic-manager/
 
 ## Session Summary
 

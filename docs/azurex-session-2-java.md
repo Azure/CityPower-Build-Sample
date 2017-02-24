@@ -44,40 +44,40 @@ In order to complete the steps in this session, you must first complete the prer
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://azure.microsoft.com/get-started/
+* https://azure.microsoft.com/get-started/
 
 ## Excercise 2 - Using the Azure Command Line Interface (CLI)
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://docs.microsoft.com/cli/azure/get-started-with-az-cli2
+* https://docs.microsoft.com/cli/azure/get-started-with-az-cli2
 
 ## Excercise 3 - Working with DocumentDB and MongoDB
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://docs.microsoft.com/azure/documentdb/documentdb-get-started
+* https://docs.microsoft.com/azure/documentdb/documentdb-get-started
 
 ## Excercise 4 - Using Azure Resource Manager (ARM) Templates
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview
+* https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview
 
 ## Excercise 5 - Leveraging Jenkins for continuous build automation
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://docs.microsoft.com/azure/storage/storage-java-jenkins-continuous-integration-solution
+* https://docs.microsoft.com/azure/storage/storage-java-jenkins-continuous-integration-solution
 
 ## Excercise 6 - Introduction to Redis and CDN
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-https://docs.microsoft.com/azure/redis-cache/cache-java-get-started
-https://docs.microsoft.com/azure/redis-cache/cache-nodejs-get-started
-https://docs.microsoft.com/azure/cdn/cdn-create-new-endpoint
-https://docs.microsoft.com/azure/cdn/cdn-app-dev-node
+* https://docs.microsoft.com/azure/redis-cache/cache-java-get-started
+* https://docs.microsoft.com/azure/redis-cache/cache-nodejs-get-started
+* https://docs.microsoft.com/azure/cdn/cdn-create-new-endpoint
+* https://docs.microsoft.com/azure/cdn/cdn-app-dev-node
 
 ## Session Summary
 
