@@ -20,17 +20,23 @@ ms.author: robmcm;shsivada;stfollis;ross
 
 # AzureX Session 1 - Creating and Deploying an Application (for Node.js Developers)
 
+## Session Overview
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+*Time to complete all of the exercises in this session: 00:00*
+
+## Session Objectives
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 * Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 * Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 * Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-*Time to complete all of the tasks in this session: 00:00*
-
 ### Prerequisites
 
-Before you complete the tasks in this session, you should read the information presented in the [Overview] article.
+Before you complete the exercises in this session, you should read the information presented in the [Overview] article.
 
 <!-- The following note would come from an include file when hosted on docs.microsoft.com -->
 
@@ -42,21 +48,29 @@ Before you complete the tasks in this session, you should read the information p
 > 
 > 
 
-## Task 1 - Creating your local application
+## Excercise 1 - Creating your local application
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-## Task 2 - Deploying your application to Azure
+## Excercise 2 - Deploying your application to Azure
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-## Task 3 - Verifying your application is running on Azure
+## Excercise 3 - Verifying your application is running on Azure
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+## Session Summary
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ## What's Next
 
-Once you have completed the tasks detailed in the above sections, your next step is to go through the tasks in [Session 2 (for Node.js Developers)][Session2Node].
+Once you have completed the exercises detailed in the above sections, your next step is to go through the exercises in [Session 2 (for Node.js Developers)][Session2Node].
 
 ## See Also
 
@@ -79,4 +93,3 @@ For more information about using Node.js on Microsoft Azure, see the [Azure Node
 [Session4]: ./azurex-session-4.md
 
 <!-- IMG List -->
-

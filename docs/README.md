@@ -4,7 +4,7 @@ Here is a description of the documents in this folder, along with some pertinent
 
 1. The "*azurex-???.md* file naming convention is only temporary, as are the "*AzureX*" titles in each of the articles.
 
-2. Most of the session articles are *skelton* articles, which the expecation that requisite will be filled-in as the session details are solidified.
+2. Most of the session articles are *skelton* articles, with the expecation that requisite information will be filled-in as the session details are solidified. (There is also a lot of common latin-based "*placeholder*" text.)
 
 3. I included a lot of URLs in most of the articles which link to existing content which provide additional details for each of the subject areas.
 

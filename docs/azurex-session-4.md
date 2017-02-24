@@ -20,33 +20,47 @@ ms.author: robmcm;shsivada;stfollis;ross
 
 # AzureX - Session 4
 
+## Session Overview
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+*Time to complete all of the exercises in this session: 00:00*
+
+## Session Objectives
+
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 * Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 * Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 * Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-*Time to complete all of the tasks in this session: 00:00*
-
 ### Prerequisites
 
-Before you complete the tasks in this session, you should read the information presented in the [Overview] article.
+Before you complete the exercises in this session, you should read the information presented in the [Overview] article.
 
 In order to complete the steps in this session, you must first complete the prerequisites and steps outlined in [Session 3][Session3].
 
-## Task 1 - Getting Started
+## Excercise 1 - Getting Started
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 https://docs.microsoft.com/azure/monitoring-and-diagnostics/monitoring-get-started
 
-## Task 2 - Notifications
+## Excercise 2 - Notifications
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-## Task 3 - Alerts
+## Excercise 3 - Alerts
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+## Session Summary
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 ## See Also
 
@@ -69,4 +83,3 @@ For more information about using Node.js on Microsoft Azure, see the [Azure Node
 [Session4]: ./azurex-session-4.md
 
 <!-- IMG List -->
-
