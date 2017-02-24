@@ -13,7 +13,12 @@ if (process.env.AZURE_STORAGE_ACCOUNT) {
 // Setup Redis Client
 if (process.env.REDISCACHE_HOSTNAME) {
     var redis = require("redis");
-    var redisClient = redis.createClient(process.env.REDISCACHE_SSLPORT, process.env.REDISCACHE_HOSTNAME, { auth_pass: process.env.REDISCACHE_PRIMARY_KEY, tls: { servername: process.env.REDISCACHE_HOSTNAME } });
+    var redisClient = redis.createClient(process.env.REDISCACHE_SSLPORT, process.env.REDISCACHE_HOSTNAME, {
+        auth_pass: process.env.REDISCACHE_PRIMARY_KEY,
+        tls: {
+            servername: process.env.REDISCACHE_HOSTNAME
+        }
+    });
     var useCache = true;
 };
 
@@ -29,8 +34,7 @@ module.exports = {
                 getIncidientsCache(page).then((incidents) => {
                     resolve(incidents);
                 });
-            }
-            else {
+            } else {
                 // Do not use Redis Cache
                 getIncidientsNoCache(page).then((incidents) => {
                     resolve(incidents);
@@ -49,7 +53,10 @@ module.exports = {
             var apiUrl = `${process.env.API_URL}/incidents`;
 
             // POST new incident to API
-            request.post(apiUrl, { form: fields, json: true }, (error, results) => {
+            request.post(apiUrl, {
+                form: fields,
+                json: true
+            }, (error, results) => {
 
                 // Successfully created a new incident
                 console.log('Created incident');
@@ -60,8 +67,7 @@ module.exports = {
                         var incidentId = results.body.id;
                         resolve([incidentId, files]);
                     });
-                }
-                else {
+                } else {
                     var incidentId = results.body.id;
                     resolve([incidentId, files]);
                 }
@@ -80,8 +86,7 @@ module.exports = {
                 uploadIncidentImageCloud(input).then((body) => {
                     resolve(body);
                 });
-            }
-            else {
+            } else {
                 uploadIncidentImageLocal(input).then((body) => {
                     resolve(body);
                 });
@@ -128,12 +133,18 @@ function uploadIncidentImageCloud(input) {
         // Define variables to use with the Blob Service
         var stream = fs.createReadStream(input[1].image.path);
         var streamLength = input[1].image.size;
-        var options = { contentSettings: { contentType: input[1].image.type } };
+        var options = {
+            contentSettings: {
+                contentType: input[1].image.type
+            }
+        };
         var blobName = input[0] + '.' + mime.extension(input[1].image.type);
         var blobContainerName = `images`;
 
         // Confirm blob container
-        blobService.createContainerIfNotExists(blobContainerName, (containerError) => {
+        blobService.createContainerIfNotExists(blobContainerName, {
+            publicAccessLevel: 'blob'
+        }, (containerError) => {
 
             // Upload new blob
             blobService.createBlockBlobFromStream(blobContainerName, blobName, stream, streamLength, options, (blobError, blob) => {
@@ -164,14 +175,19 @@ function updateIncidentImage(image) {
         var apiUrl = `${process.env.API_URL}/incidents/${incidentId}`;
 
         // GET Incident by incident
-        request.get(apiUrl, { json: true }, (error, response, body) => {
+        request.get(apiUrl, {
+            json: true
+        }, (error, response, body) => {
 
             // Update incident
             var updatedIncident = body;
             updatedIncident.imageuri = image;
 
             // POST updated incident to API
-            request.put(apiUrl, { form: updatedIncident, json: true }, (error, results, body) => {
+            request.put(apiUrl, {
+                form: updatedIncident,
+                json: true
+            }, (error, results, body) => {
 
                 // Successfully created a new incident
                 console.log('Updated incident data with imageuri');
@@ -200,8 +216,7 @@ function getIncidientsCache(page) {
 
                 resolve(JSON.parse(result));
 
-            }
-            else {
+            } else {
 
                 // Cache key does not exists - query API
                 getIncidientsNoCache(page).then((result) => {
@@ -232,7 +247,9 @@ function getIncidientsNoCache(page) {
     return new Promise((resolve, reject) => {
 
         // Make a GET request with the Request libary
-        request(apiUrl, { json: true }, (error, results, body) => {
+        request(apiUrl, {
+            json: true
+        }, (error, results, body) => {
 
             // Resolve Promise with incident data
             resolve(body);
