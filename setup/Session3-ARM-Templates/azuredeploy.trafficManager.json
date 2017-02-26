@@ -96,9 +96,13 @@
     }
   ],
   "outputs": {
-    "result": {
+    "trafficManager": {
       "type": "object",
-      "value": "[reference('trafficManager').outputs.profileName]"
+      "value": "[reference('trafficManager').outputs]"
+    },
+    "appStorage": {
+      "type": "object",
+      "value": "[reference('appStorage').outputs]"
     }
   }
 }

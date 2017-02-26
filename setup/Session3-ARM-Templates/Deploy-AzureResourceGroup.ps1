@@ -178,41 +178,49 @@ else {
     }
 	else
 	{
-		foreach ($Deployment in $Deployments)
+		$TrafficManagerOutputs = $null
+		if ($HADeployment.Outputs.TryGetValue("trafficManager", [ref] $TrafficManagerOutputs))
 		{
-			$appEndpoint = Get-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
-								-Name $Deployment.ResourceGroupName `
-								-Type AzureEndpoints `
-								-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
-								-ErrorAction SilentlyContinue
-			
-			$WebTierOutputs = $null
-			if ($Deployment.Outputs.TryGetValue("webTier", [ref] $WebTierOutputs))
+			foreach ($Deployment in $Deployments)
 			{
-				$WebTierPipResourceId = $WebTierOutputs.Value.pipResourceId.value.ToString()
-
-				if ($appEndpoint -eq $null)
-				{
-					New-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
+				$appEndpoint = Get-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
 									-Name $Deployment.ResourceGroupName `
 									-Type AzureEndpoints `
-									-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
-									-EndpointStatus Enabled `
-									-TargetResourceId $WebTierPipResourceId
+									-ProfileName $TrafficManagerOutputs.Value.profileName.value.ToString() `
+									-ErrorAction SilentlyContinue
+			
+				$WebTierOutputs = $null
+				if ($Deployment.Outputs.TryGetValue("webTier", [ref] $WebTierOutputs))
+				{
+					$WebTierPipResourceId = $WebTierOutputs.Value.pipResourceId.value.ToString()
+
+					if ($appEndpoint -eq $null)
+					{
+						New-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
+										-Name $Deployment.ResourceGroupName `
+										-Type AzureEndpoints `
+										-ProfileName $TrafficManagerOutputs.Value.profileName.value.ToString() `
+										-EndpointStatus Enabled `
+										-TargetResourceId $WebTierPipResourceId
+					}
+					else
+					{
+						$appEndpoint.TargetResourceId = $WebTierPipResourceId
+						$appEndpoint.Type = "AzureEndpoints"
+						$appEndpoint.EndpointStatus = "Enabled"
+	
+						Set-AzureRmTrafficManagerEndpoint -TrafficManagerEndpoint $appEndpoint
+					}
 				}
 				else
 				{
-					$appEndpoint.TargetResourceId = $WebTierPipResourceId
-					$appEndpoint.Type = "AzureEndpoints"
-					$appEndpoint.EndpointStatus = "Enabled"
-	
-					Set-AzureRmTrafficManagerEndpoint -TrafficManagerEndpoint $appEndpoint
+					Write-Warning 'Outputs not found for ""webTier"" deployment.  As a result, traffic manager endpoints are not configured.  You must set them manually.'
 				}
 			}
-			else
-			{
-				Write-Warning 'Outputs not found for ""webTier"" deployment.  As a result, traffic manager endpoints are not configured.  You must set them manually.'
-			}
+		}
+		else
+		{
+			Write-Warning 'Outputs not found for ""trafficManager"" deployment.  As a result, traffic manager endpoints are not configured.  You must set them manually.'
 		}
 	}
 }
