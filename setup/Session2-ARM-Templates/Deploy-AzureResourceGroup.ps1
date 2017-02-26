@@ -41,6 +41,7 @@ $JsonParameters = Get-Content $TemplateParametersFile -Raw | ConvertFrom-Json
 if (($JsonParameters | Get-Member -Type NoteProperty 'parameters') -ne $null) {
     $JsonParameters = $JsonParameters.parameters
 }
+
 $ArtifactsLocationName = '_artifactsLocation'
 $ArtifactsLocationSasTokenName = '_artifactsLocationSasToken'
 $OptionalParameters[$ArtifactsLocationName] = $JsonParameters | Select -Expand $ArtifactsLocationName -ErrorAction Ignore | Select -Expand 'value' -ErrorAction Ignore

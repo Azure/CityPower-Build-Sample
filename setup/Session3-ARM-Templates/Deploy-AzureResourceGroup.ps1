@@ -100,6 +100,7 @@ if ($OptionalParameters[$ArtifactsLocationSasTokenName] -eq $null) {
 
 $RegionObjects = @()
 $Deployments = @()
+$HADeployment = $null
 
 foreach ($Location in $Locations)
 {
@@ -184,24 +185,70 @@ else {
 								-Type AzureEndpoints `
 								-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
 								-ErrorAction SilentlyContinue
-		
-			if ($appEndpoint -eq $null)
+			
+			$WebTierOutputs = $null
+			if ($Deployment.Outputs.TryGetValue("webTier", [ref] $WebTierOutputs))
 			{
-				New-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
-								-Name $Deployment.ResourceGroupName `
-								-Type AzureEndpoints `
-								-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
-								-EndpointStatus Enabled `
-								-TargetResourceId $Deployment.Outputs.result.Value.value.ToString()
+				$WebTierPipResourceId = $WebTierOutputs.Value.pipResourceId.value.ToString()
+
+				if ($appEndpoint -eq $null)
+				{
+					New-AzureRmTrafficManagerEndpoint -ResourceGroupName $HAResourceGroupName `
+									-Name $Deployment.ResourceGroupName `
+									-Type AzureEndpoints `
+									-ProfileName $HADeployment.Outputs.result.Value.value.ToString() `
+									-EndpointStatus Enabled `
+									-TargetResourceId $WebTierPipResourceId
+				}
+				else
+				{
+					$appEndpoint.TargetResourceId = $WebTierPipResourceId
+					$appEndpoint.Type = "AzureEndpoints"
+					$appEndpoint.EndpointStatus = "Enabled"
+	
+					Set-AzureRmTrafficManagerEndpoint -TrafficManagerEndpoint $appEndpoint
+				}
 			}
 			else
 			{
-				$appEndpoint.TargetResourceId = $Deployment.Outputs.result.Value.value.ToString()
-				$appEndpoint.Type = "AzureEndpoints"
-				$appEndpoint.EndpointStatus = "Enabled"
-	
-				Set-AzureRmTrafficManagerEndpoint -TrafficManagerEndpoint $appEndpoint
+				Write-Warning 'Outputs not found for ""webTier"" deployment.  As a result, traffic manager endpoints are not configured.  You must set them manually.'
 			}
+		}
+	}
+}
+
+if ( !($ValidateOnly) )
+{
+	$Deployments += $HADeployment
+
+	Write-Output ''
+	Write-Output '*** Deployment Outputs ***'
+	Write-Output ''
+
+	foreach ($Deployment in $Deployments)
+	{
+		Write-Output "Resource Group Name : $($Deployment.ResourceGroupName)"
+		Write-Output "=================================="
+		Write-Output ''
+
+		$DeploymentOutputs = $Deployment.Outputs
+
+		foreach ($Key in $DeploymentOutputs.Keys)
+		{
+			Write-Output $Key
+			Write-Output '----------------------------------'
+    
+			$Outputs = $DeploymentOutputs.Item($Key)
+			$Outputs = $Outputs.Value
+			$OutputsEnum = $Outputs.GetEnumerator()
+
+			while ($OutputsEnum.MoveNext())
+			{
+				$Output = $($OutputsEnum.Current.Value)
+				Write-Output "$($OutputsEnum.Current.Key) : $($OutputsEnum.Current.Value.value.ToString())" 
+			}
+
+			Write-Output ''
 		}
 	}
 }

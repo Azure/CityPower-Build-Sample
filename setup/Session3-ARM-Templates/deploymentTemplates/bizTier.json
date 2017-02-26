@@ -151,5 +151,10 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "vmssName": {
+      "value": "[parameters('bizTierSettings').vmScaleSetSettings.vmNamePrefix]",
+      "type": "string"
+    }
+  }
 }

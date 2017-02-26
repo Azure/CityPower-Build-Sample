@@ -172,6 +172,10 @@
     "pipResourceId": {
       "value": "[resourceId('Microsoft.Network/publicIPAddresses', variables('lbPipName'))]",
       "type": "string"
+    },
+    "vmssName": {
+      "value": "[parameters('webTierSettings').vmScaleSetSettings.vmNamePrefix]",
+      "type": "string"
     }
   }
 }

@@ -122,9 +122,25 @@
     }
   ],
   "outputs": {
-    "result": {
-      "type": "object",
-      "value": "[reference('webTier').outputs.pipResourceId]"
+    "virtualNetwork": {
+      "value": "[reference('virtualNetwork').outputs]",
+      "type": "object"
+    },
+    "jumpbox": {
+      "value": "[reference('jumpbox').outputs]",
+      "type": "object"
+    },
+    "webTier": {
+      "value": "[reference('webTier').outputs]",
+      "type": "object"
+    },
+    "bizTier": {
+      "value": "[reference('bizTier').outputs]",
+      "type": "object"
+    },
+    "redisCache": {
+      "value": "[reference('redisCache').outputs]",
+      "type": "object"
     }
   }
 }
