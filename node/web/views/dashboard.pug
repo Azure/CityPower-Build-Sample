@@ -1,0 +1,43 @@
+extends layout
+
+block content
+
+	.container
+
+		h1 #{title}
+
+		.row.dashboard
+			if incidents 
+				each incident in incidents
+					a(href=`./detail/${incident.id}`).col-sm-4
+						.panel.panel-default
+							.panel-heading #{incident.description}
+								if incident.imageuri
+									i.glyphicon.glyphicon-camera.pull-right
+						
+							table.table
+								tr
+									th Location
+									td #{incident.city}, #{incident.state}
+								tr
+									th Contact
+									td #{incident.firstname} #{incident.lastname}
+								tr
+									th Reported
+									td #{moment(incident.created).format('M/D/YY')} @ #{moment(incident.created).format('h:mm a')}
+		
+		// Pagination Controls
+		.text-center
+			if page !== "1"
+				a(href=`./dashboard?page=${parseInt(page) - 1}`).btn.btn-primary.btn-large
+					i.glyphicon.glyphicon-chevron-left
+					span Previous
+
+			if incidents.length < 9
+				a(href=`./dashboard?page=${parseInt(page) + 1}`).btn.btn-primary.btn-large.hidden
+					span Next
+					i.glyphicon.glyphicon-chevron-right
+			else
+				a(href=`./dashboard?page=${parseInt(page) + 1}`).btn.btn-primary.btn-large
+					span Next
+					i.glyphicon.glyphicon-chevron-right
