@@ -47,6 +47,7 @@
     <Content Include="deploymentTemplates\trafficManager.json" />
     <Content Include="deploymentTemplates\virtualNetwork.json" />
     <Content Include="deploymentTemplates\webTier.json" />
+    <None Include="Deploy-AzureResourceGroup.sh" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
