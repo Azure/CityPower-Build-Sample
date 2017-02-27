@@ -103,6 +103,10 @@
     "appStorage": {
       "type": "object",
       "value": "[reference('appStorage').outputs]"
+    },
+    "documentDB": {
+      "type": "object",
+      "value": "[reference('documentDB').outputs]"
     }
   }
 }
