@@ -13,6 +13,11 @@ html(lang='en', class={home: home})
       link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css')
       link(rel='stylesheet', href='/css/main.css')
 
+    // JavaScript
+    block js
+      script(src='//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.js')
+      script(src='//ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.js')
+
     // Application Insights
     include appInsights.pug
 
@@ -23,8 +28,3 @@ html(lang='en', class={home: home})
 
     // Body
     block content
-
-    // JavaScript
-    block js
-      script(src='//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.js')
-      script(src='//ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.js')
