@@ -4,9 +4,8 @@
 # sudo sh SetupSingleVM.sh "https://stage0f4d414b108104ae8a4.blob.core.windows.net" "nodebuildcitypowerapi" "nodebuildcitypower"
 # sudo sh SetupSingleVM.sh "<URL to an Azure Storage Account>" "<container name for the API archive.zip>" "<container name for the Web archive.zip>"
 
+BUILD_ARTIFACT=$1
 AZURE_STORAGE_ACCOUNT_URL=$1
-API_CONTAINER=$2
-WEB_CONTAINER=$3
 INCIDENT_API_URL=$4
 AZURE_STORAGE_ACCOUNT=$5
 AZURE_STORAGE_ACCESS_KEY=$6

@@ -4,11 +4,9 @@
 # sudo sh SetupSingleVM.sh "https://stage0f4d414b108104ae8a4.blob.core.windows.net" "nodebuildcitypowerapi" "nodebuildcitypower"
 # sudo sh SetupSingleVM.sh "<URL to an Azure Storage Account>" "<container name for the API archive.zip>" "<container name for the Web archive.zip>"
 
-AZURE_STORAGE_ACCOUNT_URL=$1
-API_CONTAINER=$2
-WEB_CONTAINER=$3
-DB_CONNECT_STRING=$4
-API_LISTEN_PORT=$5
+BUILD_ARTIFACT=$1
+DB_CONNECT_STRING=$2
+API_LISTEN_PORT=$3
 
 
 
@@ -30,7 +28,7 @@ setup_api()
     cd /var/www
     sudo mkdir /var/www/images    
     sudo rm -rf Azure-X-API.war
-    sudo curl -O ${AZURE_STORAGE_ACCOUNT_URL}/${API_CONTAINER}/AzureX-API.war
+    sudo curl -O ${BUILD_ARTIFACT}
     sudo chmod u+x AzureX-API.war
     sudo cat > /etc/systemd/system/azurexapi.service <<EOF
 [Unit]
