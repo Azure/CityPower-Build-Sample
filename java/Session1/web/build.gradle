@@ -16,7 +16,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
 
 war {
-	baseName = 'ROOT'
+	baseName = 'web'
 }
 
 sourceCompatibility = 1.8
