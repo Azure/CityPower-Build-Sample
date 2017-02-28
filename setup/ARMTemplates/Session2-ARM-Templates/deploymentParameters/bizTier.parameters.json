@@ -6,7 +6,7 @@
       "value": {
         "name": "bizTier",
         "lbPrivateIp": "10.0.2.4",
-        "vmCount": 3,
+        "vmCount": 1,
         "vmSettings": {
           "vmName": "bizVM",
           "virtualNetworkName": "azurex-vnet",
