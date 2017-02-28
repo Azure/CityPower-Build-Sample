@@ -60,7 +60,13 @@
               "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('vmSubnetRef')]"
-              }
+              },
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('lbName')), '/backendAddressPools/', variables('lbBackendPoolName'))]"
+                }
+              ]
+
             }
           }
         ]
