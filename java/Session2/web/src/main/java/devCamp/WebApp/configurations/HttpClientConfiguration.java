@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
       
       @Bean
       RestTemplate getRestTemplate(){
+    	  log.debug("getRestTemplate");
           //create/configure REST template class here and autowire where needed
           final RestTemplate restTemplate = new RestTemplate(httpRequestFactory());
           restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());

@@ -4,16 +4,21 @@ import java.net.UnknownHostException;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 
 @Configuration
 public class DbConfiguration {
-	  /*
-	   * Use the standard Mongo driver API to create a com.mongodb.Mongo instance.
-	   */
-	@SuppressWarnings("deprecation")
-	public @Bean Mongo mongo() throws UnknownHostException {
-	       return new Mongo("localhost");
-	   }
+	@Autowired
+	private DbConfigurationProperties dbConfigProperties;
+
+	public @Bean MongoClient mongo() throws UnknownHostException {
+		String connectString = dbConfigProperties.getConnectString();
+		if (connectString.equals("${DB_CONNECT_STRING}")){
+			connectString = "mongodb://localhost";
+		}
+		return new MongoClient(new MongoClientURI(connectString));
+	}
 }

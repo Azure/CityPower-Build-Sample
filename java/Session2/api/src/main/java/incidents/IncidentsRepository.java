@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(collectionResourceRel = "incidents", path = "incidents")
 public interface IncidentsRepository extends MongoRepository<IncidentBean, String> {
 
-    public IncidentBean findById(String incidentID);
-    public List<IncidentBean> findAll();
+	public IncidentBean findById(String incidentID);
+	public List<IncidentBean> findAll();
 
 }

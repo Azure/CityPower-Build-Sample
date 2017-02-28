@@ -13,30 +13,30 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 
 @Configuration
-    public class HttpClientConfiguration {
+public class HttpClientConfiguration {
 
-      private static final Logger log = LoggerFactory.getLogger(HttpClientConfiguration.class);
+	private static final Logger log = LoggerFactory.getLogger(HttpClientConfiguration.class);
 
-      @Autowired
-      private Environment environment;
+	@Autowired
+	private Environment environment;
 
-      @Bean
-      public ClientHttpRequestFactory httpRequestFactory() {
-        return new HttpComponentsClientHttpRequestFactory(httpClient());
-      }
+	@Bean
+	public ClientHttpRequestFactory httpRequestFactory() {
+		return new HttpComponentsClientHttpRequestFactory(httpClient());
+	}
 
-      @Bean
-      public HttpClient httpClient() {
-        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+	@Bean
+	public HttpClient httpClient() {
+		log.debug("building httpClient");
+		PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
 
-        // Get the poolMaxTotal value from our application[-?].yml or default to 10 if not explicitly set
-        connectionManager.setMaxTotal(environment.getProperty("poolMaxTotal", Integer.class, 10));
+		// Get the poolMaxTotal value from our application[-?].yml or default to 10 if not explicitly set
+		connectionManager.setMaxTotal(environment.getProperty("poolMaxTotal", Integer.class, 10));
 
-        return HttpClientBuilder
-          .create()
-          .setConnectionManager(connectionManager)
-          .build();
-      }    
-    
+		return HttpClientBuilder
+				.create()
+				.setConnectionManager(connectionManager)
+				.build();
+	}    
+
 }    
-    

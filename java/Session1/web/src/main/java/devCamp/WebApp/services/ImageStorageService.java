@@ -10,13 +10,13 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public interface ImageStorageService {
 
-    String storeImage(String IncidentId, String fileName, String contentType, byte[] fileBuffer);
-    
-    @Async
-    CompletableFuture<String> storeImageAsync(String IncidentId, String fileName, String contentType, byte[] fileBuffer);
+	String storeImage(String IncidentId, String fileName, String contentType, byte[] fileBuffer);
 
-    public InputStream getImage(String id);
-    
-    public byte[] getImageAsArray(String id);
-    
+	@Async
+	CompletableFuture<String> storeImageAsync(String IncidentId, String fileName, String contentType, byte[] fileBuffer);
+
+	public InputStream getImage(String id);
+
+	public byte[] getImageAsArray(String id);
+
 }

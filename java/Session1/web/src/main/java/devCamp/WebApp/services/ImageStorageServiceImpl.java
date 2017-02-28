@@ -19,75 +19,72 @@ import devCamp.WebApp.properties.ImageStorageProperties;
 
 @Service
 public class ImageStorageServiceImpl implements ImageStorageService {
-    private static final Logger LOG = LoggerFactory.getLogger(ImageStorageServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ImageStorageServiceImpl.class);
 
-    @Autowired
-    private ImageStorageProperties imageStorageProperties;
+	@Autowired
+	private ImageStorageProperties imageStorageProperties;
 
-    @Override
-    public String storeImage(String IncidentId, String fileName,String contentType, byte[] fileBuffer) {
-    	String imageFileName = null;
-            try {
-            	imageFileName = getIncidentImageFilename(IncidentId, fileName);
-            	String completeFileName = String.format("%s/%s",imageStorageProperties.getStorageLocation(),imageFileName);
-            	
-            	FileOutputStream fos = new FileOutputStream(completeFileName);
-            	fos.write(fileBuffer);
-            	fos.close();
-            } catch ( IOException e) {
-                // TODO Auto-generated catch block
-                LOG.error("storeImageAsync - error {}", e);
-                imageFileName = null;
-            }
-        return imageFileName;
-    }
-    
-    
-
-    @Async
-    @Override
-    public CompletableFuture<String> storeImageAsync(String IncidentId, String fileName,
-                                                                  String contentType, byte[] fileBuffer) {
-        CompletableFuture<String> cf = new CompletableFuture<>();
-        CompletableFuture.runAsync(() ->{
-            try {
-            	String imageFileName = getIncidentImageFilename(IncidentId, fileName);
-            	String completeFileName = String.format("%s/%s",imageStorageProperties.getStorageLocation(),imageFileName);
-            	FileOutputStream fos = new FileOutputStream(completeFileName);
-            	fos.write(fileBuffer);
-            	fos.close();
-                //return result
-                cf.complete(imageFileName);
-            } catch ( IOException e) {
-                // TODO Auto-generated catch block
-                LOG.error("storeImageAsync - error {}", e);
-                cf.completeExceptionally(e);
-            }
-        });
-        return cf;
-    }
-    
-    public InputStream getImage(String id){
-    	FileInputStream fis = null;
-    	try {
-	    	String completeFileName = String.format("%s/%s",imageStorageProperties.getStorageLocation(),id);
-	    	
-			fis = new FileInputStream(completeFileName);
-	} catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		return fis;
-    }
-    
-    public byte[] getImageAsArray(String id) {
-    	byte[] b = null;
+	@Override
+	public String storeImage(String IncidentId, String fileName,String contentType, byte[] fileBuffer) {
+		String imageFileName = null;
 		try {
-	    	String completeFileName = String.format("%s/%s",imageStorageProperties.getStorageLocation(),id);
-	    	FileInputStream fis;
+			imageFileName = getIncidentImageFilename(IncidentId, fileName);
+			String completeFileName = String.format("%s/%s",imageStorageProperties.getStorageLocation(),imageFileName);
+
+			FileOutputStream fos = new FileOutputStream(completeFileName);
+			fos.write(fileBuffer);
+			fos.close();
+		} catch ( IOException e) {
+			// TODO Auto-generated catch block
+			LOG.error("storeImageAsync - error {}", e);
+			imageFileName = null;
+		}
+		return imageFileName;
+	}
+
+
+
+	@Async
+	@Override
+	public CompletableFuture<String> storeImageAsync(String IncidentId, String fileName,
+			String contentType, byte[] fileBuffer) {
+		CompletableFuture<String> cf = new CompletableFuture<>();
+		CompletableFuture.runAsync(() ->{
+			try {
+				String imageFileName = getIncidentImageFilename(IncidentId, fileName);
+				String completeFileName = String.format("%s/%s",imageStorageProperties.getStorageLocation(),imageFileName);
+				FileOutputStream fos = new FileOutputStream(completeFileName);
+				fos.write(fileBuffer);
+				fos.close();
+				//return result
+				cf.complete(imageFileName);
+			} catch ( IOException e) {
+				// TODO Auto-generated catch block
+				LOG.error("storeImageAsync - error {}", e);
+				cf.completeExceptionally(e);
+			}
+		});
+		return cf;
+	}
+
+	public InputStream getImage(String id){
+		FileInputStream fis = null;
+		try {
+			String completeFileName = String.format("%s/%s",imageStorageProperties.getStorageLocation(),id);
+
+			fis = new FileInputStream(completeFileName);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return fis;
+	}
+
+	public byte[] getImageAsArray(String id) {
+		byte[] b = null;
+		try {
+			String completeFileName = String.format("%s/%s",imageStorageProperties.getStorageLocation(),id);
+			FileInputStream fis;
 			fis = new FileInputStream(completeFileName);
 			b = IOUtils.toByteArray(fis);
 		} catch (FileNotFoundException e) {
@@ -97,11 +94,11 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	return b;
-    }
-    
-    private String getIncidentImageFilename(String IncidentId,String FileName) {
-        String fileExt = FilenameUtils.getExtension(FileName);
-        return String.format("%s.%s", IncidentId,fileExt);
-    }
+		return b;
+	}
+
+	private String getIncidentImageFilename(String IncidentId,String FileName) {
+		String fileExt = FilenameUtils.getExtension(FileName);
+		return String.format("%s.%s", IncidentId,fileExt);
+	}
 }

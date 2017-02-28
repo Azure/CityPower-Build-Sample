@@ -1,35 +1,28 @@
 package devCamp.WebApp.Controllers;
 
-import devCamp.WebApp.services.ImageStorageService;
-import devCamp.WebApp.services.IncidentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-//import devCamp.WebApp.IncidentAPIClient.IncidentService;
-
 import devCamp.WebApp.models.IncidentBean;
-/*
-import devCamp.WebApp.IncidentAPIClient.IncidentAPIClient;
-import devCamp.WebApp.IncidentAPIClient.IncidentService;
-import devCamp.WebApp.Utils.IncidentApiHelper;
-import devCamp.WebApp.Utils.StorageHelper;
-*/
-
-import java.util.concurrent.CompletableFuture;
+import devCamp.WebApp.services.ImageStorageService;
+import devCamp.WebApp.services.IncidentService;
 
 @Controller
 public class IncidentController {
 	private static final Logger LOG = LoggerFactory.getLogger(IncidentController.class);
 
 	@Autowired
-    private IncidentService incidentService;
-	
+	private IncidentService incidentService;
+
 	@Autowired
 	private ImageStorageService storageService;
 
@@ -49,16 +42,6 @@ public class IncidentController {
 		return "Incident/new";
 	}
 
-	/*
-	@PostMapping("/new")
-	public String Create(@ModelAttribute IncidentBean incident,@RequestParam("file") MultipartFile imageFile) {
-		LOG.info("creating incident");
-		return "redirect:/dashboard";
-	}
-	*/
-	
-
-	
 	@PostMapping("/new")
 	public String Create(@ModelAttribute IncidentBean incident, @RequestParam("file") MultipartFile imageFile) {
 		LOG.info("creating incident");
@@ -70,9 +53,7 @@ public class IncidentController {
 			try {
 				String fileName = imageFile.getOriginalFilename();
 				if (fileName != null) {
-					//save the file
 					//now upload the file to blob storage
-					
 					LOG.info("Uploading to blob");
 					String imageFileName = storageService.storeImage(incidentID, fileName, imageFile.getContentType(), imageFile.getBytes());
 					result.setImageUri(imageFileName);

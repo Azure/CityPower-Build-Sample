@@ -6,7 +6,8 @@ image:
     storageLocation: ${IMAGE_STORAGE_LOCATION}
 
 logging:
-  level: info
+  level:
+    ROOT: info
 
 spring:
   http:
@@ -15,7 +16,7 @@ spring:
       max-file-size: 3mb
       max-request-size: 20mb
   application:
-    name: DevCamp demo App
+    name: Azure Open Dev App
   profiles:
     active: default
 

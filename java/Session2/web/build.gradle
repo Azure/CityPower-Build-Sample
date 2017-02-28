@@ -15,8 +15,13 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
 
-war {
-	baseName = 'ROOT'
+springBoot {
+    executable = true
+}
+
+jar {
+    baseName = 'AzureOpenDev-WEB'
+    version =  '0.1.0'
 }
 
 sourceCompatibility = 1.8
@@ -31,10 +36,10 @@ configurations {
 }
 
 dependencies {
-compile ('org.apache.httpcomponents:httpclient')
-compile ('org.apache.httpcomponents:httpcore')
-compile ('org.apache.httpcomponents:httpmime')
-compile('org.springframework.boot:spring-boot-starter-web')
+	compile ('org.apache.httpcomponents:httpclient')
+	compile ('org.apache.httpcomponents:httpcore')
+	compile ('org.apache.httpcomponents:httpmime')
+	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-devtools')

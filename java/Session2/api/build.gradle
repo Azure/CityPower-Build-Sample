@@ -14,8 +14,12 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'war'
 
 jar {
-    baseName = 'AzureX-API'
+    baseName = 'AzureOpenDev-API'
     version =  '0.1.0'
+}
+
+springBoot {
+    executable = true
 }
 
 repositories {

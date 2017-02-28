@@ -1,13 +1,22 @@
 application:
   incidentApiUrl: ${INCIDENT_API_URL}
 
-image:
+azure:
   storage:
-    storageLocation: ${IMAGE_STORAGE_LOCATION}
+    account:
+      name: ${AZURE_STORAGE_ACCOUNT}
+      key: ${AZURE_STORAGE_ACCESS_KEY}
+      blobContainer: ${AZURE_STORAGE_BLOB_CONTAINER}
 
 logging:
   level: info
 
+cache:
+  redisHost:
+  redisPort:
+  primaryKey:
+  redisSslPort:
+  
 spring:
   http:
     multipart:

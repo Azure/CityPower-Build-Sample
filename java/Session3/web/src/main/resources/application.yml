@@ -1,0 +1,31 @@
+application:
+  incidentApiUrl: ${INCIDENT_API_URL}
+
+azure:
+  storage:
+    account:
+      name: ${AZURE_STORAGE_ACCOUNT}
+      key: ${AZURE_STORAGE_ACCESS_KEY}
+      blobContainer: ${AZURE_STORAGE_BLOB_CONTAINER}
+
+logging:
+  level: info
+
+spring:
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 3mb
+      max-request-size: 20mb
+  application:
+    name: DevCamp demo App
+  profiles:
+    active: default
+
+    
+server:
+  port: 8080
+
+
+
+

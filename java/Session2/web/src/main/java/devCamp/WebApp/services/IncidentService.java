@@ -13,28 +13,34 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public interface IncidentService {
 
-    List<IncidentBean> getAllIncidents();
+	@Cacheable("incidents")
+	List<IncidentBean> getAllIncidents();
 
-    PagedResources<IncidentBean> getIncidentsPaged(int page,int pagesize);
+	@Cacheable("incidents")
+	PagedResources<IncidentBean> getIncidentsPaged(int page,int pagesize);
 
-    IncidentBean createIncident(IncidentBean incident);
+	@CacheEvict(cacheNames="incidents", allEntries=true)
+	IncidentBean createIncident(IncidentBean incident);
 
-    IncidentBean updateIncident(IncidentBean newIncident);
-    
-    IncidentBean getById(String incidentId);
+	@CacheEvict(cacheNames="incidents", allEntries=true)
+	IncidentBean updateIncident(IncidentBean newIncident);
 
-    @Async
-    CompletableFuture<List<IncidentBean>> getAllIncidentsAsync();
+	@Cacheable("incidents")
+	IncidentBean getById(String incidentId);
 
-    @Async
-    CompletableFuture<IncidentBean> createIncidentAsync(IncidentBean incident);
+	@Async
+	CompletableFuture<List<IncidentBean>> getAllIncidentsAsync();
 
-    @Async
-    CompletableFuture<IncidentBean> updateIncidentAsync(IncidentBean newIncident);
+	@Async
+	CompletableFuture<IncidentBean> createIncidentAsync(IncidentBean incident);
 
-    @Async
-    CompletableFuture<IncidentBean> getByIdAsync(String incidentId);
+	@Async
+	CompletableFuture<IncidentBean> updateIncidentAsync(IncidentBean newIncident);
 
-    void clearCache();
+	@Async
+	CompletableFuture<IncidentBean> getByIdAsync(String incidentId);
+
+	@CacheEvict(cacheNames="incidents", allEntries=true)
+	void clearCache();
 
 }

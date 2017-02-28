@@ -3,12 +3,10 @@ package devCamp.WebApp.models;
 import java.io.Serializable;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//import org.springframework.samples.mvc.convert.MaskFormat;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class IncidentBean implements Serializable{
 	/**
@@ -21,7 +19,7 @@ public class IncidentBean implements Serializable{
 
 	@JsonProperty("Title")
 	private String Title;
-	
+
 	@JsonProperty("Description")
 	private String Description;
 
@@ -45,7 +43,7 @@ public class IncidentBean implements Serializable{
 	@JsonProperty("LastName")
 	private String LastName;
 
-//	@MaskFormat("(###) ###-####")
+	//	@MaskFormat("(###) ###-####")
 	@JsonProperty("PhoneNumber")
 	private String PhoneNumber;
 
@@ -76,26 +74,26 @@ public class IncidentBean implements Serializable{
 
 
 	public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("properties ");
-        sb.append("id=").append(id).append(", ");
-        sb.append("title=").append(Title).append(", ");
-        sb.append("description=").append(Description).append(", ");
-        sb.append("Street=").append(Street).append(", ");
-        sb.append("City=").append(City).append(", ");
-        sb.append("State=").append(State).append(", ");
-        sb.append("ZipCode=").append(ZipCode).append(", ");
-        sb.append("FirstName=").append(FirstName).append(", ");
-        sb.append("LastName=").append(LastName).append(", ");
-        sb.append("PhoneNumber=").append(PhoneNumber).append(", ");
-        sb.append("OutageType=").append(OutageType).append(", ");
-        sb.append("IsEmergency=").append(IsEmergency).append(", ");
-        sb.append("Resolved=").append(Resolved).append(", ");
-        sb.append("ImageUri=").append(ImageUri).append(", ");
-        sb.append("ThumbnailUri=").append(ThumbnailUri).append(", ");
-        sb.append("Created=").append(Created).append(", ");
-        sb.append("LastModified=").append(LastModified).append(", ");
-        sb.append("SortKey=").append(SortKey).append(", ");
+		StringBuilder sb = new StringBuilder();
+		sb.append("properties ");
+		sb.append("id=").append(id).append(", ");
+		sb.append("title=").append(Title).append(", ");
+		sb.append("description=").append(Description).append(", ");
+		sb.append("Street=").append(Street).append(", ");
+		sb.append("City=").append(City).append(", ");
+		sb.append("State=").append(State).append(", ");
+		sb.append("ZipCode=").append(ZipCode).append(", ");
+		sb.append("FirstName=").append(FirstName).append(", ");
+		sb.append("LastName=").append(LastName).append(", ");
+		sb.append("PhoneNumber=").append(PhoneNumber).append(", ");
+		sb.append("OutageType=").append(OutageType).append(", ");
+		sb.append("IsEmergency=").append(IsEmergency).append(", ");
+		sb.append("Resolved=").append(Resolved).append(", ");
+		sb.append("ImageUri=").append(ImageUri).append(", ");
+		sb.append("ThumbnailUri=").append(ThumbnailUri).append(", ");
+		sb.append("Created=").append(Created).append(", ");
+		sb.append("LastModified=").append(LastModified).append(", ");
+		sb.append("SortKey=").append(SortKey).append(", ");
 
 		return sb.toString();
 	}
@@ -316,19 +314,19 @@ public class IncidentBean implements Serializable{
 	}
 
 	static public IncidentBean getDemoIncident() {
-    	IncidentBean incident = new IncidentBean();
+		IncidentBean incident = new IncidentBean();
 
-    	incident.setDescription("description");
-    	incident.setStreet("the Street");
-    	incident.setCity("the City");
-    	incident.setState("CO");
-    	incident.setZipCode("00000");
-    	incident.setFirstName("firstname");
-    	incident.setLastName("lastname");
-    	incident.setPhoneNumber("303-555-1212");
-    	incident.setOutageType("outageType");
-    	incident.setIsEmergency(false);
-    	incident.setResolved(true);
-    	return incident;
+		incident.setDescription("description");
+		incident.setStreet("the Street");
+		incident.setCity("the City");
+		incident.setState("CO");
+		incident.setZipCode("00000");
+		incident.setFirstName("firstname");
+		incident.setLastName("lastname");
+		incident.setPhoneNumber("303-555-1212");
+		incident.setOutageType("outageType");
+		incident.setIsEmergency(false);
+		incident.setResolved(true);
+		return incident;
 	}
 }

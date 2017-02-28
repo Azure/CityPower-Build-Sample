@@ -16,41 +16,40 @@ import org.springframework.web.client.RestTemplate;
 
 
 @Configuration
-    public class HttpClientConfiguration {
+public class HttpClientConfiguration {
 
-      private static final Logger log = LoggerFactory.getLogger(HttpClientConfiguration.class);
+	private static final Logger log = LoggerFactory.getLogger(HttpClientConfiguration.class);
 
-      @Autowired
-      private Environment environment;
+	@Autowired
+	private Environment environment;
 
-      
-      @Bean
-      RestTemplate getRestTemplate(){
-          //create/configure REST template class here and autowire where needed
-          final RestTemplate restTemplate = new RestTemplate(httpRequestFactory());
-          restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-          restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-          return restTemplate;
-      }      
+	@Bean
+	RestTemplate getRestTemplate(){
+		//create/configure REST template class here and autowire where needed
+		final RestTemplate restTemplate = new RestTemplate(httpRequestFactory());
+		restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+		restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+		return restTemplate;
+	}      
 
-      
-      @Bean
-      public ClientHttpRequestFactory httpRequestFactory() {
-        return new HttpComponentsClientHttpRequestFactory(httpClient());
-      }
 
-      @Bean
-      public HttpClient httpClient() {
-        PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+	@Bean
+	public ClientHttpRequestFactory httpRequestFactory() {
+		return new HttpComponentsClientHttpRequestFactory(httpClient());
+	}
 
-        // Get the poolMaxTotal value from our application[-?].yml or default to 10 if not explicitly set
-        connectionManager.setMaxTotal(environment.getProperty("poolMaxTotal", Integer.class, 10));
+	@Bean
+	public HttpClient httpClient() {
+		log.debug("creating httpClient");
+		PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
 
-        return HttpClientBuilder
-          .create()
-          .setConnectionManager(connectionManager)
-          .build();
-      }    
-    
+		// Get the poolMaxTotal value from our application[-?].yml or default to 10 if not explicitly set
+		connectionManager.setMaxTotal(environment.getProperty("poolMaxTotal", Integer.class, 10));
+
+		return HttpClientBuilder
+				.create()
+				.setConnectionManager(connectionManager)
+				.build();
+	}    
+
 }    
-    
