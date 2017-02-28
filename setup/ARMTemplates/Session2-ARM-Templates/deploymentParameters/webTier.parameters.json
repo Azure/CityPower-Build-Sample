@@ -5,7 +5,7 @@
     "webTierSettings": {
       "value": {
         "name": "webTier",
-        "vmCount": 1,
+        "vmCount": 2,
         "vmSettings": {
           "vmName": "webVM",
           "virtualNetworkName": "azurex-vnet",
