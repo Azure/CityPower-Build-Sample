@@ -63,7 +63,7 @@ setup_web()
     rm -rf archive.zip
 
     # Start Web
-    sudo PORT=80 pm2 start ./node/app/web/app.js --name="CityPower.Web"
+    sudo PORT=80 pm2 start ./node/web/app.js --name="CityPower.Web"
     sudo pm2 startup
 }
 

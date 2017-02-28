@@ -61,7 +61,7 @@ setup_api()
     rm -rf archive.zip
 
     # Start API
-    sudo PORT=80 pm2 start ./node/app/api/app.js --name="CityPower.API"
+    sudo PORT=80 pm2 start ./node/api/app.js --name="CityPower.API"
     sudo pm2 startup
 }
 

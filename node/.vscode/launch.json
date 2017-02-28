@@ -3,8 +3,7 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [
-        {
+    "configurations": [{
             "type": "node",
             "request": "launch",
             "name": "API",
@@ -26,7 +25,8 @@
             "program": "${workspaceRoot}/web/app.js",
             "cwd": "${workspaceRoot}",
             "env": {
-                "API_URL": ""
+                "API_URL": "",
+                "APPINSIGHTS_INSTRUMENTATIONKEY": ""
             }
         },
         {
@@ -36,13 +36,11 @@
             "port": 5858
         }
     ],
-    "compounds": [
-        {
-            "name": "Compound Web/API",
-            "configurations": [
-                "Web",
-                "API"
-            ]
-        }
-    ]
+    "compounds": [{
+        "name": "Compound Web/API",
+        "configurations": [
+            "Web",
+            "API"
+        ]
+    }]
 }
