@@ -19,9 +19,8 @@ springBoot {
     executable = true
 }
 
-jar {
-    baseName = 'AzureOpenDev-WEB'
-    version =  '0.1.0'
+war {
+	baseName = 'web'
 }
 
 sourceCompatibility = 1.8
