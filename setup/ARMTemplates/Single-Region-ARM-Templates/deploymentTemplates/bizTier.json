@@ -186,5 +186,14 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "vmCount": {
+      "value": "[parameters('bizTierSettings').vmCount]",
+      "type": "int"
+    },
+    "vmNamePrefix": {
+      "value": "[parameters('bizTierSettings').vmSettings.vmName]",
+      "type": "string"
+    }
+  }
 }

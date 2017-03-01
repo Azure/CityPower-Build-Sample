@@ -27,5 +27,14 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "appStorageAccountName": {
+      "value": "[variables('appStorageAccountName')]",
+      "type": "string"
+    },
+    "appStorageAcountKey": {
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('appStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+      "type": "string"
+    }
+  }
 }

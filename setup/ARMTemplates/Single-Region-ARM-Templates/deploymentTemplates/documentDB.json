@@ -30,5 +30,10 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "documentDbMasterKey": {
+      "value": "[listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('documentDbAccountName')), providers('Microsoft.DocumentDB','databaseAccounts').apiVersions[0]).primaryMasterKey]",
+      "type": "string"
+    }
+  }
 }

@@ -32,5 +32,14 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "redisCacheHostName": {
+      "value": "[reference(concat('Microsoft.Cache/Redis/', variables('redisCacheName')), '2016-04-01').hostName]",
+      "type": "string"
+    },
+    "redisCacheSslPort": {
+      "value": "[reference(concat('Microsoft.Cache/Redis/', variables('redisCacheName')), '2016-04-01').sslPort]",
+      "type": "int"
+    }
+  }
 }
