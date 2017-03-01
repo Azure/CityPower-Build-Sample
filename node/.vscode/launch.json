@@ -10,12 +10,12 @@
             "program": "${workspaceRoot}/api/server/server.js",
             "cwd": "${workspaceRoot}",
             "env": {
-                "DB_HOST": "docdb-azurex-uqtbju56igyjo.documents.azure.com",
-                "DB_PORT": "10250",
+                "DB_HOST": "",
+                "DB_PORT": "",
                 "DB_DATABASE": "citypower",
-                "DB_USER": "docdb-azurex-uqtbju56igyjo",
-                "DB_PASSWORD": "qs4UbMIwLZs9rfnsqYwye1VycNJQcZUXueHUN6NBxXLEDNgxzYDNwR23ojRUUCEJ94ZIF0di7NlWyvk1vt1RSQ==",
-                "DB_SSL": "true"
+                "DB_USER": "",
+                "DB_PASSWORD": "",
+                "DB_SSL": "false"
             }
         },
         {
@@ -25,9 +25,7 @@
             "program": "${workspaceRoot}/web/app.js",
             "cwd": "${workspaceRoot}",
             "env": {
-                "API_URL": "http://127.0.0.1:3001/api",
-                "APPINSIGHTS_INSTRUMENTATIONKEY": "",
-                "AZREGION": "eastus"
+                "API_URL": "http://127.0.0.1:3001/api"
             }
         },
         {
