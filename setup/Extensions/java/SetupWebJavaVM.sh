@@ -4,16 +4,24 @@
 # sudo sh SetupSingleVM.sh "https://stage0f4d414b108104ae8a4.blob.core.windows.net" "nodebuildcitypowerapi" "nodebuildcitypower"
 # sudo sh SetupSingleVM.sh "<URL to an Azure Storage Account>" "<container name for the API archive.zip>" "<container name for the Web archive.zip>"
 
-BUILD_ARTIFACT=$1
-AZURE_STORAGE_ACCOUNT_URL=$1
-INCIDENT_API_URL=$4
-AZURE_STORAGE_ACCOUNT=$5
-AZURE_STORAGE_ACCESS_KEY=$6
-AZURE_STORAGE_BLOB_CONTAINER=$7
-WEB_LISTEN_PORT=$8
+echo "Running setup file"
+echo $1
+echo $2
+echo $3
+echo $4
+echo $5
+echo $6
+echo $7
 
-echo "Using API Container ${API_CONTAINER}"
-echo "Using Web Container ${WEB_CONTAINER}"
+
+
+BUILD_ARTIFACT=$1
+INCIDENT_API_URL=$2
+AZURE_STORAGE_ACCOUNT=$3
+AZURE_STORAGE_ACCESS_KEY=$4
+AZURE_STORAGE_BLOB_CONTAINER=$5
+WEB_LISTEN_PORT=$6
+
 
 do_update()
 {
@@ -31,8 +39,8 @@ setup_web()
 {
     # Get files
     cd /var/www
-    sudo rm -rf Azure-X-API.war
-    sudo curl -O ${AZURE_STORAGE_ACCOUNT_URL}/${WEB_CONTAINER}/web.war
+    sudo rm -rf web.war
+    sudo curl -O ${BUILD_ARTIFACT}
     sudo chmod u+x web.war
     sudo cat > /etc/systemd/system/azurexweb.service <<EOF
 [Unit]
