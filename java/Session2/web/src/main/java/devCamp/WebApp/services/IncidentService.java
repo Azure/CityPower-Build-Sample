@@ -1,11 +1,18 @@
 package devCamp.WebApp.services;
 
 import devCamp.WebApp.models.IncidentBean;
+
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.hal.Jackson2HalModule;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -16,12 +23,18 @@ public interface IncidentService {
 	@Cacheable("incidents")
 	List<IncidentBean> getAllIncidents();
 
-	PagedResources<IncidentBean> getIncidentsPaged(int page,int pagesize);
+   
+	@Cacheable(value="incidentspaged")	
+	PagedIncidents getIncidentsPaged(int pagenum,int pagesize);
 
-	@CacheEvict(cacheNames="incidents", allEntries=true)
+//	@CacheEvict(value={"incidents,incidentspaged"}, allEntries=true)
+	@Caching(evict = { @CacheEvict(value="incidents",allEntries=true), @CacheEvict(value="incidentspaged",allEntries=true) })
+//	@CacheEvict(value="incidentspaged", allEntries=true)
 	IncidentBean createIncident(IncidentBean incident);
 
-	@CacheEvict(cacheNames="incidents", allEntries=true)
+//	@CacheEvict(value={"incidents,incidentspaged"}, allEntries=true)
+	@Caching(evict = { @CacheEvict(value="incidents",allEntries=true), @CacheEvict(value="incidentspaged",allEntries=true) })
+//	@CacheEvict(value="incidentspaged", allEntries=true)
 	IncidentBean updateIncident(IncidentBean newIncident);
 
 	@Cacheable("incidents")
@@ -39,7 +52,7 @@ public interface IncidentService {
 	@Async
 	CompletableFuture<IncidentBean> getByIdAsync(String incidentId);
 
-	@CacheEvict(cacheNames="incidents", allEntries=true)
+	@CacheEvict(value={"incidents,incidentspaged"}, allEntries=true)
 	void clearCache();
 
 }

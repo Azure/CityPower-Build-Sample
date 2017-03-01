@@ -1,6 +1,7 @@
 package devCamp.WebApp.configurations;
 
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,17 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.hateoas.core.DefaultRelProvider;
+import org.springframework.hateoas.hal.Jackson2HalModule;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+
 import org.springframework.cache.CacheManager;
 
 import devCamp.WebApp.properties.ApplicationProperties;
@@ -68,17 +80,75 @@ public class CacheConfig {
         return ob;
     }
 
+//    @Bean(name="redisTemplate")
+//    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory cf) {
+//        RedisTemplate<String, String> redisTemplate = new RedisTemplate<String, String>();
+//        redisTemplate.setConnectionFactory(cf);
+//        return redisTemplate;
+//    }
+//
+//
+//    @Bean
+//    public CacheManager cacheManager() {
+//    	RedisTemplate ops = redisTemplate(redisConnectionFactory());
+//        RedisCacheManager manager = new RedisCacheManager(ops);
+//        manager.setDefaultExpiration(3);
+// 
+//        return manager;
+//    }    
+    
+    
+//  @Bean(name="redisTemplate")
+//  public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory cf) {
+//      RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+//      redisTemplate.setConnectionFactory(cf);
+//      redisTemplate.setValueSerializer(jsonRedisSerializer(Object.class));
+//      return redisTemplate;
+//  }
+//    
+
+    
+    
+    
+    
     @Bean(name="redisTemplate")
-    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory cf) {
-        RedisTemplate<String, String> redisTemplate = new RedisTemplate<String, String>();
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory cf) {
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(cf);
-        return redisTemplate;
+        redisTemplate.setKeySerializer(null);
+        redisTemplate.setHashKeySerializer(null);
+        redisTemplate.setValueSerializer(jsonRedisSerializer(Object.class));
+
+        return redisTemplate;    	
     }
 
+    private Jackson2JsonRedisSerializer jsonRedisSerializer(Class type)
+    {
+        return jsonRedisSerializer(TypeFactory.defaultInstance().constructType(type));
+    }
+    
+    private Jackson2JsonRedisSerializer jsonRedisSerializer(JavaType javaType)
+    {
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(javaType);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enableDefaultTyping();
+    	mapper.enableDefaultTyping(DefaultTyping.NON_FINAL, As.PROPERTY);
+
+    	mapper.findAndRegisterModules();
+        mapper.registerModule(new Jackson2HalModule());
+        mapper.setHandlerInstantiator(new Jackson2HalModule.HalHandlerInstantiator(new DefaultRelProvider(), null, null));        
+        jackson2JsonRedisSerializer.setObjectMapper(mapper);        
+        return jackson2JsonRedisSerializer;
+    }    
+    
+    
     @Bean
     public CacheManager cacheManager() {
-        RedisCacheManager manager = new RedisCacheManager(redisTemplate(redisConnectionFactory()));
+    	RedisTemplate ops = redisTemplate(redisConnectionFactory());
+//    	RedisSerializer ser = ops.getValueSerializer();
+        RedisCacheManager manager = new RedisCacheManager(ops);
         manager.setDefaultExpiration(300);
+ 
         return manager;
     }
     

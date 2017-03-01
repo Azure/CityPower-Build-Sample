@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import devCamp.WebApp.models.IncidentBean;
 import devCamp.WebApp.services.IncidentService;
+import devCamp.WebApp.services.PagedIncidents;
 
 @Controller
 public class DashboardController {
@@ -22,9 +23,11 @@ public class DashboardController {
 	@RequestMapping("/dashboard")
 	public String dashboard(@RequestParam(defaultValue = "0") int page,Model model) {
 		LOG.debug("entering dashboard");
-		PagedResources<IncidentBean> incidents = service.getIncidentsPaged(page,9);
-		model.addAttribute("allIncidents", incidents.getContent());
-		model.addAttribute("pageInfo", incidents.getMetadata());		
+//		PagedResources<IncidentBean> incidents = service.getIncidentsPaged(page,9);
+		PagedIncidents pi = service.getIncidentsPaged(page,9);
+//		PagedResources<IncidentBean> incidents = pi.getIncidents();
+		model.addAttribute("allIncidents", pi.getIncidents());
+		model.addAttribute("pageInfo", pi.getMetadata());		
 		return "Dashboard/index";
 	}	
 }

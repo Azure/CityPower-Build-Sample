@@ -13,10 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resources;
+import org.springframework.hateoas.hal.Jackson2HalModule;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import devCamp.WebApp.models.IncidentBean;
 import devCamp.WebApp.properties.ApplicationProperties;
@@ -45,14 +49,17 @@ public class IncidentServiceImpl implements IncidentService {
 	}
 
 	@Override
-	public PagedResources<IncidentBean> getIncidentsPaged(int page,int pagesize) {
+    @JsonSerialize(using = Jackson2HalModule.HalResourcesSerializer.class)
+    @JsonDeserialize(using = Jackson2HalModule.HalResourcesDeserializer.class)
+	public PagedIncidents getIncidentsPaged(int pagenum,int pagesize) {
 		LOG.info("Performing get {} web service", applicationProperties.getIncidentApiUrl() +"/incidents");
-		final String restUri = applicationProperties.getIncidentApiUrl() +"/incidents?page="+page+"&size="+pagesize;
+		final String restUri = applicationProperties.getIncidentApiUrl() +"/incidents?page="+pagenum+"&size="+pagesize;
 		ResponseEntity<PagedResources<IncidentBean>> response = restTemplate.exchange(restUri, HttpMethod.GET, null,
 				new ParameterizedTypeReference<PagedResources<IncidentBean>>() {});
 		//        LOG.info("Total Incidents {}", response.getBody().size());
 		PagedResources<IncidentBean> beanResources = response.getBody();
-		return beanResources;
+		PagedIncidents incidents = new PagedIncidents(beanResources,pagenum);
+		return incidents;
 	}    
 
 	@Override
