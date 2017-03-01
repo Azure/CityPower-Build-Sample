@@ -16,7 +16,6 @@ public interface IncidentService {
 	@Cacheable("incidents")
 	List<IncidentBean> getAllIncidents();
 
-	@Cacheable("incidents")
 	PagedResources<IncidentBean> getIncidentsPaged(int page,int pagesize);
 
 	@CacheEvict(cacheNames="incidents", allEntries=true)
