@@ -39,7 +39,7 @@ After=syslog.target
 ExecStart=/var/www/AzureX-API.war
 SuccessExitStatus=143
 Environment=DB_CONNECT_STRING=$DB_CONNECT_STRING
-Environment=WEB_LISTEN_PORT=$WEB_LISTEN_PORT
+Environment=API_LISTEN_PORT=$API_LISTEN_PORT
 [Install]
 WantedBy=multi-user.target
 EOF
