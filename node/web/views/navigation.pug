@@ -13,3 +13,7 @@ nav.navbar.navbar-default
             a(href='/dashboard') Dashboard
           li(class={active: title === 'Report an Outage'})
             a(href='/new') Report Outage
+        if process.env.AZREGION
+          ul.nav.navbar-nav.navbar-right
+            li
+              span.navbar-text= `${process.env.AZREGION}`
