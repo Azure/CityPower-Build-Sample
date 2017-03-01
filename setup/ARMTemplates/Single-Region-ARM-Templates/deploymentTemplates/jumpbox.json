@@ -107,5 +107,14 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "vmUsername": {
+      "value": "[parameters('jumpboxSettings').vmUsername]",
+      "type": "string"
+    },
+    "vmPassword": {
+      "value": "[parameters('jumpboxSettings').vmPassword]",
+      "type": "string"
+    }
+  }
 }

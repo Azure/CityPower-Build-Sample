@@ -54,4 +54,9 @@
     <Content Include="Deploy-AzureResourceGroup.ps1" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties azuredeploy_1json__JSONSchema="https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

@@ -161,5 +161,34 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "virtualNetwork": {
+      "value": "[reference('virtualNetwork').outputs]",
+      "type": "object"
+    },
+    "jumpbox": {
+      "value": "[reference('jumpbox').outputs]",
+      "type": "object"
+    },
+    "webTier": {
+      "value": "[reference('webTier').outputs]",
+      "type": "object"
+    },
+    "bizTier": {
+      "value": "[reference('bizTier').outputs]",
+      "type": "object"
+    },
+    "documentDB": {
+      "value": "[reference('documentDB').outputs]",
+      "type": "object"
+    },
+    "redisCache": {
+      "value": "[reference('redisCache').outputs]",
+      "type": "object"
+    },
+    "appStorage": {
+      "value": "[reference('appStorage').outputs]",
+      "type": "object"
+    }
+  }
 }
