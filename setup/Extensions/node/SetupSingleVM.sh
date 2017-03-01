@@ -47,9 +47,6 @@ setup_api()
     cd /var/www/api
     sudo npm install
     
-    # Start API
-    sudo PORT=8080 DB_DATABASE=citypower DB_SSL=false pm2 start ./app.js --name="CityPower.API"
-
     echo "API tier has completed its setup."
     
 }
@@ -65,11 +62,16 @@ setup_web()
     cd /var/www/web
     sudo npm install
 
-    # Start Web
-    PORT=80 API_URL=http://127.0.0.1:8080/api pm2 start ./app.js --name="CityPower.Web"
-    sudo pm2 startup
-
     echo "Web tier has completed its setup."
+
+}
+
+start()
+{
+    echo "Starting Application"
+
+    cd /var/www
+    sudo pm2 start citypower.config.js
 
 }
 
@@ -77,5 +79,6 @@ setup_mongo
 setup_node
 setup_api
 setup_web
+start
 
 exit 0
