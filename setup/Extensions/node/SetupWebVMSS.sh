@@ -15,6 +15,7 @@ echo $5
 echo $6
 echo $7
 echo $8
+echo $9
 
 # Setup Environment Variables
 if [ $1 ]
@@ -29,6 +30,7 @@ then
 	echo "REDISCACHE_PRIMARY_KEY=$6" >> /etc/environment
 	echo "REDISCACHE_SSLPORT=$7" >> /etc/environment
 	echo "APPINSIGHTS_INSTRUMENTATIONKEY=$8" >> /etc/environment
+    echo "AZREGION=$9" >> /etc/environment
 	echo "Finished setting up environment variables"
 }
 else
