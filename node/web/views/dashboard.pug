@@ -7,7 +7,7 @@ block content
 		h1 #{title}
 
 		.row.dashboard
-			if incidents 
+			if incidents.length > 0 
 				each incident in incidents
 					a(href=`./detail/${incident.id}`).col-sm-4
 						.panel.panel-default
