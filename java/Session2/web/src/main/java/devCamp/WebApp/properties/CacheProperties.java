@@ -2,7 +2,7 @@ package devCamp.WebApp.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "cache")
+@ConfigurationProperties(prefix = "cacheProperties")
 public class CacheProperties {
     private String redisHost;
     private Integer redisPort;

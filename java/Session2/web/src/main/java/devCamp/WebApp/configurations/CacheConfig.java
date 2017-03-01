@@ -20,7 +20,9 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 @EnableConfigurationProperties(value = {
         ApplicationProperties.class,
+        CacheProperties.class
 })
+
 public class CacheConfig {
     private static final Logger LOG = LoggerFactory.getLogger(ApplicationConfig.class);
     
