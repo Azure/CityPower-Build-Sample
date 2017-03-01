@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Session2-ARM-Templates", "Session2-ARM-Templates\Session2-ARM-Templates.deployproj", "{5392EBE9-3F58-460A-88B6-61FCE3B5472A}"
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Single-Region-ARM-Templates", "Single-Region-ARM-Templates\Single-Region-ARM-Templates.deployproj", "{5392EBE9-3F58-460A-88B6-61FCE3B5472A}"
 EndProject
-Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Session3-ARM-Templates", "Session3-ARM-Templates\Session3-ARM-Templates.deployproj", "{9488013A-D9FE-4F8D-B360-2D1780DD5B45}"
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Multi-Region-ARM-Templates", "Multi-Region-ARM-Templates\Multi-Region-ARM-Templates.deployproj", "{9488013A-D9FE-4F8D-B360-2D1780DD5B45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

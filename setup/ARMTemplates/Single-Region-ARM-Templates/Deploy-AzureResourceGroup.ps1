@@ -4,7 +4,7 @@
 
 Param(
     [string] [Parameter(Mandatory=$true)] $ResourceGroupLocation,
-    [string] $ResourceGroupName = 'AzureX-Session-2-' + $AppType,
+    [string] $ResourceGroupName = 'OpenDev-SingleRegion-' + $AppType,
 	[string] [Parameter(Mandatory=$true)][ValidateSet("Java", "Node")] $AppType,
     [string] $StorageAccountName,
     [string] $StorageContainerName = $ResourceGroupName.ToLowerInvariant() + '-stageartifacts',
