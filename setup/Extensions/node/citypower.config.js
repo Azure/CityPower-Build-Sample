@@ -13,7 +13,7 @@ module.exports = {
         PORT: "8080",
         DB_HOST: "",
         DB_PORT: "",
-        DB_DATABASE: "",
+        DB_DATABASE: "citypower",
         DB_USER: "",
         DB_PASSWORD: "",
         DB_SSL: "false"
@@ -26,7 +26,7 @@ module.exports = {
       script: "web/app.js",
       env: {
         PORT: "80",
-        API_URL: "",
+        API_URL: "http://localhost:8080/api",
         AZURE_STORAGE_ACCOUNT: "",
         AZURE_STORAGE_ACCESS_KEY: "",
         REDISCACHE_HOSTNAME: "",

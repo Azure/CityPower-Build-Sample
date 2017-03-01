@@ -70,9 +70,9 @@ start()
 {
     echo "Starting Application"
 
-    cd ~/
-    sudo cp citypower.config.js /var/www
-    sudo pm2 start /var/www/citypower.config.js
+    sudo cp ~/citypower.config.js /var/www
+    cd /var/www
+    sudo pm2 start citypower.config.js
 
 }
 
