@@ -18,21 +18,21 @@ ms.author: robmcm;shsivada;stfollis;ross
 
 ---
 
-# AzureX Session 2 - Leveraging Azure Features (for Node.js Developers)
+# AzureX Session 2 - Leveraging managed MongoDB and Redis services for your Node.js app
 
 ## Session Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In the previous session we lifted and shifted an application into an Azure Virtual Machine. Next, we will explore how we can optimize the application with managed Azure services. 
 
-*Time to complete all of the exercises in this session: 00:00*
+*Time to complete all of the exercises in this session: 30:00*
 
 ## Session Objectives
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Throughout this session we move towards a stateless, high performance application.
 
-* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+* Understand how to migrate a database tier from MongoDB to DocumentDB.
+* Demonstrate how Azure Storage Accounts can be positioned with blob files.
+* Leverage caching to decrease demand on backend resources.
 
 ### Prerequisites
 
@@ -40,52 +40,52 @@ Before you complete the exercises in this session, you should read the informati
 
 In order to complete the exercises in this session, you must first complete the prerequisites and steps outlined in [Session 1 (for Node.js Developers)][Session1Node].
 
-## Excercise 1 - Introduction to Azure Portal Features
+## Exercise 1 - Migrating from MongoDB to DocumentDB
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Having a database running directly on our virtual machine will make scaling much more difficult. Ideally, we should move the database into its own tier, decreasing the statefulness of our machine. If this tier was made up of one or more virtual machines, then we would still have to setup, manage, maintain, and operate those machines.  Instead, Azure offers a hosted service where the platform manages our data tier for us: [DocumentDB](https://azure.microsoft.com/en-us/services/documentdb/).
 
-* https://azure.microsoft.com/get-started/
+Converting our application to use DocumentDB is streamlined thanks to the service's ability to use the MongoDB protocol. From the [Azure Portal](http://portal.azure.com) click the green **"+"** icon in the top left corner. Then, select **Databases** and finally **NoSQL (DocumentDB)**. On the new account blade, give your database a name, resource group, and most importantly select **MongoDB** under the NoSQL API section.
 
-## Excercise 2 - Using the Azure Command Line Interface (CLI)
+Once the resource has finished provisioning, open the blade's settings. Copy and paste the values into the `citypower.config.js` pm2 file in your Azure VM:
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+* `DB_HOST`
+* `DB_PORT`
+* `DB_USER`
+* `DB_PASSWORD`
+* `DB_DATABASE` should be set to "citypower"
+* `DB_SSL` should be set to "true"
 
-* https://docs.microsoft.com/cli/azure/get-started-with-az-cli2
+Restart the application with a `sudo pm2 restart citypower.config.js` and the server will now be using DocumentDB. This transition was done with configuration and not structural code changes.
 
-## Excercise 3 - Working with DocumentDB and MongoDB
+> Your stored data may need to also be moved. DocumentDB supports popular 3rd party tools such as [Studio 3T](https://studio3t.com/), [Robomongo](https://robomongo.org/), and others that enable export/import services. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+## Exercise 2 - Incorporating Azure Storage
 
-* https://docs.microsoft.com/azure/documentdb/documentdb-get-started
+City Power & Light supports a user uploading a photo whenever a new incident is created. This photo is currently being stored on the local filesystem, and similar to a local database negatively impacts scalability. We can move those image files out of a local fileystem and into a distribute object storage system. On Azure, this is an [Azure Storage Account](https://azure.microsoft.com/en-us/services/storage/). These accounts are terrific for holding blobs of data, such as images or videos.
 
-## Excercise 4 - Using Azure Resource Manager (ARM) Templates
+1. Create an Azure Storage Account
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+1. Retrieve the storage account name and primary key
 
-* https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview
+1. Update environment variables in the virtual machine to include `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_ACCESS_KEY`
 
-## Excercise 5 - Leveraging Jenkins for continuous build automation
+## Exercise 3 - Increasing performance through caching
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+With state removed from our application we can focus on other optimizations, such as caching. Currently, every time a user visits the web frontend, the API is hit with a request for page content. The API then queries the DocumentDB database (over the MongoDB protocol) and the data flows back to the original user. Many users can add siginificant demand onto the API and data tiers, which may be returning the very same information for a sequence of requests. 
 
-* https://docs.microsoft.com/azure/storage/storage-java-jenkins-continuous-integration-solution
+Adding a caching layer between the web and the API tiers decreases the load on the database, loads pages quicker, and saves us money through less [request units](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-request-units). Azure offers the [Azure Redis Cache](https://docs.microsoft.com/azure/redis-cache/cache-nodejs-get-started) in a variety of SKUs. This is a managed PaaS version of Redis, where Azure handles the platform and your app simply uses a connection string. 
 
-## Excercise 6 - Introduction to Redis and CDN
+1. Create an instance of Azure Redis
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+1. Retrieve connection string information
 
-* https://docs.microsoft.com/azure/redis-cache/cache-java-get-started
-* https://docs.microsoft.com/azure/redis-cache/cache-nodejs-get-started
-* https://docs.microsoft.com/azure/cdn/cdn-create-new-endpoint
-* https://docs.microsoft.com/azure/cdn/cdn-app-dev-node
+1. Update application environment variables
+
+1. Redeploy the application and load the dashboard screen. The returned values are cached for 30 seconds, which can be observed by opening the Azure Redis blade from the Azure Portal and opening the Console.
 
 ## Session Summary
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In this session we took our original app and enhanced it with a series of Azure managed services. These services allow us to focus on writing valuable application code, and spending less time on managing clusters of virtual machines. We also externalized state from our application, setting the stage for a more scalable solution going forward.
 
 ## What's Next
 
