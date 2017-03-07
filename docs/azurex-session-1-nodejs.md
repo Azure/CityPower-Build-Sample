@@ -56,7 +56,7 @@ Once you have the repository downloaded, run `npm install` in both the `/node/we
 
 Open a browser window to `http://locahost:3000` and create a sample incident.
 
-## Excercise 2 - Deploying your application to Azure
+## Excercise 2 - Provisioning Azure resources
 
 Before we can deploy our application to Azure we need to provision a virtual machine. Install and login to your Azure Subscription in the [Azure Command Line Interface (CLI) 2.0](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli).
 
@@ -64,7 +64,7 @@ All resources in Azure reside in a "[Resource Group](https://docs.microsoft.com/
 
 Once the Resource Group is created, run `az vm create -g CityPower -n CityPowerVM --image UbuntuLTS` to provision a virtual machine named "CityPowerVM" within the CityPower resource group and using the image for Ubuntu. 
 
-## Excercise 3 - Verifying your application is running on Azure
+## Excercise 3 - Migrating application code
 
 After the provisioning process completes, SSH into the virtual machine's Public IP address and verify that a connection can be established. By default, port 22 is enabled for this SSH operation while all other ports are closed by the [Network Security Group (NSG)](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg).  To open a second port in the NSG, run `az vm open-port --port 80`. This will allow us to access the virtual machine from the browser's default port of port 80.
 
