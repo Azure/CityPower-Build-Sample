@@ -91,7 +91,10 @@ start()
 {
     echo "Starting Application"
 
-    sudo pm2 start citypower.config.js
+    sudo systemctl enable azurexapi.service
+    sudo systemctl start azurexapi.service
+    sudo systemctl enable azurexweb.service
+    sudo systemctl start azurexweb.service
 
 }
 
