@@ -66,7 +66,7 @@ Once the Resource Group is created, run `az vm create -g CityPower -n CityPowerV
 
 ## Exercise 3 - Migrating application code
 
-After the provisioning process completes, SSH into the virtual machine's Public IP address and verify that a connection can be established. By default, port 22 is enabled for this SSH operation while all other ports are closed by the [Network Security Group (NSG)](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg).  To open a second port in the NSG, run `az vm open-port --port 80`. This will allow us to access the virtual machine from the browser's default port of port 80.
+After the provisioning process completes, SSH into the virtual machine's Public IP address and verify that a connection can be established. By default, port 22 is enabled for this SSH operation while all other ports are closed by the [Network Security Group (NSG)](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg).  To open a second port in the NSG, run `az vm open-port -g CityPower -n CityPowerVM --port 80`. This will allow us to access the virtual machine from the browser's default port of port 80.
 
 Our new virtual machine is not much use without some application code.  We can use the [SCP](https://en.wikipedia.org/wiki/Secure_copy) command to securely copy files from our local machines to the Azure VM. In the terminal, navigate back to the `/node` directory in the repository, and execute `scp . 000.000.000.000:~/` while replacing the 0s with your VM's public IP address. This will copy the present working directory's files to the home directory of the Azure VM. 
 
