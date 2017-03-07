@@ -24,7 +24,7 @@ ms.author: robmcm;shsivada;stfollis;ross
 
 In this session we will run an application locally on our dev machine, then deploy the application to a virtual machine running in Azure.
 
-*Time to complete all of the exercises in this session: 10:00*
+*Time to complete all of the exercises in this session: 30:00*
 
 ## Session Objectives
 
@@ -44,7 +44,7 @@ Before you complete the exercises in this session, you should read the informati
 * You can [open an Azure account for free](https://azure.microsoft.com/pricing/free-trial/?WT.mc_id=A261C142F): You get credits you can use to try out paid Azure services, and even after they're used up you can keep the account and use free Azure services, such as Websites. Your credit card will never be charged, unless you explicitly change your settings and ask to be charged.
 * You can [activate MSDN subscriber benefits](https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/?WT.mc_id=A261C142F): Your MSDN subscription gives you credits every month that you can use for paid Azure services.
 
-## Excercise 1 - Introducing City Power & Light
+## Exercise 1 - Introducing City Power & Light
 
 The City Power & Light sample application is available in this GitHub repository. Open a terminal window and clone the repo to your local machine using the command `git clone https://github.com/Azure/OpenDev.git`. Alternatively, download a zip file [here](https://github.com/Azure/OpenDev/archive/master.zip). 
 
@@ -56,7 +56,7 @@ Once you have the repository downloaded, run `npm install` in both the `/node/we
 
 Open a browser window to `http://locahost:3000` and create a sample incident.
 
-## Excercise 2 - Provisioning Azure resources
+## Exercise 2 - Provisioning Azure resources
 
 Before we can deploy our application to Azure we need to provision a virtual machine. Install and login to your Azure Subscription in the [Azure Command Line Interface (CLI) 2.0](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli).
 
@@ -64,7 +64,7 @@ All resources in Azure reside in a "[Resource Group](https://docs.microsoft.com/
 
 Once the Resource Group is created, run `az vm create -g CityPower -n CityPowerVM --image UbuntuLTS` to provision a virtual machine named "CityPowerVM" within the CityPower resource group and using the image for Ubuntu. 
 
-## Excercise 3 - Migrating application code
+## Exercise 3 - Migrating application code
 
 After the provisioning process completes, SSH into the virtual machine's Public IP address and verify that a connection can be established. By default, port 22 is enabled for this SSH operation while all other ports are closed by the [Network Security Group (NSG)](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg).  To open a second port in the NSG, run `az vm open-port --port 80`. This will allow us to access the virtual machine from the browser's default port of port 80.
 
