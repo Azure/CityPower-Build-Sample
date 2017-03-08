@@ -3,21 +3,21 @@
 setup_mongo()
 {
     # Configure mongodb.list file with the correct location
-    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
-    echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list    
+    #sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+    #echo "deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list    
     
     # Install updates
     sudo apt-get -y update
 
     # Install Mongo DB
-    sudo apt-get install -y mongodb-org
+    sudo apt-get install -y mongodb
 
     # Bind to all ip addresses
-    sudo sed -i -e 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/g' /etc/mongod.conf
-    sudo service mongod restart
+    #sudo sed -i -e 's/bindIp: 127.0.0.1/bindIp: 0.0.0.0/g' /etc/mongod.conf
+    #sudo service mongod restart
 
     # Start Mongo on startup
-    sudo systemctl enable mongod.service
+    #sudo systemctl enable mongod.service
 }
 
 setup_java()
@@ -41,7 +41,7 @@ setup_api()
     sudo cp -r AzureX-API.war /var/www
     cd /var/www
     sudo chmod u+x AzureX-API.war
-    sudo cat > /etc/systemd/system/azurexapi.service <<EOF
+    sudo cat > /var/www/azurexapi.service <<EOF
 [Unit]
 Description=AzureOpenDevAPI
 After=syslog.target
@@ -54,6 +54,7 @@ SuccessExitStatus=143
 WantedBy=multi-user.target
 EOF
 
+    sudo cp azurexapi.service /etc/systemd/system/azurexapi.service 
     echo "API tier has completed its setup."
     
 }
@@ -68,7 +69,7 @@ setup_web()
     sudo cp -r web.war /var/www
     cd /var/www
     sudo chmod u+x web.war
-    sudo cat > /etc/systemd/system/azurexweb.service <<EOF
+    sudo cat > ./azurexweb.service <<EOF
 [Unit]
 Description=AzureOpenDevWeb
 After=syslog.target
@@ -83,6 +84,7 @@ Environment=IMAGE_STORAGE_LOCATION=/var/www/images
 WantedBy=multi-user.target
 EOF
 
+    sudo cp azurexweb.service /etc/systemd/system/azurexweb.service 
     echo "Web tier has completed its setup."
 
 }
