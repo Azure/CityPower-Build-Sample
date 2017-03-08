@@ -26,6 +26,8 @@ Having a database running directly on our virtual machine will make scaling much
 
 Converting our application to use DocumentDB is streamlined thanks to the service's ability to use the MongoDB protocol. From the [Azure Portal](http://portal.azure.com) click the green **"+"** icon in the top left corner. Then, select **Databases** and finally **NoSQL (DocumentDB)**. On the new account blade, give your database a name, resource group, and most importantly select **MongoDB** under the NoSQL API section.
 
+![screenshot](./media/chapter-2a-001.png)
+
 Once the resource has finished provisioning, open the blade's settings. Copy and paste the values into the `citypower.config.js` pm2 file in your Azure VM:
 
 * `DB_HOST`
@@ -45,9 +47,11 @@ City Power & Light supports a user uploading a photo whenever a new incident is 
 
 1. Create an Azure Storage Account
 
-1. Retrieve the storage account name and primary key
+1. Retrieve the storage account name and access key (key1)
 
 1. Update environment variables in the virtual machine to include `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_ACCESS_KEY`
+
+![screenshot](./media/chapter-2a-002.png)
 
 ## Exercise 3 - Increasing performance through caching
 
@@ -57,11 +61,13 @@ Adding a caching layer between the web and the API tiers decreases the load on t
 
 1. Create an instance of Azure Redis
 
-1. Retrieve connection string information
+1. Retrieve values for host name, access key, and SSL port number.
 
 1. Update application environment variables
 
 1. Redeploy the application and load the dashboard screen. The returned values are cached for 30 seconds, which can be observed by opening the Azure Redis blade from the Azure Portal and opening the Console.
+
+![screenshot](./media/chapter-2a-003.png)
 
 ## Session Summary
 
