@@ -22,17 +22,15 @@ ms.author: robmcm;shsivada;stfollis;ross
 
 ## Session Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In previous sessions we migrated an application to Azure and enhanced it with a series of PaaS services. Up to this point we have worked with a single virtual machine, however in this session we will horizontally scale that VM into multiple instances, multiple tiers, and multiple regions.
 
-*Time to complete all of the exercises in this session: 00:00*
+*Time to complete all of the exercises in this session: 20:00*
 
 ## Session Objectives
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+* Learn how to scale virtual machine workloads on Azure with Availability Sets and Virtual Machine Scale Sets.
+* Orchestrate multi-VM deployments with Jenkins.
+* Patterns for deploying multi-geography solutions across Azure regions.
 
 ### Prerequisites
 
@@ -40,23 +38,25 @@ Before you complete the exercises in this session, you should read the informati
 
 In order to complete the exercises in this session, you must first complete the prerequisites and steps outlined in [Session 1 (for Java Developers)][Session1Java] or [Session 1 (for Node.js Developers)][Session1Node].
 
-## Excercise 1 - Scaling DocumentDB
+## Exercise 1 - Deploying Code from Jenkins
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+1. Provision Azure Jenkins either from the [Azure Portal](http://portal.azure.com) Marketplace, or directly with an [ARM Template](http://aka.ms/azjenkins).  
 
-* https://docs.microsoft.com/azure/documentdb/documentdb-partition-data
+1. Create Jenkins Projects to build each tier, then to release each tier into a set of VMs.
 
-## Excercise 2 - Geographic Redundancy
+1. SSH into the virtual machine and install the [Azure CLI 2.0](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli). 
+
+1. Create a Service Principal and update the Jenkins Projects with the credentials
+
+1. Update the environment variables within the Jenkins Project to match your deployed resources.
+
+1. Deploy the code to the target VMs
+
+## Exercise 2 - Geographic Redundancy
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
 * https://docs.microsoft.com/azure/guidance/guidance-resiliency-checklist
-
-## Excercise 3 - Working with Azure Traffic Manager
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-* https://docs.microsoft.com/azure/traffic-manager/
 
 ## Session Summary
 
