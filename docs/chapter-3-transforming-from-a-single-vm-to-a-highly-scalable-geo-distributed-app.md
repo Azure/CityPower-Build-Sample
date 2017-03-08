@@ -1,24 +1,4 @@
----
-title: AzureX - Session 3 | Microsoft Docs
-description: ''
-services: ''
-documentationcenter: ''
-author: rmcmurray
-manager: erikre
-editor: ''
-
-ms.assetid: 
-ms.service: multiple
-ms.workload: na
-ms.tgt_pltfrm: multiple
-ms.devlang: ''
-ms.topic: article
-ms.date: 03/01/2017
-ms.author: robmcm;shsivada;stfollis;ross
-
----
-
-# AzureX Session 3 - Geographically-Redundant Scaling
+# Chapter 3: Transforming from a Single Virtual Machine to a Highly-Scalable Geographically-Distributed App
 
 ## Session Overview
 
@@ -82,12 +62,15 @@ For more information about using Node.js on Microsoft Azure, see the [Azure Node
 [Java Tools for Visual Studio Team Services]: https://java.visualstudio.com/
 [Azure Node.js Developer Center]: https://azure.microsoft.com/develop/nodejs/
 
-[Overview]: ./azurex-overview.md
-[Session1Java]: ./azurex-session-1-java.md
-[Session1Node]: ./azurex-session-1-nodejs.md
-[Session2Java]: ./azurex-session-2-java.md
-[Session2Node]: ./azurex-session-2-nodejs.md
-[Session3]: ./azurex-session-3.md
-[Session4]: ./azurex-session-4.md
+[Overview]: ./README.md
+[Chapter1Java]: ./chapter-1b-deploying-a-java-app-on-azure.md
+[Chapter1Node]: ./chapter-1a-deploying-a-node.js-app-on-azure.md
+[Chapter2Java]: ./chapter-2b-leveraging-managed-mongodb-and-redis-services-for-your-java-app.md
+[Chapter2Node]: ./chapter-2a-leveraging-managed-mongodb-and-redis-services-for-your-node.js-app.md
+[Chapter3]: ./chapter-3-transforming-from-a-single-vm-to-a-highly-scalable-geo-distributed-app.md
+[Chapter4]: ./chapter-4-monitoring-your-azure-resources.md
+[Chapter5]: ./chapter-5-automating-deployment-of-azure-resources-using-azure-resource-manager.md
+[Chapter6]: ./chapter-6-managing-your-azure-resources-using-azure-cli.md
+[Chapter7]: ./chapter-7-introduction-to-azure-container-service.md
 
 <!-- IMG List -->
