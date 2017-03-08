@@ -1,4 +1,4 @@
-# Chapter 6: Managing your Azure Resources Using Azure Command Line Interface (CLI)
+# Azure OpenDev Chapter 6: Managing your Azure Resources Using Azure Command Line Interface (CLI)
 
 ## Session Overview
 

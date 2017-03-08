@@ -1,4 +1,4 @@
-# Chapter 4: Monitoring Your Azure Resources
+# Azure OpenDev Chapter 4: Monitoring Your Azure Resources
 
 ## Session Overview
 
