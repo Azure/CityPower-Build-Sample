@@ -1,56 +1,42 @@
----
-title: AzureX - Session 1 (for Node.js Developers) | Microsoft Docs
-description: ''
-services: ''
-documentationcenter: ''
-author: rmcmurray
-manager: erikre
-editor: ''
 
-ms.assetid: 
-ms.service: multiple
-ms.workload: na
-ms.tgt_pltfrm: multiple
-ms.devlang: ''
-ms.topic: article
-ms.date: 03/01/2017
-ms.author: robmcm;shsivada;stfollis;ross
 
----
-
-# AzureX Session 1 - Deploying a Node.js app on Azure
+# Chapter 1 (Node.js): Deploying a Node.js app on Azure
 
 ## Session Overview
-
-In this session we will run an application locally on our dev machine, then deploy the application to a virtual machine running in Azure.
+In this session you will run an application locally on your dev machine, then deploy the application to a VM running in Microsoft Azure.
 
 *Time to complete all of the exercises in this session: 30:00*
 
 ## Session Objectives
 
-Establish a level of familiarity with the Azure Command Line Interface and deploying application code into Azure Virtual Machines.
-
 * Introduce the City Power & Light sample application.
-* Provision resources in Azure using the Azure CLI.
-* Deploy application code to an Azure Virtual Machine.
+* Become familiar with the Azure Command Line Interface (CLI) 2.0. 
+* Provision Azure resources using the Azure CLI.
+* Deploy application code to a VM in an Azure Virtual Machines.
 
 ### Prerequisites
 
-Before you complete the exercises in this session, you should read the information presented in the [Overview] article.
+* (Recommended) Review the [Overview](azurex-overview.md) topic.
+* [MongoDB 3.4 Community Edition](https://docs.mongodb.com/manual/administration/install-community/). Required by the app to store data on you local developer computer. 
+* An active Azure subscription. You can create a new Azure subscription for free in one of these ways: 
+    * Use the [Azure free trial](https://azure.microsoft.com/pricing/free-trial/?WT.mc_id=A261C142F). Azure gives you credits to try out paid Azure services. Even when  the credits are gone, you can still keep the account and use some serviced for free, such as App Service Web Apps. Your credit card is never charged, unless you explicitly change your settings and ask to be charged.
+    * You can [activate MSDN subscriber benefits](https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/?WT.mc_id=A261C142F). Your MSDN subscription gives you credits every month that you can use to paid for Azure services.
+* Azure CLI 2.0. Follow the steps in the [Azure Command Line Interface (CLI) 2.0](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli) topic to install and sign in to your Azure subscription.
+* On a Windows computer, you will need to install a Git distribution and command-line tools, such as [Git for Windows]. MacOSX and Linux already have Git enabled in the Terminal. 
 
-<!-- The following note would come from an include file when hosted on docs.microsoft.com -->
-**NOTE**: You need an Azure account to complete the exericises in this session:
+## Exercise 1: Introducing City Power & Light
 
-* You can [open an Azure account for free](https://azure.microsoft.com/pricing/free-trial/?WT.mc_id=A261C142F): You get credits you can use to try out paid Azure services, and even after they're used up you can keep the account and use free Azure services, such as Websites. Your credit card will never be charged, unless you explicitly change your settings and ask to be charged.
-* You can [activate MSDN subscriber benefits](https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/?WT.mc_id=A261C142F): Your MSDN subscription gives you credits every month that you can use for paid Azure services.
+City Power & Light (CP&L) is a simple web app that allows a user to create and view open *incidents*, which are outages or issues with a municipality's utilities. Existing open incidents are viewed in a dashboard. New incidents are created by filling out and submitting a form. The application is divided into a web tier based on Express.js, an API tier based on Loopback, and a data tier that uses MongoDB. The following diagram represents the architecture of the app running on a single VM:
 
-## Exercise 1 - Introducing City Power & Light
+![CP&L single-server application architecture](./media/Azure-OpenDev-Single-Machine-Architecture-1.png)
 
-The City Power & Light sample application is available in this GitHub repository. Open a terminal window and clone the repo to your local machine using the command `git clone https://github.com/Azure/OpenDev.git`. Alternatively, download a zip file [here](https://github.com/Azure/OpenDev/archive/master.zip). 
+To get started, you must download the sample to your local computer from the GitHub repo. 
 
-CP&L is a simple web application that allows a user to view a dashboard of open "incidents" and create a new incident via a form. In the scenario, an incident is an outage or issue with a municipality's utilities. The applicatoin is divided into a web tier based on Express, an API tier based on Loopback, and a data tier of MongoDB.
+1. Open a terminal window and clone the repo to your local machine using the command `git clone https://github.com/Azure/OpenDev.git`. Alternatively, download a zip file [here](https://github.com/Azure/OpenDev/archive/master.zip). 
 
-> Ensure that MongoDB 3.4 Community Edition [is installed](https://docs.mongodb.com/manual/administration/install-community/) locally on your developer environment. 
+CP&L 
+
+
 
 Once you have the repository downloaded, run `npm install` in both the `/node/web` and `/node/api` folders to restore dependencies. Next, open the `/node` folder in [Visual Studio Code](https://code.visualstudio.com/docs/setup/setup-overview) and [run](https://code.visualstudio.com/docs/editor/node-debugging) the application locally with the VSCode debugger. 
 
@@ -58,7 +44,7 @@ Open a browser window to `http://locahost:3000` and create a sample incident.
 
 ## Exercise 2 - Provisioning Azure resources
 
-Before we can deploy our application to Azure we need to provision a virtual machine. Install and login to your Azure Subscription in the [Azure Command Line Interface (CLI) 2.0](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli).
+Before we can deploy our application to Azure we need to provision a virtual machine. 
 
 All resources in Azure reside in a "[Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview)". A Resource Group allows us to deploy, manage, and deprovision sets of related resources in a consistent manner. To create a Resource Goup via the Azure CLI, run `az group create -n CityPower -l EastUS` within a terminal window. This command created a group named "CityPower" located in the East US [Azure Region](https://azure.microsoft.com/en-us/regions/). Feel free to adjust the name of the group or the region to be closer to your location.
 
