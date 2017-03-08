@@ -1,24 +1,4 @@
----
-title: AzureX - Session 2 (for Node.js Developers) | Microsoft Docs
-description: ''
-services: ''
-documentationcenter: ''
-author: rmcmurray
-manager: erikre
-editor: ''
-
-ms.assetid: 
-ms.service: multiple
-ms.workload: na
-ms.tgt_pltfrm: multiple
-ms.devlang: ''
-ms.topic: article
-ms.date: 03/01/2017
-ms.author: robmcm;shsivada;stfollis;ross
-
----
-
-# AzureX Session 2 - Leveraging managed MongoDB and Redis services for your Node.js app
+# Azure OpenDev Chapter 2 (Node.js) : Leveraging Managed MongoDB and Redis Services for Your Node.js Application
 
 ## Session Overview
 
@@ -46,6 +26,8 @@ Having a database running directly on our virtual machine will make scaling much
 
 Converting our application to use DocumentDB is streamlined thanks to the service's ability to use the MongoDB protocol. From the [Azure Portal](http://portal.azure.com) click the green **"+"** icon in the top left corner. Then, select **Databases** and finally **NoSQL (DocumentDB)**. On the new account blade, give your database a name, resource group, and most importantly select **MongoDB** under the NoSQL API section.
 
+![screenshot](./media/chapter-2a-001.png)
+
 Once the resource has finished provisioning, open the blade's settings. Copy and paste the values into the `citypower.config.js` pm2 file in your Azure VM:
 
 * `DB_HOST`
@@ -65,9 +47,11 @@ City Power & Light supports a user uploading a photo whenever a new incident is 
 
 1. Create an Azure Storage Account
 
-1. Retrieve the storage account name and primary key
+1. Retrieve the storage account name and access key (key1)
 
 1. Update environment variables in the virtual machine to include `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_ACCESS_KEY`
+
+![screenshot](./media/chapter-2a-002.png)
 
 ## Exercise 3 - Increasing performance through caching
 
@@ -77,11 +61,13 @@ Adding a caching layer between the web and the API tiers decreases the load on t
 
 1. Create an instance of Azure Redis
 
-1. Retrieve connection string information
+1. Retrieve values for host name, access key, and SSL port number.
 
 1. Update application environment variables
 
 1. Redeploy the application and load the dashboard screen. The returned values are cached for 30 seconds, which can be observed by opening the Azure Redis blade from the Azure Portal and opening the Console.
+
+![screenshot](./media/chapter-2a-003.png)
 
 ## Session Summary
 
@@ -103,12 +89,15 @@ For more information about using Node.js on Microsoft Azure, see the [Azure Node
 [Java Tools for Visual Studio Team Services]: https://java.visualstudio.com/
 [Azure Node.js Developer Center]: https://azure.microsoft.com/develop/nodejs/
 
-[Overview]: ./azurex-overview.md
-[Session1Java]: ./azurex-session-1-java.md
-[Session1Node]: ./azurex-session-1-nodejs.md
-[Session2Java]: ./azurex-session-2-java.md
-[Session2Node]: ./azurex-session-2-nodejs.md
-[Session3]: ./azurex-session-3.md
-[Session4]: ./azurex-session-4.md
+[Overview]: ./README.md
+[Chapter1Java]: ./chapter-1b-deploying-a-java-app-on-azure.md
+[Chapter1Node]: ./chapter-1a-deploying-a-node.js-app-on-azure.md
+[Chapter2Java]: ./chapter-2b-leveraging-managed-mongodb-and-redis-services-for-your-java-app.md
+[Chapter2Node]: ./chapter-2a-leveraging-managed-mongodb-and-redis-services-for-your-node.js-app.md
+[Chapter3]: ./chapter-3-transforming-from-a-single-vm-to-a-highly-scalable-geo-distributed-app.md
+[Chapter4]: ./chapter-4-monitoring-your-azure-resources.md
+[Chapter5]: ./chapter-5-automating-deployment-of-azure-resources-using-azure-resource-manager.md
+[Chapter6]: ./chapter-6-managing-your-azure-resources-using-azure-cli.md
+[Chapter7]: ./chapter-7-introduction-to-azure-container-service.md
 
 <!-- IMG List -->
