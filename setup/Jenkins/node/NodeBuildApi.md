@@ -43,11 +43,11 @@ Ensure the [Azure Storage Plugin for Jenkins](https://docs.microsoft.com/en-us/a
 
 Create a new Azure Storage Account in a new Resource Group in your Azure subscription. This can either by done via the [Portal](http://portal.azure.com) or via the Azure CLI 2.0 with:
 
-    ```sh
-    az group create -n OpenDevJenkinsArtifacts -l WestUS
+```sh
+az group create -n OpenDevJenkinsArtifacts -l WestUS
 
-    az storage account create -n opendevjenkinsartifacts -g OpenDevJenkinsArtifacts -l WestUS --sku Standard_LRS
-    ```
+az storage account create -n opendevjenkinsartifacts -g OpenDevJenkinsArtifacts -l WestUS --sku Standard_LRS
+```
 
 
 ### Upload artifacts to Microsoft Azure Blob storage
