@@ -1,4 +1,4 @@
-# Chapter 3: Transforming from a Single Virtual Machine to a Highly-Scalable Geographically-Distributed App
+# Azure OpenDev Chapter 3: Transforming from a Single Virtual Machine to a Highly-Scalable Geographically-Distributed Application
 
 ## Session Overview
 

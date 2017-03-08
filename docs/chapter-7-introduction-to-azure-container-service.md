@@ -1,4 +1,4 @@
-# Chapter 7: Introduction to Azure Container Service (ACS)
+# Azure OpenDev Chapter 7: Introduction to Azure Container Service (ACS)
 
 ## Session Overview
 

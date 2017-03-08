@@ -1,4 +1,4 @@
-# Chapter 2 (Node.js) : Leveraging Managed MongoDB and Redis Services for Your Node.js Application
+# Azure OpenDev Chapter 2 (Node.js) : Leveraging Managed MongoDB and Redis Services for Your Node.js Application
 
 ## Session Overview
 

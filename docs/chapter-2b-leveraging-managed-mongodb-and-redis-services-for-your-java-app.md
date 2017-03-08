@@ -1,4 +1,4 @@
-# Chapter 2 (Java) : Leveraging Managed MongoDB and Redis Services for Your Java Application
+# Azure OpenDev Chapter 2 (Java) : Leveraging Managed MongoDB and Redis Services for Your Java Application
 
 ## Session Overview
 

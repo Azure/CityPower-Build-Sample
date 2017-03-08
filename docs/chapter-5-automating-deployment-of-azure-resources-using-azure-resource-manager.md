@@ -1,4 +1,4 @@
-# Chapter 5: Automating Deployment of Azure Resources Using Azure Resource Manager (ARM)
+# Azure OpenDev Chapter 5: Automating Deployment of Azure Resources Using Azure Resource Manager (ARM)
 
 ## Session Overview
 

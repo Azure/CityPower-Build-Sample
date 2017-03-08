@@ -1,4 +1,4 @@
-# Chapter 1 (Java): Deploying a Java Application on Azure
+# Azure OpenDev Chapter 1 (Java): Deploying a Java Application on Azure
 
 ## Session Overview
 
