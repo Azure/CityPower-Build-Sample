@@ -1,4 +1,8 @@
-# NodeBuildApi.md
+# NodeBuildApi
+
+In a Jenkins server, [create](https://wiki.jenkins-ci.org/display/JENKINS/Building+a+software+project#Buildingasoftwareproject-Settinguptheproject) a new Free Style Project named **NodeBuildApi**. 
+
+The following sections correspond to the new project, and contain configuration values.
 
 ## General
 
@@ -14,7 +18,7 @@
 
 * Repository URL: `https://github.com/Azure/OpenDev.git`
 
-* Branches to Build: Blakn or 
+* Branches to Build: Blank or `*/master` 
 
 ## Build Triggers
 
