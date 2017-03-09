@@ -4,15 +4,15 @@ Application developers have a wealth of features available to them when they are
 
 *Time required to complete all of the exercises in these sessions: 00:00*
 
-### Prerequisites
+## Creating an Azure account
 
-<!-- The following note would come from an include file when hosted on docs.microsoft.com -->
-**NOTE**: You need an Azure account to complete the exercises that are listed in these sessions:
+In order to complete the exercises that are listed in these sessions, you will first need to create an Azure account, and there are two ways which you can create an Azure account for free while you go through these exercises:
 
 * You can [open an Azure account for free](https://azure.microsoft.com/pricing/free-trial/?WT.mc_id=A261C142F): You get credits you can use to try out paid Azure services, and even after they're used up you can keep the account and use free Azure services, such as Websites. Your credit card will never be charged, unless you explicitly change your settings and ask to be charged.
+
 * You can [activate MSDN subscriber benefits](https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/?WT.mc_id=A261C142F): Your MSDN subscription gives you credits every month that you can use for paid Azure services.
 
-## Session Table of Contents
+## Contents of the Azure OpenDev Sessions
 
 The sessions in the following list will illustrate how developers can take a local application and deploy it to Microsoft Azure, 
 
