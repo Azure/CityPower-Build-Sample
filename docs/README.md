@@ -9,6 +9,7 @@ Application developers have a wealth of features available to them when they are
 The sessions in the following list illustrate how developers can take a local application and deploy it to Microsoft Azure, 
 
 * Chapter 1 - These language-specific exercises walk you through creating an application locally and deploying it to Azure:
+
   * [Deploying a Java Application on Azure][Chapter1Java]
   * [Deploying a Node.js Application on Azure][Chapter1Node]
 

@@ -49,6 +49,8 @@ After=syslog.target
 [Service]
 ExecStart=/var/www/AzureX-API.war
 SuccessExitStatus=143
+Environment=DB_CONNECT_STRING=
+Environment=API_LISTEN_PORT=9000
 
 [Install]
 WantedBy=multi-user.target
@@ -79,6 +81,11 @@ ExecStart=/var/www/web.war
 SuccessExitStatus=143
 Environment=INCIDENT_API_URL=http://localhost:9000
 Environment=IMAGE_STORAGE_LOCATION=/var/www/images
+Environment=AZURE_STORAGE_ACCOUNT=
+Environment=AZURE_STORAGE_ACCESS_KEY=
+Environment=REDISCACHE_HOSTNAME=
+Environment=REDISCACHE_SSLPORT=
+Environment=REDISCACHE_PRIMARY_KEY=
 
 [Install]
 WantedBy=multi-user.target
