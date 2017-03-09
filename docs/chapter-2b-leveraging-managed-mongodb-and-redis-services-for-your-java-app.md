@@ -65,23 +65,44 @@ With state removed from our application we can focus on other optimizations, suc
 
 Adding a caching layer between the web and the API tiers decreases the load on the database, loads pages quicker, and saves us money through less [request units](https://docs.microsoft.com/en-us/azure/documentdb/documentdb-request-units). Azure offers the [Azure Redis Cache](https://docs.microsoft.com/azure/redis-cache/cache-nodejs-get-started) in a variety of SKUs. This is a managed PaaS version of Redis, where Azure handles the platform and your app simply uses a connection string. 
 
-1. Create an instance of Azure Redis
+1. Create an instance of Azure Redis. Be sure to unblock port 6379 because the Java code doesn't use an SSL connection to redis.
 
-1. Retrieve values for host name, access key, and SSL port number.
+1. Retrieve values for host name, access key, and SSL port number (use port 6379).
 
-1. Update environment variables in the virtual machine (in /etc/systemd/system/azurexweb) to include `REDISCACHE_HOSTNAME`, `REDISCACHE_SSLPORT` and `REDISCACHE_PRIMARY_KEY`
-
-1. Redeploy the application and load the dashboard screen. The returned values are cached for 30 seconds, which can be observed by opening the Azure Redis blade from the Azure Portal and opening the Console.
+1. Update environment variables in the virtual machine (in /etc/systemd/system/azurexweb.service) to include `REDISCACHE_HOSTNAME`, `REDISCACHE_SSLPORT` and `REDISCACHE_PRIMARY_KEY`
 
 ![screenshot](./media/chapter-2a-003.png)
 
+Your /etc/systemd/system/azurexweb.service should look like this (with your own values filled in):
+![images](./media/2017-03-09_8-46-38.png)
+
+and your /etc/systemd/system/azurexapi.service should look like this:
+![images](./media/2017-03-09_9-01-41.png)
+
+## Exercise 4 - Update code and restart application
+
+1. We made some small changes to the code to leverage Azure storage and Azure Cache, while switching to the Azure DocumentDB database only required a connect string change.  The updated code is stored in the OpenDev/java/Session2 directory on your development machine.  
+To compile and start the api tier of the application, go to the `OpenDev/java/Session1/api` directory in a command prompt window, and run gradle with the bootRun task:
+    ```CMD
+    gradle assemble
+    ```
+Similarly build the web tier war file by going to the `OpenDev/java/Session1/web`  directory and execute `gradle assemble`.
+
+Use scp to copy the `api/build/libs/AzureX-API.war` and `web/build/libs/web.war` files to your VM home directory.  Then ssh to your VM and do the following commands to stage the executables and restart the application:
+```CMD
+    sudo cp AzureX-API.war /var/www
+    sudo cp web.war /var/www
+    sudo systemctl daemon-reload
+    sudo systemctl restart azurexapi.service
+    sudo systemctl restart azurexweb.service
+```
+
+
+
+
 ## Session Summary
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In this session we took our original app and enhanced it with a series of Azure managed services. These services allow us to focus on writing valuable application code, and spending less time on managing clusters of virtual machines. We also externalized state from our application, setting the stage for a more scalable solution going forward.
 
 ## What's Next
 

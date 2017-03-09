@@ -99,7 +99,7 @@ OpenDev/java/Session1/web directory and run `gradle assemble`, which will create
     The default port that the web tier will listen on is 8080, so after the application is started, you should be able to go to a browser and browse to http://localhost:8080 and see this:
 
     ![images](./media/2017-03-07_11-25-49.png)
-## Exercise 2 - Deploying your application to Azure
+## Exercise 2 - Creating an Azure Virtual Machine
 
 Before we can deploy our application to Azure we need to provision a virtual machine. Install and login to your Azure Subscription in the Azure Command Line Interface (CLI) 2.0.  You can log in to your Azure subscription with the CLI command 
 ```CMD
@@ -113,7 +113,7 @@ Once the Resource Group is created, run `az vm create -n CityPowerVM -g CityPowe
 
 Make note of the publicIpAddress of your new virtual machine, so you can connect to your VM later.
 
-## Exercise 3 - Verifying your application is running on Azure
+## Exercise 3 - Deploying your applicationto an Azure virtual machine
 
 After the provisioning process completes, SSH into the virtual machine's Public IP address and verify that a connection can be established. By default, port 22 is enabled for this SSH operation while all other ports are closed by the [Network Security Group (NSG)](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg).  Exit out of SSH to return to your local machine.  To open a second port in the NSG, run `az vm open-port --resource-group CityPower --name CityPowerVM --port 8080`. This will allow us to access the virtual machine from the web app's default port of port 8080.
 

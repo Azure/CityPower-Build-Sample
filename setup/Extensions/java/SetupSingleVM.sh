@@ -86,6 +86,8 @@ Environment=AZURE_STORAGE_ACCESS_KEY=
 Environment=REDISCACHE_HOSTNAME=
 Environment=REDISCACHE_SSLPORT=
 Environment=REDISCACHE_PRIMARY_KEY=
+Environment=WEB_LISTEN_PORT=8080
+
 
 [Install]
 WantedBy=multi-user.target
