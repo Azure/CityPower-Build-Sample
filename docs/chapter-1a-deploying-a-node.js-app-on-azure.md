@@ -96,25 +96,23 @@ You can use the [SCP](https://en.wikipedia.org/wiki/Secure_copy) command to secu
 
 		ssh <yourPublicIpAddress>
 
-4. In the Azure VM, run the following command to download a setup script that installs the following dependencies: [MongoDB](https://docs.mongodb.com/manual/administration/install-community), [Node.js 7](https://nodejs.org/en/download/), and [pm2](http://pm2.keymetrics.io/)). It also moves application files from the **/home** directory to **/var/www**. 
+4. In the Azure VM, run the following command to download a setup script from the GitHub repository. 
 
 		curl -O https://raw.githubusercontent.com/Azure/OpenDev/master/setup/Extensions/node/SetupSingleVM.sh 
 
-5. Run the script in the VM.
-
-		sudo sh SetupSingleVM.sh
-
-	In the **/var/www** directory, you should now have the **/web** and **/api** folders. You will use pm2 to start the application and manage the processes.  
-
-6. Run the following command to download the configuration file from the GitHub repository.
+6. Run the following commands to download the configuration file from the GitHub repository.
 
 		curl -O https://raw.githubusercontent.com/Azure/OpenDev/master/setup/Extensions/node/citypower.config.js
 
-7. Run the following command that uses pm2 to run the app.
- 
-		pm2 start citypower.config.js
+5. Run the set up script in the VM.
 
-8. Back on your local machine's browser, navigate to `http://<yourPublicIpAddress>` to see the City Power & Light application running in Azure.
+		sudo sh SetupSingleVM.sh
+
+	This script installs the following dependencies: [MongoDB](https://docs.mongodb.com/manual/administration/install-community), [Node.js 7](https://nodejs.org/en/download/), and [pm2](http://pm2.keymetrics.io/)). It also moves application files from the **/home** directory to **/var/www** and uses pm2 to start the application.  
+
+	At this point, your app should be up and running.
+
+8. From the browser on your local computer, navigate to `http://<yourPublicIpAddress>` and verify that the City Power & Light application is running in Azure.
 
 ## Session Summary
 
@@ -122,7 +120,7 @@ In this session we took a multi-tier Node.js application running on a local deve
 
 ## What's Next
 
-Your next step is to go through the exercises in [Chapter 2 (Node.js): Leveraging Managed MongoDB and Redis Services for Your Node.js Application][Session2Node].
+Next, you will complete [Chapter 2][Session2Node]. In this next session, you will move data storage from your VM to dedicated Azure services to allow your data to be persisted outside of the VM. You will also use a Redis cache service to improve performance of the app.
 
 ## See Also
 
