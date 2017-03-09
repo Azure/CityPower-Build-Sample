@@ -2,55 +2,72 @@
 
 ## Session Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The Azure Resource Manager (ARM) provides administrators with a powerful means to manage all of their Azure resources. By using ARM, you can create or deploy new resources to Azure, update existing resources, or delete resources which are no longer necessary. In addition, ARM provides a template-based infrastructure whereby administrators can use JSON files to define the resources and any dependencies when deploying to Azure.
 
-*Time to complete all of the exercises in this session: 00:00*
+In the video for this session, Rick Rainey and Ryan Jones discuss using Azure Resource Manager templates to define the multi-region, multi-instance architecture which was created in earlier sessions.
+
+![Azure OpenDev Multi-Region Multi-Instance Architecture][MRMI]
+
+<!-- BUGBUG: Need final URL here!!! -->
+
+All of the templates from the demos are available at https://github.com/Azure/OpenDev/tree/master/setup/ARMTemplates.
+
+*Time to view the video for this session: 20:58*
 
 ## Session Objectives
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+In this session you will learn:
 
-* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+* What are ARM templates?
+
+* How can you use ARM templates to automate your deployments to Azure?
 
 ### Prerequisites
 
-Before you complete the exercises in this session, you should read the information presented in the [Overview] article.
+In order to use the Azure Resource Manager (ARM), you will first need to create an Azure account. For more information on creating an Azure account for free, see the notes in the [Azure OpenDev Overview][Overview] article.
 
-In order to complete the exercises in this session, you must first complete the prerequisites and steps outlined in [Session 3][Session3].
+## Exercise 1 - Discussing ARM template syntax
 
-## Excercise 1 - Getting Started
+In the first half of the video, Rick and Ryan demonstrate the following:
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+* The JSON syntax which is used for ARM templates.
 
-## Excercise 2 - Notifications
+* Defining the resources and dependencies within an ARM template.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+* Referencing child ARM templates from within a parent template.
 
-## Excercise 3 - Alerts
+## Exercise 2 - Deploying using ARM templates
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+In the second half of the video, Rick and Ryan demonstrate the following:
+
+* Where to find the ARM templates which they have written for this video.
+
+* How to use Powershell with ARM templates to deploy the multi-region, multi-instance architecture from earlier sessions to Azure.
+
+* How to customize the templates to change the environment for your topology.
 
 ## Session Summary
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+In this session you learned:
 
-* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+* Azure Resource Manager (ARM) templates make it easy to define the necessary resources and dependencies for deploying applications to Azure.
+
+* How to use JSON to define the list of resources and dependencies within an ARM template.
+
+* How to reference templates within other templates.
+
+* How to deploy a multi-region, multi-instance architecture to Azure by using ARM templates.
 
 ## See Also
 
-For more information about using Java with Microsoft Azure, see the [Azure Java Developer Center] and the [Java Tools for Visual Studio Team Services].
-
-For more information about using Node.js on Microsoft Azure, see the [Azure Node.js Developer Center].
+For more information about using Azure Resource Manager, see the [Azure Resource Manager Overview][ARM Overview].
 
 <!-- URL List -->
 
 [Azure Java Developer Center]: https://azure.microsoft.com/develop/java/
 [Java Tools for Visual Studio Team Services]: https://java.visualstudio.com/
 [Azure Node.js Developer Center]: https://azure.microsoft.com/develop/nodejs/
+[ARM Overview]: https://docs.microsoft.com/en-us/azure/Azure-Resource-Manager/resource-group-overview
 
 [Overview]: ./README.md
 [Chapter1Java]: ./chapter-1b-deploying-a-java-app-on-azure.md
@@ -64,3 +81,5 @@ For more information about using Node.js on Microsoft Azure, see the [Azure Node
 [Chapter7]: ./chapter-7-introduction-to-azure-container-service.md
 
 <!-- IMG List -->
+
+[MRMI]: ./media/Azure-OpenDev-Multi-Region-Multi-Instance-Architecture.png

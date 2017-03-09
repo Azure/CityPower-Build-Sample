@@ -22,15 +22,15 @@ Before you complete the exercises in this session, you should read the informati
 
 In order to complete the exercises in this session, you must first complete the prerequisites and steps outlined in [Session 3][Session3].
 
-## Excercise 1 - Getting Started
+## Exercise 1 - Getting Started
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-## Excercise 2 - Notifications
+## Exercise 2 - Notifications
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-## Excercise 3 - Alerts
+## Exercise 3 - Alerts
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
