@@ -3,7 +3,7 @@
 # Chapter 1 (Node.js): Deploying a Node.js app on Azure
 
 ## Session Overview
-In this session you will run an application locally on your dev machine, then deploy the application to a VM running in Microsoft Azure.
+In this session you will run an application on your local computer, then deploy the application to a VM running in Microsoft Azure.
 
 *Time to complete all of the exercises in this session: 30:00*
 
@@ -16,13 +16,13 @@ In this session you will run an application locally on your dev machine, then de
 
 ### Prerequisites
 
-* (Recommended) Review the [Overview](azurex-overview.md) topic.
-* [MongoDB 3.4 Community Edition](https://docs.mongodb.com/manual/administration/install-community/). Required by the app to store data on you local developer computer. 
+* [Node.js 7](https://nodejs.org/en/download/), which includes the Node package manager (npm).
 * An active Azure subscription. You can create a new Azure subscription for free in one of these ways: 
     * Use the [Azure free trial](https://azure.microsoft.com/pricing/free-trial/?WT.mc_id=A261C142F). Azure gives you credits to try out paid Azure services. Even when  the credits are gone, you can still keep the account and use some serviced for free, such as App Service Web Apps. Your credit card is never charged, unless you explicitly change your settings and ask to be charged.
     * You can [activate MSDN subscriber benefits](https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/?WT.mc_id=A261C142F). Your MSDN subscription gives you credits every month that you can use to paid for Azure services.
-* Azure CLI 2.0. Follow the steps in the [Azure Command Line Interface (CLI) 2.0](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli) topic to install and sign in to your Azure subscription.
-* On a Windows computer, you will need to install a Git distribution and command-line tools, such as [Git for Windows]. MacOSX and Linux already have Git enabled in the Terminal. 
+* Azure CLI 2.0. Follow the steps in the [Azure Command Line Interface (CLI) 2.0](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli) topic to install the CLI.
+* [Visual Studio Code](https://code.visualstudio.com/docs/setup/setup-overview), which is used for debugging the apps.
+* On a local Windows computer, you will need to install a Git distribution and command-line tool, such as [Git for Windows](https://git-scm.com/download/win), which includes Bash. You will also need to [generate an SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/). Mac OS X and Linux already have Git enabled in the Terminal. 
 
 ## Exercise 1: Introducing City Power & Light
 
@@ -30,66 +30,119 @@ City Power & Light (CP&L) is a simple web app that allows a user to create and v
 
 ![CP&L single-server application architecture](./media/Azure-OpenDev-Single-Machine-Architecture-1.png)
 
-To get started, you must download the sample to your local computer from the GitHub repo. 
+To get started, you must download the sample to your local computer from the [GitHub repository](https://github.com/Azure/OpenDev). 
 
-1. Open a terminal window and clone the repo to your local machine using the command `git clone https://github.com/Azure/OpenDev.git`. Alternatively, download a zip file [here](https://github.com/Azure/OpenDev/archive/master.zip). 
+1. Open the Terminal (Bash on Windows) and run the following command that clones the repo to your local machine. 
 
-CP&L 
+		git clone https://github.com/Azure/OpenDev.git
 
+	Alternatively, download a zip file [here](https://github.com/Azure/OpenDev/archive/master.zip). 
 
+2. Run the following command in both the `/node/web` and `/node/api` folders to restore  the package dependencies. 
 
-Once you have the repository downloaded, run `npm install` in both the `/node/web` and `/node/api` folders to restore dependencies. Next, open the `/node` folder in [Visual Studio Code](https://code.visualstudio.com/docs/setup/setup-overview) and [run](https://code.visualstudio.com/docs/editor/node-debugging) the application locally with the VSCode debugger. 
+		npm install 
 
-Open a browser window to `http://locahost:3000` and create a sample incident.
+3. In Visual Studio Code, open the `/node` folder and start the app locally with in [the debugger](https://code.visualstudio.com/docs/editor/node-debugging). Allow access through the firewall if requested.
 
-## Exercise 2 - Provisioning Azure resources
+4. In the browser, navigate to <http://localhost:3000>.
 
-Before we can deploy our application to Azure we need to provision a virtual machine. 
+	![CP&L app running locally](./media/cpl-app-start-page.png)
 
-All resources in Azure reside in a "[Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview)". A Resource Group allows us to deploy, manage, and deprovision sets of related resources in a consistent manner. To create a Resource Goup via the Azure CLI, run `az group create -n CityPower -l EastUS` within a terminal window. This command created a group named "CityPower" located in the East US [Azure Region](https://azure.microsoft.com/en-us/regions/). Feel free to adjust the name of the group or the region to be closer to your location.
+On this page, you would click **Report Outage** to create a new incident. However, without a MongoDB connection the request results in an error. If you want to fully test the app locally, you need to set the connection properties of a MongoDB instance in the **env** configuration object in the launch.json project file. 
 
-Once the Resource Group is created, run `az vm create -g CityPower -n CityPowerVM --image UbuntuLTS` to provision a virtual machine named "CityPowerVM" within the CityPower resource group and using the image for Ubuntu. 
+## Exercise 2: Provision Azure resources
 
-## Exercise 3 - Migrating application code
+Before you can deploy the application to Azure, you need to provision a virtual machine in a Resource Group in your Azure subscription. A [Resource Group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview) lets you deploy, manage, scale, and delete sets of related resources in a consistent manner. Each Azure resource is assigned to a Resource Group, which is located in a specific [Azure Region](https://azure.microsoft.com/en-us/regions/). 
 
-After the provisioning process completes, SSH into the virtual machine's Public IP address and verify that a connection can be established. By default, port 22 is enabled for this SSH operation while all other ports are closed by the [Network Security Group (NSG)](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg).  To open a second port in the NSG, run `az vm open-port -g CityPower -n CityPowerVM --port 80`. This will allow us to access the virtual machine from the browser's default port of port 80.
+The following Azure CLI 2.0 commands create a new Resource Group named *CityPower* in the East US region, and then a new VM in that group. You may want to select a different region that is located geographically closer to you. If you decide to change the name of the Resource Group or of the VM, you will need to make this change in all of the subsequent scripts.
 
-Our new virtual machine is not much use without some application code.  We can use the [SCP](https://en.wikipedia.org/wiki/Secure_copy) command to securely copy files from our local machines to the Azure VM. In the terminal, navigate back to the `/node` directory in the repository, and execute `scp . 000.000.000.000:~/` while replacing the 0s with your VM's public IP address. This will copy the present working directory's files to the home directory of the Azure VM. 
+1. From the Terminal (Bash on Windows), run the following command to sign-in to your Azure subscription from the CLI, then follow the instructions to complete sign-in. 
 
-> If you previously ran `npm install` then the node_modules folders will take a long time to copy via scp. Delete the node_modules folders from your local machine before running scp, and then re-run npm install in the Azure VM to save time
+		az login
 
-SSH back into the VM and verify the application files are present in `/home`. Since the virtual machine was a stock Ubuntu image, we need to install a few supporting applications into the environment. From the Azure VM, run `curl -O https://raw.githubusercontent.com/Azure/OpenDev/master/setup/Extensions/node/SetupSingleVM.sh` to download a pre-made configuration script. This script will install the necessary dependencies ([MongoDB](https://docs.mongodb.com/manual/administration/install-community), [Node.js 7](https://nodejs.org/en/download/), and [pm2](http://pm2.keymetrics.io/)) and move application files from the **/home** directory to **/var/www**.  
+2. Run the following command that creates the new group.
 
-In the **/var/www** directory, you should now have the **/web** and **/api** folders. We will use pm2 to startup the application and manage our processes.  Use `curl -O https://raw.githubusercontent.com/Azure/OpenDev/master/setup/Extensions/node/citypower.config.js` to retrieve the sample config file from GitHub. Then, run `pm2 start citypower.config.js` to run the application.
+		az group create -n CityPower -l EastUS
 
-Back on your local machine's browser, navigate to **http://<yourPublicIPaddress** to see the City Power & Light application running out of an Azure datacenter.
+2.  Run the following command that creates a new VM named *CityPowerVM* in the new group. 
+
+		az vm create -g CityPower -n CityPowerVM --image UbuntuLTS
+
+	The provisioning process will take a few minutes. Make a note of the value of the `publicIpAddress` field in the output object. You will use this address to connect to the VM.
+
+	This command creates the VM using the latest Ubuntu image. To see a complete list of all available VM images, run the following command. 
+		
+		  az vm image list --all
+
+## Exercise 3: Migrate your app code
+
+Now that your new VM is running in Azure, you need to migrate your app code so that it runs in the new VM. Because  the VM is a default Ubuntu image, you need to install a some additional applications in the VM. 
+
+You can use the [SCP](https://en.wikipedia.org/wiki/Secure_copy) command to securely copy files from our local machines to the Azure VM. On Windows, you need to run SCP from a Bash command window. By default, the [Network Security Group (NSG)](https://docs.microsoft.com/azure/virtual-network/virtual-networks-nsg) closes all ports on the new VM, except for port 22. You must open port 80 to be able to copy code to the VM using SCP.
+
+1. Delete the `node_modules` folders from both the `api` and `web` subdirectories. These folders take a long time to copy using SCP, and you will later reinstall them from the VM.
+
+1. From the Terminal or commmand prompt, run the following command to open a second port in the NSG. 
+ 
+		az vm open-port -g CityPower -n CityPowerVM --port 80 
+
+2. In the Terminal (Bash on Windows), navigate to the `/node` directory in the repository, and execute the following command that copies files in the working directory to the home directory of the VM.
+
+		scp -r . <yourPublicIpAddress>:~/ 
+
+		Note that you must replace the IP address placeholder `<yourPublicIpAddress>` with the public IP of your new VM. 
+
+3. Use SSH to connect to the VM and verify the application files are present in the `/home` directory. 
+
+		ssh <yourPublicIpAddress>
+
+4. In the Azure VM, run the following command to download a setup script that installs the following dependencies: [MongoDB](https://docs.mongodb.com/manual/administration/install-community), [Node.js 7](https://nodejs.org/en/download/), and [pm2](http://pm2.keymetrics.io/)). It also moves application files from the **/home** directory to **/var/www**. 
+
+		curl -O https://raw.githubusercontent.com/Azure/OpenDev/master/setup/Extensions/node/SetupSingleVM.sh 
+
+5. Run the script in the VM.
+
+		sudo sh SetupSingleVM.sh
+
+	In the **/var/www** directory, you should now have the **/web** and **/api** folders. You will use pm2 to start the application and manage the processes.  
+
+6. Run the following command to download the configuration file from the GitHub repository.
+
+		curl -O https://raw.githubusercontent.com/Azure/OpenDev/master/setup/Extensions/node/citypower.config.js
+
+7. Run the following command that uses pm2 to run the app.
+ 
+		pm2 start citypower.config.js
+
+8. Back on your local machine's browser, navigate to `http://<yourPublicIpAddress>` to see the City Power & Light application running in Azure.
 
 ## Session Summary
 
-In this session we took a multi-tier Node.js application running on a local developer machine, provisioned virtual machine infrastructure in Azure, and migrated the application to the cloud. 
+In this session we took a multi-tier Node.js application running on a local developer machine, provisioned an Azure VM, and migrated the application to the cloud. 
 
 ## What's Next
 
-Once you have completed the exercises detailed in the above sections, your next step is to go through the exercises in [Session 2 (for Node.js Developers)][Session2Node].
+Your next step is to go through the exercises in [Chapter 2 (Node.js): Leveraging Managed MongoDB and Redis Services for Your Node.js Application][Session2Node].
 
 ## See Also
 
-For more information about using Java with Microsoft Azure, see the [Azure Java Developer Center] and the [Java Tools for Visual Studio Team Services].
+For more information about using Node.js with Microsoft Azure, see the following:
+*[Azure Node.js Developer Center] 
+*[Node.js Tools for Visual Studio]
 
 For more information about using Node.js on Microsoft Azure, see the [Azure Node.js Developer Center].
 
 <!-- URL List -->
 
-[Azure Java Developer Center]: https://azure.microsoft.com/develop/java/
-[Java Tools for Visual Studio Team Services]: https://java.visualstudio.com/
+[Node.js Tools for Visual Studio]: https://www.visualstudio.com/vs/node-js/
 [Azure Node.js Developer Center]: https://azure.microsoft.com/develop/nodejs/
 
 [Overview]: ./azurex-overview.md
 [Session1Java]: ./azurex-session-1-java.md
 [Session1Node]: ./azurex-session-1-nodejs.md
 [Session2Java]: ./azurex-session-2-java.md
-[Session2Node]: ./azurex-session-2-nodejs.md
-[Session3]: ./azurex-session-3.md
-[Session4]: ./azurex-session-4.md
+[Session2Node]: chapter-2a-leveraging-managed-mongodb-and-redis-services-for-your-node.js-app.md
+[Session3]: azurex-session-3.md
+[Session4]: azurex-session-4.md
 
 <!-- IMG List -->

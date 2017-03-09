@@ -4,39 +4,31 @@ Application developers have a wealth of features available to them when they are
 
 *Time required to complete all of the exercises in these sessions: 00:00*
 
-### Prerequisites
+## Session list
 
-<!-- The following note would come from an include file when hosted on docs.microsoft.com -->
-**NOTE**: You need an Azure account to complete the exercises that are listed in these sessions:
+The sessions in the following list illustrate how developers can take a local application and deploy it to Microsoft Azure, 
 
-* You can [open an Azure account for free](https://azure.microsoft.com/pricing/free-trial/?WT.mc_id=A261C142F): You get credits you can use to try out paid Azure services, and even after they're used up you can keep the account and use free Azure services, such as Websites. Your credit card will never be charged, unless you explicitly change your settings and ask to be charged.
-* You can [activate MSDN subscriber benefits](https://azure.microsoft.com/pricing/member-offers/msdn-benefits-details/?WT.mc_id=A261C142F): Your MSDN subscription gives you credits every month that you can use for paid Azure services.
-
-## Session Table of Contents
-
-The sessions in the following list will illustrate how developers can take a local application and deploy it to Microsoft Azure, 
-
-* Chapter 1 - These language-specific exercises will walk you through creating an application locally and deploying it to Azure:
+* Chapter 1 - These language-specific exercises walk you through creating an application locally and deploying it to Azure:
   * [Deploying a Java Application on Azure][Chapter1Java]
   * [Deploying a Node.js Application on Azure][Chapter1Node]
 
-* Chapter 2 - These language-specific exercises will walk you through leveraging many of the features available to Azure developers; for example:
+* Chapter 2 - These language-specific exercises walk you through leveraging many of the features available to Azure developers; for example:
   * [Leveraging Managed MongoDB and Redis Services for Your Java Application][Chapter2Java]
   * [Leveraging Managed MongoDB and Redis Services for Your Node.js Application][Chapter2Node]
 
-* Chapter 3 - These exercises will walk you through scaling your application across geographic boundaries:
+* Chapter 3 - These exercises walk you through scaling your application across geographic boundaries:
   * [Transforming from a Single Virtual Machine to a Highly-Scalable Geographically-Distributed Application][Chapter3]
 
-* Chapter 4 - These exercises will walk you through monitoring your application using the features available in Azure:
+* Chapter 4 - These exercises walk you through monitoring your application using the features available in Azure:
   * [Monitoring Your Azure Resources][Chapter4]
 
-* Chapter 5 - These exercises will walk you the steps to deploy application to Azure by using Azure Resource Manager (ARM) templates:
+* Chapter 5 - These exercises walk you the steps to deploy application to Azure by using Azure Resource Manager (ARM) templates:
   * [Automating Deployment of Azure Resources Using Azure Resource Manager (ARM)][Chapter5]
 
-* Chapter 6 - These exercises will walk you managing your Azure resources by using the Azure Command Line Interface (CLI):
+* Chapter 6 - These exercises walk you managing your Azure resources by using the Azure Command Line Interface (CLI):
   * [Managing your Azure Resources Using Azure Command Line Interface (CLI)][Chapter6]
 
-* Chapter 7 - These exercises will walk you getting started with the features available in the Azure Container Service (ACS):
+* Chapter 7 - These exercises walk you getting started with the features available in the Azure Container Service (ACS):
   * [Introduction to Azure Container Service (ACS)][Chapter7]
 
 ## See Also
