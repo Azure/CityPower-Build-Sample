@@ -6,7 +6,7 @@ azure:
     account:
       name: ${AZURE_STORAGE_ACCOUNT}
       key: ${AZURE_STORAGE_ACCESS_KEY}
-      blobContainer: ${AZURE_STORAGE_BLOB_CONTAINER}
+      blobContainer: images
 
 logging:
   level: info
