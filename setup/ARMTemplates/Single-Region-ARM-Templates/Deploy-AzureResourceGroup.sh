@@ -5,6 +5,8 @@
 STG_ACCT_RSRC_GRP_NAME="ARM_Deploy_Staging"
 RSRC_GRP_NAME_PREFIX="OpenDev-SingleRegion"
 
+VALIDATE_ONLY=false
+
 showErrorAndUsage() {
   echo
   if [[ "$1" != "" ]]
@@ -15,9 +17,9 @@ showErrorAndUsage() {
 
   echo "  usage:  $(basename ${0}) [options]"
   echo "  options:"
-  echo "    -a, --apptype [ Node | Java ]"
-  echo "    -l, --location <location>"
-  echo
+  echo "    -a, --apptype             [Required] : Suffix to append to resource group name, such as 'Node' or 'Java''."
+  echo "    -l, --location <location> [Required] : Location to deploy to."
+  echo "    -v, --validate-only"
   exit 1
 }
 
@@ -36,6 +38,10 @@ do
       ;;
     -l|--location)
       LOCATION="$2"
+      shift
+      ;;
+    -v|--validate-only)
+      VALIDATE_ONLY=true
       shift
       ;;
     *)
@@ -94,7 +100,7 @@ IFS=' ' read -a STG_ACCT_KEYS <<< "${STG_ACCT_KEYS}"
 # Don't have time to figure out bash magic to remove it.  This works just was well.'
 STG_ACCT_KEY=${STG_ACCT_KEYS[1]}  
 
-Upload the files/artifacts to the storage account.
+# Upload files/artifacts to storage account.
 ARTIFACT_STAGING_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 find -P $ARTIFACT_STAGING_DIR -type f |
 while read artifact_file
@@ -105,7 +111,18 @@ do
         --account-name $STG_ACCT_NAME --account-key "${STG_ACCT_KEY}"
 done
 
+# Generate a SAS token for the storage container the artifacts were uploaded to
 SAS_EXPIRY=$( date -d "+4 hours" +%Y-%m-%dT%TZ )
 SAS_TOKEN=$( az storage container generate-sas --name $STG_CONTAINER_NAME --permissions r --account-name $STG_ACCT_NAME --expiry $SAS_EXPIRY )
 
+# Create the resource group for the deployment.
+echo "Creating resource group '$RSRC_GRP_NAME' in '$LOCATION'."
+az group create --name $RSRC_GRP_NAME --location $LOCATION
+
+if [[ $VALIDATE_ONLY == true ]]
+then
+    echo "Validating "
+else
+    echo "Deploying "
+fi
 
