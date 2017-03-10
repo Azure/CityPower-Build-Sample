@@ -1,24 +1,4 @@
----
-title: AzureX - Session 1 (for Java Developers) | Microsoft Docs
-description: ''
-services: ''
-documentationcenter: ''
-author: rmcmurray
-manager: erikre
-editor: ''
-
-ms.assetid: 
-ms.service: multiple
-ms.workload: na
-ms.tgt_pltfrm: multiple
-ms.devlang: ''
-ms.topic: article
-ms.date: 03/01/2017
-ms.author: robmcm;shsivada;stfollis;ross
-
----
-
-# AzureX Session 1 - Creating and Deploying an Application (for Java Developers)
+# Azure OpenDev Chapter 1 (Java): Deploying a Java Application on Azure
 
 ## Session Overview
 
@@ -52,7 +32,7 @@ Before you complete the exercises in this session, you should read the informati
 ## Exercise 1 - Creating your local application
 
 1. The application code is maintained on Github in the [Azure/OpenDev repository](https://github.com/Azure/OpenDev).  To download all of the OpenDev artifacts to your local machine, you can either go to the GitHub URL and download as a zip file, or use any git tool to clone the repository (eg. `git clone https://github.com/Azure/OpenDev.git`).  I use a `c:\code` directory for all my projects, so I used the following steps to clone the repository:
-   ```CMD
+    ```CMD
     cd \
     mkdir code
     cd code
@@ -119,21 +99,42 @@ OpenDev/java/Session1/web directory and run `gradle assemble`, which will create
     The default port that the web tier will listen on is 8080, so after the application is started, you should be able to go to a browser and browse to http://localhost:8080 and see this:
 
     ![images](./media/2017-03-07_11-25-49.png)
-## Exercise 2 - Deploying your application to Azure
+## Exercise 2 - Creating an Azure Virtual Machine
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Before we can deploy our application to Azure we need to provision a virtual machine. Install and login to your Azure Subscription in the Azure Command Line Interface (CLI) 2.0.  You can log in to your Azure subscription with the CLI command 
+```CMD
+az login
+```
+All resources in Azure reside in a "Resource Group". A Resource Group allows us to deploy, manage, and deprovision sets of related resources in a consistent manner. To create a Resource Goup via the Azure CLI, run `az group create -n CityPower -l EastUS2` within a terminal window. This command created a group named "CityPower" located in the East US Azure Region. Feel free to adjust the name of the group or the region to be closer to your location.
 
-## Exercise 3 - Verifying your application is running on Azure
+Once the Resource Group is created, run `az vm create -n CityPowerVM -g CityPower -l eastus2 --generate-ssh-key --image "Canonical:UbuntuServer:16.04-LTS:16.04.201702240"` to provision a virtual machine named "CityPowerVM" within the CityPower resource group and using the image for Ubuntu. The result will be something like this:
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+![images](./media/2017-03-07_12-28-19.png)
+
+Make note of the publicIpAddress of your new virtual machine, so you can connect to your VM later.
+
+## Exercise 3 - Deploying your applicationto an Azure virtual machine
+
+After the provisioning process completes, SSH into the virtual machine's Public IP address and verify that a connection can be established. By default, port 22 is enabled for this SSH operation while all other ports are closed by the [Network Security Group (NSG)](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg).  Exit out of SSH to return to your local machine.  To open a second port in the NSG, run `az vm open-port --resource-group CityPower --name CityPowerVM --port 8080`. This will allow us to access the virtual machine from the web app's default port of port 8080.
+
+Our new virtual machine is not much use without some application code.  We can use the [SCP](https://en.wikipedia.org/wiki/Secure_copy) command to securely copy files from our local machines to the Azure VM. In the terminal (on the local machine), navigate back to the `OpenDev/java/Session1` directory in the repository, and execute `scp api/build/libs/AzureX-API.war 000.000.000.000:~/` while replacing the 0s with your VM's public IP address. This will copy the AzureX-API.war to the home directory of the Azure VM. Also scp the `web/build/libs/web.war` file to your VM as well.
+
+
+SSH back into the VM and verify the application files are present in `/home`. Since the virtual machine was a stock Ubuntu image, we need to install a few supporting applications into the environment. From the Azure VM, run `curl -O https://raw.githubusercontent.com/Azure/OpenDev/master/setup/Extensions/java/SetupSingleVM.sh` to download a pre-made configuration script. This script will install the necessary dependencies ([MongoDB](https://docs.mongodb.com/manual/administration/install-community), and Java, move application files from the **/home** directory to **/var/www**, and set the applications up as systemd services.  Run this shell script with `sudo bash ./SetupSingleVM.sh`.  
+
+You can do a quick test that the services are running with the curl command:
+```CMD
+curl http://localhost:27010
+curl http://localhost:9000
+curl http://localhost:8080
+```
+
+Back on your local machine's browser, navigate to **http://<yourPublicIPaddress** to see the City Power & Light application running out of an Azure datacenter.
+
 
 ## Session Summary
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-
-* Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-* Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+In this session we took a multi-tier Java application running on a local developer machine, provisioned virtual machine infrastructure in Azure, and migrated the application to the cloud. 
 
 ## What's Next
 
@@ -151,12 +152,15 @@ For more information about using Node.js on Microsoft Azure, see the [Azure Node
 [Java Tools for Visual Studio Team Services]: https://java.visualstudio.com/
 [Azure Node.js Developer Center]: https://azure.microsoft.com/develop/nodejs/
 
-[Overview]: ./azurex-overview.md
-[Session1Java]: ./azurex-session-1-java.md
-[Session1Node]: ./azurex-session-1-nodejs.md
-[Session2Java]: ./azurex-session-2-java.md
-[Session2Node]: ./azurex-session-2-nodejs.md
-[Session3]: ./azurex-session-3.md
-[Session4]: ./azurex-session-4.md
+[Overview]: ./README.md
+[Chapter1Java]: ./chapter-1b-deploying-a-java-app-on-azure.md
+[Chapter1Node]: ./chapter-1a-deploying-a-node.js-app-on-azure.md
+[Chapter2Java]: ./chapter-2b-leveraging-managed-mongodb-and-redis-services-for-your-java-app.md
+[Chapter2Node]: ./chapter-2a-leveraging-managed-mongodb-and-redis-services-for-your-node.js-app.md
+[Chapter3]: ./chapter-3-transforming-from-a-single-vm-to-a-highly-scalable-geo-distributed-app.md
+[Chapter4]: ./chapter-4-monitoring-your-azure-resources.md
+[Chapter5]: ./chapter-5-automating-deployment-of-azure-resources-using-azure-resource-manager.md
+[Chapter6]: ./chapter-6-managing-your-azure-resources-using-azure-cli.md
+[Chapter7]: ./chapter-7-introduction-to-azure-container-service.md
 
 <!-- IMG List -->

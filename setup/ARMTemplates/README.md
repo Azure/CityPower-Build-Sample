@@ -50,6 +50,6 @@ Login-AzureRmAccount
 .\Multi-Region-ARM-Templates\Deploy-AzureResourceGroup.ps1 -Locations ("westus", "eastus") -AppType Java
 
 # Deploy Multi-Region ARM template to n regions (ie: WestUS and EastUS) for Node.js version of app.  Also deploys an HA resource group that contains the traffic manager profile, traffic manager endpoint configurations, document DB, blob storage, and CDN.
-.\Session3-ARM-Templates\Deploy-AzureResourceGroup.ps1 -Locations ("westus", "eastus") -AppType Node
+.\Multi-Region-ARM-Templates\Deploy-AzureResourceGroup.ps1 -Locations ("westus", "eastus") -AppType Node
 
 ```
