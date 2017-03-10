@@ -94,7 +94,7 @@ IFS=' ' read -a STG_ACCT_KEYS <<< "${STG_ACCT_KEYS}"
 # Don't have time to figure out bash magic to remove it.  This works just was well.'
 STG_ACCT_KEY=${STG_ACCT_KEYS[1]}  
 
-# Upload the files/artifacts to the storage account.
+Upload the files/artifacts to the storage account.
 ARTIFACT_STAGING_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 find -P $ARTIFACT_STAGING_DIR -type f |
 while read artifact_file
@@ -105,8 +105,7 @@ do
         --account-name $STG_ACCT_NAME --account-key "${STG_ACCT_KEY}"
 done
 
-
-
-
+SAS_EXPIRY=$( date -d "+4 hours" +%Y-%m-%dT%TZ )
+SAS_TOKEN=$( az storage container generate-sas --name $STG_CONTAINER_NAME --permissions r --account-name $STG_ACCT_NAME --expiry $SAS_EXPIRY )
 
 
