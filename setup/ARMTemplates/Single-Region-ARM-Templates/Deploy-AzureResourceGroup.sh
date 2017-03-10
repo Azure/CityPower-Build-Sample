@@ -116,8 +116,8 @@ SAS_EXPIRY=$( date -d "+4 hours" +%Y-%m-%dT%TZ )
 SAS_TOKEN=$( az storage container generate-sas --name $STG_CONTAINER_NAME --permissions r --account-name $STG_ACCT_NAME --expiry $SAS_EXPIRY )
 
 # Create the resource group for the deployment.
-echo "Creating resource group '$RSRC_GRP_NAME' in '$LOCATION'."
-az group create --name $RSRC_GRP_NAME --location $LOCATION
+# echo "Creating resource group '$RSRC_GRP_NAME' in '$LOCATION'."
+# az group create --name $RSRC_GRP_NAME --location $LOCATION
 
 if [[ $VALIDATE_ONLY == true ]]
 then
