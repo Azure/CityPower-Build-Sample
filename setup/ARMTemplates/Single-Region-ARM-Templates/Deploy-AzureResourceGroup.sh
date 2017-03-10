@@ -17,7 +17,7 @@ showErrorAndUsage() {
 
   echo "  usage:  $(basename ${0}) [options]"
   echo "  options:"
-  echo "    -a, --apptype             [Required] : Suffix to append to resource group name, such as 'Node' or 'Java''."
+  echo "    -a, --apptype <Node|Java> [Required] : Suffix to append to resource group name, such as 'Node' or 'Java''."
   echo "    -l, --location <location> [Required] : Location to deploy to."
   echo "    -v, --validate-only"
   exit 1
@@ -54,6 +54,8 @@ done
 # Get the Azure Subscription Id 
 SUBSCRIPTION_ID=$( az account show --query id )
 SUBSCRIPTION_ID=${SUBSCRIPTION_ID//[\"]/}
+echo "Using Azure subscription Id '$SUBSCRIPTION_ID'."
+echo ""
 
 # Create the resource group for the storage account if it does not already exist.
 STG_ACCT_RSRC_GRP_EXISTS=$( az group exists --name ${STG_ACCT_RSRC_GRP_NAME} )
@@ -116,8 +118,12 @@ SAS_EXPIRY=$( date -d "+4 hours" +%Y-%m-%dT%TZ )
 SAS_TOKEN=$( az storage container generate-sas --name $STG_CONTAINER_NAME --permissions r --account-name $STG_ACCT_NAME --expiry $SAS_EXPIRY )
 
 # Create the resource group for the deployment.
-# echo "Creating resource group '$RSRC_GRP_NAME' in '$LOCATION'."
-# az group create --name $RSRC_GRP_NAME --location $LOCATION
+RSRC_GRP_EXISTS=$( az group exists --name ${RSRC_GRP_NAME} )
+if [[ $RSRC_GRP_EXISTS == "false" ]]
+then
+    echo "Creating resource group '$RSRC_GRP_NAME' in '$LOCATION'."
+    az group create --location $LOCATION --name $RSRC_GRP_NAME
+fi
 
 if [[ $VALIDATE_ONLY == true ]]
 then
