@@ -1,6 +1,4 @@
-
-
-# Chapter 1 (Node.js): Deploying a Node.js app on Azure
+# Azure OpenDev Chapter 1 (Node.js): Deploying a Node.js app on Azure
 
 ## Session Overview
 In this session you will run an application on your local computer, then deploy the application to a VM running in Microsoft Azure.
@@ -64,7 +62,7 @@ The following Azure CLI 2.0 commands create a new Resource Group named *CityPowe
 
 		az group create -n CityPower -l EastUS
 
-2.  Run the following command that creates a new VM named *CityPowerVM* in the new group. 
+2. Run the following command that creates a new VM named *CityPowerVM* in the new group. 
 
 		az vm create -g CityPower -n CityPowerVM --image UbuntuLTS
 
@@ -120,7 +118,7 @@ In this session we took a multi-tier Node.js application running on a local deve
 
 ## What's Next
 
-Next, you will complete [Chapter 2][Session2Node]. In this next session, you will move data storage from your VM to dedicated Azure services to allow your data to be persisted outside of the VM. You will also use a Redis cache service to improve performance of the app.
+Next, you will complete [Chapter 2][Session2Node]. In this next chapter, you will learn how to move data storage from your VM to dedicated Azure services to allow your data to be persisted outside of the VM. You will also use a Redis cache service to improve performance of the app.
 
 ## See Also
 
