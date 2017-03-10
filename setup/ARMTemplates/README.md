@@ -2,6 +2,23 @@
 ARM templates for single-region and multi-region application deployments.
 
 ## Single-Region Multi-Instance Deployment Instructions
+### Bash
+1. Open **.\deploymentParameters\virtualNetwork.Parameters.json**
+2. Replace the IP address in `mgmtSubnetNsgSourceAddressPrefix` with your IP address.
+  The ARM template will whitelist this IP address in the *mgmt* subnet to allow SSH connections to the jumpbox (bastion host).
+3. Open a Bash console.
+```Bash
+# Authenticate to Azure Subscription
+az login
+
+# Deploy single-region multi-instance ARM templates for Java version of app
+.\Single-Region-ARM-Templates\Deploy-AzureResourceGroup.sh --location westus --apptype Java
+
+# Deploy single-region multi-instance ARM templates for Node.js version of app
+.\Single-Region-ARM-Templates\Deploy-AzureResourceGroup.sh --location westus --apptype Node
+
+```
+
 ### PowerShell
 1. Open **.\deploymentParameters\virtualNetwork.Parameters.json**
 2. Replace the IP address in `mgmtSubnetNsgSourceAddressPrefix` with your IP address.
