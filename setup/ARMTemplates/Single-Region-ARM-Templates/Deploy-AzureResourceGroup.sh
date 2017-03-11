@@ -4,7 +4,7 @@
 # The storage account in this resource group is only used for deployments.
 STG_ACCT_RSRC_GRP_NAME="ARM_Deploy_Staging"
 RSRC_GRP_NAME_PREFIX="OpenDev-SingleRegion"
-
+TEMPLATE_FILE="azuredeploy.json"
 VALIDATE_ONLY=false
 
 showErrorAndUsage() {
@@ -50,6 +50,9 @@ do
   esac
   shift
 done
+
+ARTIFACT_STAGING_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TEMPLATE_FILE="${ARTIFACT_STAGING_DIR}/${TEMPLATE_FILE}"
 
 # Get the Azure Subscription Id 
 SUBSCRIPTION_ID=$( az account show --query id )
@@ -103,7 +106,6 @@ IFS=' ' read -a STG_ACCT_KEYS <<< "${STG_ACCT_KEYS}"
 STG_ACCT_KEY=${STG_ACCT_KEYS[1]}  
 
 # Upload files/artifacts to storage account.
-ARTIFACT_STAGING_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 find -P $ARTIFACT_STAGING_DIR -type f |
 while read artifact_file
 do
@@ -114,8 +116,11 @@ do
 done
 
 # Generate a SAS token for the storage container the artifacts were uploaded to
-SAS_EXPIRY=$( date -d "+4 hours" +%Y-%m-%dT%TZ )
-SAS_TOKEN=$( az storage container generate-sas --name $STG_CONTAINER_NAME --permissions r --account-name $STG_ACCT_NAME --expiry $SAS_EXPIRY )
+ARTIFACTS_LOCATION="https://${STG_ACCT_NAME}.blob.core.windows.net/${STG_CONTAINER_NAME}"
+SAS_EXPIRY=$( date -u -d "+8 hours" +%Y-%m-%dT%TZ )
+ARTIFACTS_LOCATION_SAS_TOKEN=$( az storage container generate-sas --name $STG_CONTAINER_NAME --permissions r --account-name $STG_ACCT_NAME --expiry $SAS_EXPIRY )
+ARTIFACTS_LOCATION_SAS_TOKEN=${ARTIFACTS_LOCATION_SAS_TOKEN//[\"]/}
+ARTIFACTS_LOCATION_SAS_TOKEN="?$ARTIFACTS_LOCATION_SAS_TOKEN"
 
 # Create the resource group for the deployment.
 RSRC_GRP_EXISTS=$( az group exists --name ${RSRC_GRP_NAME} )
@@ -125,10 +130,19 @@ then
     az group create --location $LOCATION --name $RSRC_GRP_NAME
 fi
 
+PARAMETERS="{\"_artifactsLocation\": {\"value\": \"${ARTIFACTS_LOCATION}\" }, \"_artifactsLocationSasToken\": {\"value\": \"${ARTIFACTS_LOCATION_SAS_TOKEN}\" } }"
+
 if [[ $VALIDATE_ONLY == true ]]
 then
-    echo "Validating "
+    echo "Validating resource group deployment..."
+    az group deployment validate --resource-group $RSRC_GRP_NAME \
+        --template-file $TEMPLATE_FILE --parameters "${PARAMETERS}" --query "properties.provisioningState"
 else
-    echo "Deploying "
+    echo "Deploying to resource group... "
+    DEPLOYMENT_TIME=$( date -u +%m%d-%H%M )
+    DEPLOYMENT_NAME=$(basename "$TEMPLATE_FILE" .json)
+    DEPLOYMENT_NAME="$DEPLOYMENT_NAME-$DEPLOYMENT_TIME"
+    az group deployment create --resource-group $RSRC_GRP_NAME --name $DEPLOYMENT_NAME \
+         --template-file $TEMPLATE_FILE --parameters "${PARAMETERS}" --query "properties.provisioningState"
 fi
 
