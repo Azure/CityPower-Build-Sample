@@ -6,6 +6,8 @@ In the [previous session][Chapter1Node] you learned how to "lift and shift" a mu
 
 *Time to complete all of the exercises in this session: 30:00*
 
+You can also view a [video version of this session].
+
 ## Session Objectives
 
 * Migrate the database tier of the app from MongoDB to DocumentDB.
@@ -18,7 +20,7 @@ After the session is complete, you will have updated the application architectur
 
 ### Prerequisites
 
-Before you start the exercises in this session, you must first complete the prerequisites and steps in [Azure OpenDev Chapter 1 (Node.js): Deploying a Node.js app on Azure][Chapter1Node].
+Before you start the exercises in this session, you must first complete the prerequisites and steps in [Azure OpenDev Chapter 1: Deploying a Node.js app on Azure][Chapter1Node].
 
 ## Exercise 1: Migrate from MongoDB to DocumentDB
 
@@ -26,13 +28,17 @@ Having a database running on the VM makes scaling much more difficult, and data 
 
 The following steps create a new DocumentDB and update the app configuration to use this new database for data storage. You will then sign in to the [Azure Portal] to get the connection string and authentication information for the new database. The cost of Azure DocumentDB depends on how much storage you use and the throughput of data requests. For pricing information, see the [DocumentDB pricing page](https://azure.microsoft.com/pricing/details/documentdb/).
 
-1. From the Terminal (Bash on Windows), run the following command to sign-in to your Azure subscription from the CLI, then follow the instructions to complete sign-in. 
-
-		az login
+1. From the Terminal (Bash on Windows), run the following command to sign-in to your Azure subscription from the CLI, then follow the instructions to complete sign-in.
  
+	```bash
+	az login
+	``` 
+
 2. Run the following command that creates the DocumentDB instance in your existing Resource Group.
 
-		az documentdb create -n city-power-db -g CityPower --kind MongoDB
+	```bash
+	az documentdb create -n city-power-db -g CityPower --kind MongoDB
+	```
 
 	Note that the *kind* parameter is used to make sure we get a database that uses the MongoDB protocol. Remember, if you used a different name for your Resource Group, you will need to change the command to instead use that name. 
 
@@ -54,7 +60,9 @@ The following steps create a new DocumentDB and update the app configuration to 
 	* 
 6. After you save the updated file, run the following command to restart the application.
 
-	    sudo pm2 restart citypower.config.js 
+	```bash
+    sudo pm2 restart citypower.config.js 
+	```
 
 	The app is now using DocumentDB to store data. Note that by using a configuration file this migration to a hosted database was done only with configuration changes. The app code itself wasn't changed.
 
@@ -66,9 +74,11 @@ The City Power & Light app lets users upload a photo when a new incident is crea
 
 Next, you will create an [Azure Storage](https://azure.microsoft.com/en-us/services/storage/) account, which is perfect for storing messages, key-value pairs, and blob data, such as images or videos. The cost of Azure Storage depends on how much storage you use. For pricing information, see the [Storage pricing page](https://azure.microsoft.com/pricing/details/storage/blobs/). 
 
-1. From the Terminal (Bash on Windows), run the following command that creates the Azure Storage account in your Resource Group.
+1. From the Terminal or a Bash console, run the following command that creates the Azure Storage account in your Resource Group.
 
-		az storage account create -n citypowerstorage -g CityPower -l eastus --sku Standard_LRS
+	```bash
+	az storage account create -n citypowerstorage -g CityPower -l eastus --sku Standard_LRS
+	```
 
 2. In the [Azure Portal], locate your **CityPower** resource group, click **citypowerstorage**, then click **Access Keys** and copy the value of **key1**. 
 
@@ -80,7 +90,9 @@ Next, you will create an [Azure Storage](https://azure.microsoft.com/en-us/servi
 
 6. After you save the updated file, run the following command to restart the application.
 
-	    sudo pm2 restart citypower.config.js 
+	```bash
+    sudo pm2 restart citypower.config.js 
+	```
 
 	The app is now using Azure Storage Blob service to store images outside of the VM. 
 
@@ -94,9 +106,11 @@ Redis Cache is available in a variety of SKUs, with pricing dependent on tier an
 
 The following steps create a 1 GB dedicated cache in the Standard tier, which is a production-ready cache with replication and failover. 
 
-1. From the Terminal (Bash on Windows), run the following command that creates the Redis Cache instance in your Resource Group.
+1. From the Terminal or a Bash console, run the following command that creates the Redis Cache instance in your Resource Group.
 
-		az redis create -n city-power-cache -g CityPower -l eastus --sku-name Standard --sku-family C --sku-capacity 1  
+	```bash
+	az redis create -n city-power-cache -g CityPower -l eastus --sku-name Standard --sku-family C --sku-capacity 1  
+	```
 
 2. In the [Azure Portal], locate your **CityPower** resource group, click **city-power-cache**, and copy the **Host name** value. 
 
@@ -109,12 +123,12 @@ The following steps create a 1 GB dedicated cache in the Standard tier, which is
 	* `REDISCACHE_PRIMARY_KEY`: set to the value of **key1**
 	* `REDISCACHE_SSLPORT`: set to the **SSL port** value
 
-1. Restart the application again and load the dashboard screen. The returned values are cached for 30 seconds. You can verify this in the Console of the Azure Redis blade in the Azure Portal.
+5. Restart the application again and load the dashboard screen. The returned values are cached for 30 seconds. You can verify this in the Console of the Azure Redis blade in the Azure Portal.
 
 
 ## Session Summary
 
-In this session we took our original app and enhanced it with a series of Azure managed services. These services allow us to focus on writing valuable application code, and spending less time on managing clusters of virtual machines. We also externalized state from our application, setting the stage for a more scalable solution going forward.
+In this session you took your original app and enhanced it with a series of Azure managed services. These services let you externalized state from your application to prepare for a more scalable solution going forward.
 
 ## What's Next
 

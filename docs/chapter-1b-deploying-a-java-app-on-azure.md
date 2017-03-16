@@ -32,12 +32,14 @@ Before you complete the exercises in this session, you should read the informati
 ## Exercise 1 - Creating your local application
 
 1. The application code is maintained on Github in the [Azure/OpenDev repository](https://github.com/Azure/OpenDev).  To download all of the OpenDev artifacts to your local machine, you can either go to the GitHub URL and download as a zip file, or use any git tool to clone the repository (eg. `git clone https://github.com/Azure/OpenDev.git`).  I use a `c:\code` directory for all my projects, so I used the following steps to clone the repository:
+
     ```CMD
     cd \
     mkdir code
     cd code
     git clone https://github.com/Azure/OpenDev.git
     ```
+
 1. The first java session code is stored in the `OpenDev/java/Session1` directory.  If you go there, you will see an `api` and `web` directory, containing the code for each tier of the application.
 1. Make sure that mongo is running on your local machine.  If you don't have it started in a service, you may have to open up a command/terminal window and run `mongod` to run mongo (or on Windows, run `C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe`).  To test whether mongo is running, you can use the curl command (which you may need to install).  This shows that mongo is not running:
 
@@ -48,16 +50,19 @@ Before you complete the exercises in this session, you should read the informati
     ![image](./media/2017-03-07_10-34-30.png)
 
 1. To compile and start the api tier of the application, go to the `OpenDev/java/Session1/api` directory in a command prompt window, and run gradle with the bootRun task:
+
     ```CMD
     gradle bootRun
     ```
+
     Gradle will automatically retrieve the dependencies for the api application and will compile and start the api application.  You should see something like this:
 
     ![image](./media/2017-03-07_10-44-35.png)
 
-    ***By default the API will be listening on port 9000 on the local machine.  
+    >By default the API will be listening on port 9000 on the local machine.  
 
     To test that the API is working, use the curl program again (in a different window) with:
+
     ```CMD
     curl http://localhost:9000
     ```
@@ -80,6 +85,7 @@ Before you complete the exercises in this session, you should read the informati
 OpenDev/java/Session1/web directory and run `gradle assemble`, which will create `openDev/java/Session1/web/build/libs/web.war` file, which is also an executible war file.  
 
     After you've done the build, you will have to set up two environment variables.  There is an IMAGE_STORAGE_LOCATION environment variable that points to a local directory that will hold incident images.  You can set this up (on Windows) by doing this:
+
     ```CMD
     mkdir c:\images
     set IMAGE_STORAGE_LOCATION=c:\images
@@ -113,7 +119,7 @@ Once the Resource Group is created, run `az vm create -n CityPowerVM -g CityPowe
 
 Make note of the publicIpAddress of your new virtual machine, so you can connect to your VM later.
 
-## Exercise 3 - Deploying your applicationto an Azure virtual machine
+## Exercise 3 - Deploying your application to an Azure virtual machine
 
 After the provisioning process completes, SSH into the virtual machine's Public IP address and verify that a connection can be established. By default, port 22 is enabled for this SSH operation while all other ports are closed by the [Network Security Group (NSG)](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-nsg).  Exit out of SSH to return to your local machine.  To open a second port in the NSG, run `az vm open-port --resource-group CityPower --name CityPowerVM --port 8080`. This will allow us to access the virtual machine from the web app's default port of port 8080.
 
