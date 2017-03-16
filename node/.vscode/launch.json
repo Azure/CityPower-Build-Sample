@@ -36,7 +36,7 @@
         }
     ],
     "compounds": [{
-        "name": "Compound Web/API",
+        "name": "Compound Web + API",
         "configurations": [
             "Web",
             "API"
