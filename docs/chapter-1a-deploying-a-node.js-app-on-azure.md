@@ -41,7 +41,7 @@ To get started, you must download the sample to your local computer from the [Gi
 
 		npm install 
 
-1. In Visual Studio Code, open the `/node` folder. To start the app locally with [the debugger](https://code.visualstudio.com/docs/editor/node-debugging), select the Debug icon on the left navigation bar, select "Compound Web + API" configuration from the dropdown, and click the green start triangle. Allow access through the firewall if requested.
+1. In Visual Studio Code, open the `/node` folder. To start the app locally with [the debugger](https://code.visualstudio.com/docs/editor/node-debugging), select the Debug icon on the left navigation bar, select **Compound Web + API** configuration from the dropdown, and click the green start triangle. Allow access through the firewall if requested.
 
 	![image](./media/Azure-OpenDev-VSCode-Compoud-Configuration-Node.png)
 
@@ -49,7 +49,7 @@ To get started, you must download the sample to your local computer from the [Gi
 
 	![CP&L app running locally](./media/cpl-app-start-page.png)
 
-On this page, you would click **Report Outage** to create a new incident. However, without a MongoDB connection the request results in an error. If you want to fully test the app locally, you need to set the connection properties of a MongoDB instance in the **env** configuration object in the launch.json project file. 
+> On this page, you can click **Report Outage** to create a new incident. If your MongoDB instance was not installed with the default configuration of allowing anonymous users over port 27017, please update the `/.vscode/launch.json` file's API **env** configuration object with your settings.
 
 ## Exercise 2: Provision Azure resources
 
