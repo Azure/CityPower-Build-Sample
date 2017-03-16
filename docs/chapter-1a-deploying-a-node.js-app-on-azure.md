@@ -24,6 +24,7 @@ You can also view a [video version of this session].
 * Azure CLI 2.0. Follow the steps in the [Azure Command Line Interface (CLI) 2.0](https://docs.microsoft.com/en-us/cli/azure/get-started-with-azure-cli) topic to install the CLI.
 * [Visual Studio Code](https://code.visualstudio.com/docs/setup/setup-overview), which is used for debugging the apps.
 * On a local Windows computer, you will need to install a Git distribution and command-line tool, such as [Git for Windows](https://git-scm.com/download/win), which includes Bash. You will also need to [generate an SSH key](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/). Mac OS X and Linux already have Git enabled in the Terminal. 
+* [MongoDB Community Edition](https://docs.mongodb.com/manual/administration/install-community/) installed locally and accessible to anonymous connections over the default port 27017. 
 
 ## Exercise 1: Introducing City Power & Light
 
@@ -41,19 +42,23 @@ To get started, you must download the sample to your local computer from the [Gi
 	
 Alternatively, download a zip file [here](https://github.com/Azure/OpenDev/archive/master.zip). 
 
-2. Run the following command in both the `/node/web` and `/node/api` folders to restore  the package dependencies. 
+1. Run the following command in both the `/node/web` and `/node/api` folders to restore  the package dependencies. 
 
 	```bash
 	npm install 
 	```
 
-3. In Visual Studio Code, open the `/node` folder and start the app locally with in [the debugger](https://code.visualstudio.com/docs/editor/node-debugging). Allow access through the firewall if requested.
+1. In Visual Studio Code, open the `/node` folder. To start the app locally with [the debugger](https://code.visualstudio.com/docs/editor/node-debugging), select the Debug icon on the left navigation bar, select **Compound Web + API** configuration from the dropdown, and click the green start triangle. Allow access through the firewall if requested.
 
-4. In the browser, navigate to <http://localhost:3000>.
+	![image](./media/Azure-OpenDev-VSCode-Compoud-Configuration-Node.png)
+
+1. In the browser, navigate to <http://localhost:3000>.
 
 	![CP&L app running locally](./media/cpl-app-start-page.png)
 
-On this page, you would click **Report Outage** to create a new incident. However, without a MongoDB connection the request results in an error. To be able to fully test the app locally, you must set the connection properties of a MongoDB instance in the **env** configuration object in the launch.json project file. 
+ 	On this page, you can click **Report Outage** to create a new incident. 
+
+	>If your MongoDB instance was not configured to allow anonymous users to connect over port 27017 (the default), you must also update the **env** configuration object in the `/.vscode/launch.json` file with your MongoDB settings.
 
 ## Exercise 2: Provision Azure resources
 
