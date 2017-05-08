@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detail</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../css/main.css"/>    
+</head>
+
+<body>
+	<div th:include="topnav::topnav"></div> 
+	
+<div class="container detail">
+
+    <!-- Body-->
+    <div class="container detail"><h1>Detail - <span th:text="${incident.Title}"></span></h1>
+    <div class="row">
+    	<div class="col-sm-6">
+    		<table class="table table-striped">
+    			<tr><th> Description</th><td><span th:text="${incident.Description}" ></span></td></tr>
+      			<tr><th> First Name</th><td><span th:text="${incident.FirstName}" ></span></td></tr>
+    			<tr><th> Last Name</th><td><span th:text="${incident.LastName}" ></span></td></tr>
+    			<tr><th> Street</th><td><span th:text="${incident.Street}" ></span></td></tr>
+    			<tr><th> City</th><td><span th:text="${incident.City}" ></span></td></tr>
+    			<tr><th> State</th><td><span th:text="${incident.State}" ></span></td></tr>
+    			<tr><th> Zip</th><td><span th:text="${incident.ZipCode}" ></span></td></tr>
+    			<tr><th> Phone Number</th><td><span th:text="${incident.PhoneNumber}" ></span></td></tr>
+    			<tr><th> Emergency</th><td><span th:text="${incident.IsEmergency}" ></span></td></tr>
+    			<tr><th> Incident ID</th><td><span th:text="${incident.Id}" ></span></td></tr>
+    		</table>
+    	</div>
+    	<div class="col-sm-6">
+    		<span th:if="${incident.ImageUri}">
+    		<img class="img-responsive" th:src="@{'/Image/'+${incident.ImageUri}} "></img>
+    		</span>
+    	</div>
+    </div>
+    </div>
+    <!-- JavaScript-->
+    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.js"></script>
+</div>
+</body>
+</html>

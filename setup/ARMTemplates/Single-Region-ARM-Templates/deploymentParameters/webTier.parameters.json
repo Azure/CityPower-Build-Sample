@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "webTierSettings": {
+      "value": {
+        "name": "webTier",
+        "vmCount": 2,
+        "vmSettings": {
+          "vmName": "webVM",
+          "virtualNetworkName": "azurex-vnet",
+          "subnetName": "web",
+          "vmSize": "Standard_A1",
+          "vmUsername": "adminuser",
+          "vmPassword": "Micros0ft@zure",
+          "image": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "16.04-LTS",
+            "version": "latest"
+          }
+        },
+        "lbSettings": {
+          "healthProbeSettings": {
+            "protocol": "Http",
+            "port": 80,
+            "requestPath": "/",
+            "intervalInSeconds": 10,
+            "numberOfProbes": 2
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "appInsightsSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for application insights"
+      }
+    }
+  },
+  "variables": {  },
+  "resources": [
+    {
+      "name": "[parameters('appInsightsSettings').name]",
+      "type": "Microsoft.Insights/components",
+      "location": "[parameters('appInsightsSettings').location]",
+      "apiVersion": "2014-04-01",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "[parameters('appInsightsSettings').name]"
+      },
+      "properties": {
+      }
+    }
+  ],
+  "outputs": {}
+}

@@ -1,0 +1,160 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "bizTierSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for the web tier"
+      }
+    }
+  },
+  "variables": {
+    "vmNicName": "[concat(parameters('bizTierSettings').vmScaleSetSettings.vmNamePrefix, 'Nic')]",
+    "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('bizTierSettings').vmScaleSetSettings.virtualNetworkName)]",
+    "vmSubnetRef": "[concat(variables('vnetId'),'/subnets/',parameters('bizTierSettings').vmScaleSetSettings.subnetName)]",
+    "lbPipName": "[concat(parameters('bizTierSettings').name, 'Pip')]",
+    "lbPipDnsName": "[concat(toLower(parameters('bizTierSettings').name), '-', uniqueString(resourceGroup().id))]",
+    "lbName": "[concat(parameters('bizTierSettings').name, 'Lb')]",
+    "lbBackendPoolName": "[concat(parameters('bizTierSettings').name, 'LbBackendPool')]",
+    "lbHealthProbeName": "healthProbe",
+    "lbFrontendIPConfigurationsName": "lbFrontEnd"
+  },
+  "resources": [
+    {
+      "name": "[parameters('bizTierSettings').vmScaleSetSettings.vmNamePrefix]",
+      "type": "Microsoft.Compute/virtualMachineScaleSets",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-04-30-preview",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/loadBalancers', variables('lbName'))]"
+      ],
+      "sku": {
+        "name": "[parameters('bizTierSettings').vmScaleSetSettings.vmSize]",
+        "tier": "[parameters('bizTierSettings').vmScaleSetSettings.tier]",
+        "capacity": "[parameters('bizTierSettings').vmScaleSetSettings.instanceCount]"
+      },
+      "tags": {
+        "displayName": "[parameters('bizTierSettings').vmScaleSetSettings.vmNamePrefix]"
+      },
+      "properties": {
+        "upgradePolicy": {
+          "mode": "[parameters('bizTierSettings').vmScaleSetSettings.upgradePolicy]"
+        },
+        "virtualMachineProfile": {
+          "osProfile": {
+            "computerNamePrefix": "[parameters('bizTierSettings').vmScaleSetSettings.vmNamePrefix]",
+            "adminUsername": "[parameters('bizTierSettings').vmScaleSetSettings.vmUsername]",
+            "adminPassword": "[parameters('bizTierSettings').vmScaleSetSettings.vmPassword]"
+          },
+          "storageProfile": {
+            "imageReference": {
+              "publisher": "[parameters('bizTierSettings').vmScaleSetSettings.image.publisher]",
+              "offer": "[parameters('bizTierSettings').vmScaleSetSettings.image.offer]",
+              "sku": "[parameters('bizTierSettings').vmScaleSetSettings.image.sku]",
+              "version": "[parameters('bizTierSettings').vmScaleSetSettings.image.version]"
+            },
+            "osDisk": {
+              "managedDisk": {
+                "storageAccountType": "[parameters('bizTierSettings').vmScaleSetSettings.mgdDiskStorageAccountType]"
+              },
+              "caching": "ReadWrite",
+              "createOption": "FromImage"
+            }
+          },
+          "networkProfile": {
+            "networkInterfaceConfigurations": [
+              {
+                "name": "[variables('vmNicName')]",
+                "properties": {
+                  "primary": "true",
+                  "ipConfigurations": [
+                    {
+                      "name": "ipConfig1",
+                      "properties": {
+                        "subnet": {
+                          "id": "[variables('vmSubnetRef')]"
+                        },
+                        "loadBalancerBackendAddressPools": [
+                          {
+                            "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('lbName')), '/backendAddressPools/', variables('lbBackendPoolName'))]"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "[variables('lbName')]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "bizLb"
+      },
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "[variables('lbFrontendIPConfigurationsName')]",
+            "properties": {
+              "subnet": {
+                "id": "[variables('vmSubnetRef')]"
+              },
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('bizTierSettings').lbPrivateIp]"
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "[variables('lbBackendPoolName')]"
+          }
+        ],
+        "loadBalancingRules": [
+          {
+            "name": "httpRule",
+            "properties": {
+              "protocol": "Tcp",
+              "frontendPort": 80,
+              "frontendIPConfiguration": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('lbName')),'/frontendIPConfigurations/', variables('lbFrontendIPConfigurationsName'))]"
+              },
+              "backendPort": 80,
+              "backendAddressPool": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('lbName')),'/backendAddressPools/', variables('lbBackendPoolName'))]"
+              },
+              "probe": {
+                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('lbName')),'/probes/', variables('lbHealthProbeName'))]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "[variables('lbHealthProbeName')]",
+            "properties": {
+              "protocol": "[parameters('bizTierSettings').lbSettings.healthProbeSettings.protocol]",
+              "port": "[parameters('bizTierSettings').lbSettings.healthProbeSettings.port]",
+              "requestPath": "[parameters('bizTierSettings').lbSettings.healthProbeSettings.requestPath]",
+              "intervalInSeconds": "[parameters('bizTierSettings').lbSettings.healthProbeSettings.intervalInSeconds]",
+              "numberOfProbes": "[parameters('bizTierSettings').lbSettings.healthProbeSettings.numberOfProbes]"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+    "vmssName": {
+      "value": "[parameters('bizTierSettings').vmScaleSetSettings.vmNamePrefix]",
+      "type": "string"
+    }
+  }
+}

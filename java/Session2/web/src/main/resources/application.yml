@@ -1,0 +1,37 @@
+application:
+  incidentApiUrl: ${INCIDENT_API_URL}
+
+azure:
+  storage:
+    account:
+      name: ${AZURE_STORAGE_ACCOUNT}
+      key: ${AZURE_STORAGE_ACCESS_KEY}
+      blobContainer: images
+
+logging:
+  level: info
+
+cacheProperties:
+  redisHost: ${REDISCACHE_HOSTNAME}
+  redisPort: ${REDISCACHE_SSLPORT}
+  primaryKey: ${REDISCACHE_PRIMARY_KEY}
+  redisSslPort: ${REDISCACHE_SSLPORT}
+   
+spring:
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 3mb
+      max-request-size: 20mb
+  application:
+    name: DevCamp demo App
+  profiles:
+    active: default
+
+    
+server:
+  port: ${WEB_LISTEN_PORT}
+
+
+
+

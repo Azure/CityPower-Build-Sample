@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="home" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>City Power &amp; Light</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.css"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./css/main.css"/>
+
+</head>
+
+<body>
+	<div th:include="topnav::topnav"></div> 
+
+    <!-- Body -->
+    <div class="home-hero">
+
+        <h1>City Power &amp; Light</h1>
+
+        <p>Welcome to the CP&amp;L outage reporting tool. From here you can view all reported outages via the dashboard screen, or report a new outage. Our technicians will address outages as soon as possible.</p>
+
+        <div class="text-center">
+
+            <a th:href="@{/dashboard}" class="btn btn-lg btn-primary">
+                <i class="glyphicon glyphicon-list-alt"></i>&nbsp; Dashboard
+            </a>
+
+            <a th:href="@{/new}" class="btn btn-lg btn-primary">
+                <i class="glyphicon glyphicon-bullhorn"></i>&nbsp; Report Outage
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.js"></script>
+
+</body>
+
+</html>

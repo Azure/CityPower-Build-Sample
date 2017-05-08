@@ -1,0 +1,6 @@
+{
+  "DocDB": {
+    "name": "DocDB",
+    "connector": "mongodb"
+  }
+}

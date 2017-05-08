@@ -1,0 +1,147 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for virtual network"
+      }
+    }
+  },
+  "variables": {
+    "mgmtSubnetNsgName": "[concat(parameters('virtualNetworkSettings').mgmtSubnetName, 'SubnetNsg')]",
+    "webSubnetNsgName": "[concat(parameters('virtualNetworkSettings').webSubnetName, 'SubnetNsg')]",
+    "bizSubnetNsgName": "[concat(parameters('virtualNetworkSettings').bizSubnetName, 'SubnetNsg')]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('virtualNetworkSettings').vnetName]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('mgmtSubnetNsgName'))]"
+      ],
+      "tags": {
+        "displayName": "vnet"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": "[parameters('virtualNetworkSettings').addressPrefixes]"
+        },
+        "subnets": [
+          {
+            "name": "[parameters('virtualNetworkSettings').webSubnetName]",
+            "properties": {
+              "addressPrefix": "[parameters('virtualNetworkSettings').webSubnetAddressPrefix]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('webSubnetNsgName'))]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('virtualNetworkSettings').bizSubnetName]",
+            "properties": {
+              "addressPrefix": "[parameters('virtualNetworkSettings').bizSubnetAddressPrefix]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('bizSubnetNsgName'))]"
+              }
+            }
+          },
+          {
+            "name": "[parameters('virtualNetworkSettings').mgmtSubnetName]",
+            "properties": {
+              "addressPrefix": "[parameters('virtualNetworkSettings').mgmtSubnetAddressPrefix]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('mgmtSubnetNsgName'))]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('mgmtSubnetNsgName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "mgmtSubnetNsg"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "allowSSH",
+            "properties": {
+              "direction": "Inbound",
+              "access": "Allow",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "22",
+              "sourceAddressPrefix": "[parameters('virtualNetworkSettings').mgmtSubnetNsgSourceAddressPrefix]",
+              "destinationAddressPrefix": "*",
+              "priority": 100
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('webSubnetNsgName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "webSubnetNsg"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "allowHttp",
+            "properties": {
+              "direction": "Inbound",
+              "access": "Allow",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "priority": 110
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('bizSubnetNsgName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2016-03-30",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "bizSubnetNsg"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "allowHttp",
+            "properties": {
+              "direction": "Inbound",
+              "access": "Allow",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "[parameters('virtualNetworkSettings').webSubnetAddressPrefix]",
+              "destinationAddressPrefix": "*",
+              "priority": 120
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {}
+}

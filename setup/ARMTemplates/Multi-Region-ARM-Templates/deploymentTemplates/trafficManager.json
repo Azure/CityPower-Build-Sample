@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "trafficManagerProfileSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Settings for traffic manager profile"
+      }
+    }
+  },
+  "variables": {
+    "tmRelativeName": "[concat(parameters('trafficManagerProfileSettings').name, '-', uniqueString(resourceGroup().id))]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('trafficManagerProfileSettings').name]",
+      "type": "Microsoft.Network/trafficManagerProfiles",
+      "location": "global",
+      "apiVersion": "2015-11-01",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "[parameters('trafficManagerProfileSettings').name]"
+      },
+      "properties": {
+        "trafficRoutingMethod": "[parameters('trafficManagerProfileSettings').trafficRoutingMethod]",
+        "dnsConfig": {
+          "relativeName": "[variables('tmRelativeName')]",
+          "ttl": "[parameters('trafficManagerProfileSettings').ttl]"
+        },
+        "monitorConfig": "[parameters('trafficManagerProfileSettings').monitorConfig]"
+      }
+    }
+  ],
+  "outputs": {
+    "profileName": {
+      "value": "[parameters('trafficManagerProfileSettings').name]",
+      "type": "string"
+    }
+  }
+}
